@@ -351,3 +351,9 @@ result for offline use, and is stored per profile on the TV only (never in this 
 that link can read your calendar, so keep it private and reset it in Google Calendar if it leaks.
 The chip shows the next timed event ("Standup · in 2 h"), or an all-day event ("Holiday · tomorrow").
 Without a calendar linked, the old `schedule.txt` file is used.
+
+### Long-press menu
+
+Hold OK on any app card (home or All apps) for a menu: Open, Move (home only, picks the card
+up so the arrows reorder it), Pin to home / Unpin from home, App info (system app page, where
+you can uninstall or clear data), and Delete shortcut for your own shortcuts.

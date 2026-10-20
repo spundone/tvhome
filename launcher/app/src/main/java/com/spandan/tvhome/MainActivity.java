@@ -1485,7 +1485,7 @@ public class MainActivity extends Activity {
                 break;
             case ZONE_PANEL:
                 mGlass.setVisibility(View.GONE);
-                for (int i = 0; i < mPillViews.length; i++) stylePill(i, i == mTopIdx);
+                for (int i = 0; i < mPillViews.length; i++) stylePill(i, mPanelKind != 13 && i == mTopIdx);
                 for (int i = 0; i < mPanelRows.size(); i++) {
                     TextView r = mPanelRows.get(i);
                     boolean on = i == mPanelIdx;
@@ -1849,6 +1849,49 @@ public class MainActivity extends Activity {
     private FrameLayout mWho;
     private final List<View> mWhoItems = new ArrayList<>();
     private int mWhoIdx = 0;
+
+    // --------------------------------------------------- long-press app menu
+
+    private boolean mCenterDown = false, mLongHandled = false;
+    private int mMenuRetZone = ZONE_DOCK;
+    private View mMenuAnchor;
+    private String mMenuKey = "", mMenuPkg = "", mMenuTitle = "";
+    private boolean mMenuFromDock = false;
+    private int mMenuDockIdx = 0;
+
+    private final Runnable mLongPress = new Runnable() {
+        @Override public void run() {
+            if (!mCenterDown) return;
+            mLongHandled = true;
+            openAppMenu();
+        }
+    };
+
+    private void openAppMenu() {
+        if (mZone == ZONE_DOCK && mDockIdx >= 0 && mDockIdx < mDockItems.size()) {
+            DockItem d = mDockItems.get(mDockIdx);
+            mMenuFromDock = true; mMenuDockIdx = mDockIdx;
+            mMenuKey = d.key; mMenuPkg = d.custom ? d.pkg : d.pkg; mMenuTitle = d.label;
+            mMenuAnchor = mDockTiles[mDockIdx];
+        } else if (mZone == ZONE_GRID && mGridIdx >= 0 && mGridIdx < mGridApps.size()) {
+            ResolveInfo ri = mGridApps.get(mGridIdx);
+            mMenuFromDock = false;
+            mMenuPkg = ri.activityInfo.packageName; mMenuKey = mMenuPkg;
+            mMenuTitle = sanitize(String.valueOf(ri.loadLabel(mPM)));
+            mMenuAnchor = gridTileAt(mGridIdx);
+        } else return;
+        mMenuRetZone = mZone;
+        mRoot.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
+        showPanel(13);
+    }
+
+    private void openAppInfo(String pkg) {
+        if (pkg == null || pkg.isEmpty()) return;
+        Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + pkg));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (i.resolveActivity(mPM) != null) startExternal(i);
+        else android.widget.Toast.makeText(this, "App info isn't available here", android.widget.Toast.LENGTH_SHORT).show();
+    }
 
     // ------------------------------------------------------------ rearrange
 
@@ -2535,6 +2578,28 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        int kc0 = event.getKeyCode();
+        if ((kc0 == KeyEvent.KEYCODE_DPAD_CENTER || kc0 == KeyEvent.KEYCODE_ENTER)
+                && (mZone == ZONE_DOCK || mZone == ZONE_GRID) && !mEditMode && !mReorder
+                && !whoVisible() && !liveVisible()
+                && !(mPanel.getVisibility() == View.VISIBLE && mZone == ZONE_PANEL)) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (event.getRepeatCount() == 0) {
+                    mCenterDown = true; mLongHandled = false;
+                    mRoot.postDelayed(mLongPress, 480);
+                } else if (mCenterDown && !mLongHandled) {
+                    mRoot.removeCallbacks(mLongPress);
+                    mLongPress.run();
+                }
+                return true;
+            }
+            if (event.getAction() == KeyEvent.ACTION_UP && mCenterDown) {
+                mCenterDown = false;
+                mRoot.removeCallbacks(mLongPress);
+                if (!mLongHandled) { activate(); saveFocus(); }
+                return true;
+            }
+        }
         if (event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
         if (event.getRepeatCount() > 16) return true;
         if (whoVisible()) {
@@ -3192,6 +3257,50 @@ public class MainActivity extends Activity {
             addPanelRow("Clock & weather \u2026", new Runnable() {
                 @Override public void run() { showPanel(12); }
             });
+        } else if (kind == 13) {                           // ---- App menu
+            mPanel.addView(sectionLabel(mMenuTitle));
+            final boolean pinned = pinKeys().contains(mMenuKey);
+            final boolean custom = mMenuKey.startsWith("custom:");
+            addPanelRow("Open", new Runnable() {
+                @Override public void run() {
+                    hidePanel();
+                    if (mMenuFromDock) launchDock(mMenuDockIdx);
+                    else if (mGridIdx < mGridApps.size()) launchApp(mGridApps.get(mGridIdx));
+                }
+            });
+            if (mMenuFromDock && mDockItems.size() > 1) {
+                addPanelRow("Move", new Runnable() {
+                    @Override public void run() {
+                        enterReorder();
+                        mDockIdx = mMenuDockIdx; mGrabbed = true; setReorderBanner(); applyFocus(true);
+                    }
+                });
+            }
+            addPanelRow(pinned ? "Unpin from home" : "Pin to home", new Runnable() {
+                @Override public void run() {
+                    List<String> k = pinKeys();
+                    if (pinned) k.remove(mMenuKey);
+                    else if (k.size() >= MAX_PINS) {
+                        android.widget.Toast.makeText(MainActivity.this, "Home is full (" + MAX_PINS + " apps)", android.widget.Toast.LENGTH_SHORT).show();
+                        return;
+                    } else k.add(mMenuKey);
+                    savePinKeys(k);
+                    mMenuRetZone = mMenuFromDock ? ZONE_DOCK : mMenuRetZone;
+                    hidePanel();
+                    reloadDock();
+                    android.widget.Toast.makeText(MainActivity.this, pinned ? "Removed from home" : "Pinned to home", android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (!mMenuPkg.isEmpty() && !(custom && mMenuPkg.isEmpty())) {
+                addPanelRow("App info", new Runnable() {
+                    @Override public void run() { hidePanel(); openAppInfo(mMenuPkg); }
+                });
+            }
+            if (custom) {
+                addPanelRow("Delete shortcut", new Runnable() {
+                    @Override public void run() { hidePanel(); removeCustom(mMenuKey.substring(7)); }
+                });
+            }
         } else if (kind == 12) {                           // ---- Clock & weather
             mPanel.addView(sectionLabel("Clock & weather"));
             addPanelRow("Clock: " + (clock12() ? "12-hour \u00B7 AM/PM" : "24-hour"), new Runnable() {
@@ -3528,6 +3637,23 @@ public class MainActivity extends Activity {
 
     private void positionPanel() {
         if (mPillViews == null) return;
+        if (mPanelKind == 13 && mMenuAnchor != null) {
+            int[] al = new int[2];
+            mMenuAnchor.getLocationOnScreen(al);
+            FrameLayout.LayoutParams ap = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
+            int pw = ap.width > 0 ? ap.width : dp(356);
+            mPanel.measure(View.MeasureSpec.makeMeasureSpec(pw, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            int ph = mPanel.getMeasuredHeight();
+            int sw = mRoot.getMeasuredWidth(), sh = mRoot.getMeasuredHeight();
+            int x = al[0] + mMenuAnchor.getWidth() / 2 - pw / 2;
+            x = Math.max(dp(16), Math.min(x, sw - pw - dp(16)));
+            int y = al[1] - ph - dp(10);                      // above the card
+            if (y < dp(16)) y = Math.min(al[1] + mMenuAnchor.getHeight() + dp(10), sh - ph - dp(16));
+            ap.setMargins(x, Math.max(dp(16), y), 0, 0);
+            mPanel.setLayoutParams(ap);
+            return;
+        }
         int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
@@ -3659,7 +3785,8 @@ public class MainActivity extends Activity {
             mWifiLive = null;
             mPanel.setVisibility(View.GONE);
         }
-        if (mZone == ZONE_PANEL) mZone = ZONE_TOP;
+        if (mZone == ZONE_PANEL) mZone = (mPanelKind == 13) ? mMenuRetZone : ZONE_TOP;
+        if (mPanelKind == 13) mPanelKind = -1;
         applyFocus(false);
     }
 
