@@ -2774,6 +2774,16 @@ public class MainActivity extends Activity {
             hint.setPadding(dp(18), dp(2), dp(18), dp(8));
             mPanelInfo.add(hint);
             mPanel.addView(hint, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        } else if (kind == 9) {                            // ---- Remove shortcut
+            mPanel.addView(sectionLabel("Remove from home"));
+            for (final String[] cu : customs()) {
+                addPanelRow("\u2715  " + cu[1], new Runnable() {
+                    @Override public void run() {
+                        removeCustom(cu[0]);
+                        if (customs().isEmpty()) showPanel(3); else reshowPanel(9);
+                    }
+                });
+            }
         } else if (kind == 8) {                            // ---- Add shortcut
             mPanel.addView(sectionLabel("Add to home"));
             addPanelRow("Website or web app", new Runnable() {
@@ -2969,6 +2979,11 @@ public class MainActivity extends Activity {
             addPanelRow("Add shortcut \u2026", new Runnable() {
                 @Override public void run() { showPanel(8); }
             });
+            if (!customs().isEmpty()) {
+                addPanelRow("Remove shortcut \u2026", new Runnable() {
+                    @Override public void run() { showPanel(9); }
+                });
+            }
             addPanelRow("Clock: " + (clock12() ? "12-hour \u00B7 AM/PM" : "24-hour"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("clock_12h", !clock12()).apply();
@@ -3204,7 +3219,7 @@ public class MainActivity extends Activity {
 
     private void positionPanel() {
         if (mPillViews == null) return;
-        int anchor = mPanelKind == 1 ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = mPanelKind == 1 ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
