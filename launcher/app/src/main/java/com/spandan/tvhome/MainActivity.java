@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
     private static final int[] AVATAR_COLORS = {
             0xFF5B8CFF, 0xFFE0568F, 0xFF2FB8A6, 0xFFF2A33A, 0xFF9B6CFF, 0xFF58B957 };
 
-    static class DockItem { String pkg, label, url, id; ResolveInfo info; int iconRes; boolean custom; }
+    static class DockItem { String key, pkg, label, url, id; ResolveInfo info; int iconRes; boolean custom; }
     static class Rect { int l, t, r, b; void set(int l, int t, int r, int b){ this.l=l; this.t=t; this.r=r; this.b=b; } }
 
     private static final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -537,6 +537,7 @@ public class MainActivity extends Activity {
         }
         mTopRow.addView(mPills, lpW(WC, WC, 0, 0, 0, 0, 0));
         mRoot.addView(mTopRow, lpF(MP, WC, Gravity.TOP, 0, 0, 0, 0));
+        applyPillVisibility();
         // Sit the hero in the open field above the shelf (not jammed under the pills).
         // Top-left hero: CENTER_VERTICAL was clipping the greeting under the top edge.
         mRoot.addView(mHero, lpF(WC, WC, Gravity.START | Gravity.TOP, dp(48), dp(36), 0, 0));
@@ -1136,6 +1137,7 @@ public class MainActivity extends Activity {
         String[] icons = getResources().getStringArray(R.array.dock_icon);
         for (String key : pinKeys()) {
             DockItem d = new DockItem();
+            d.key = key;
             d.label = ""; d.url = "";
             if (key.startsWith("custom:")) {
                 String[] cu = findCustom(key.substring(7));
@@ -1782,6 +1784,7 @@ public class MainActivity extends Activity {
         mEditMode = false;
         mEditBanner.setVisibility(View.GONE);
         applyClockPrefs();
+        applyPillVisibility();
         mWallpaper.setImageDrawable(loadWallpaperDrawable());
         reloadInputs();
         mDockIdx = mPrefs.getInt("dockIdx", 0);
@@ -1846,6 +1849,79 @@ public class MainActivity extends Activity {
     private FrameLayout mWho;
     private final List<View> mWhoItems = new ArrayList<>();
     private int mWhoIdx = 0;
+
+    // ------------------------------------------------------------ rearrange
+
+    private boolean mReorder = false, mGrabbed = false;
+
+    private void setReorderBanner() {
+        mEditBanner.removeAllViews();
+        mEditBanner.addView(newText("Rearrange home", 26, 560, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
+        mEditBanner.addView(newText(mGrabbed ? "Move with the arrows  \u00B7  OK to drop"
+                : "OK picks up an app  \u00B7  BACK when you're done", 14, 420, 0xFFB9C2CE), lpW(WC, WC, 0, 0, dp(4), 0, 0));
+    }
+
+    private void enterReorder() {
+        hidePanel();
+        if (mDockItems.size() < 2) {
+            android.widget.Toast.makeText(this, "Pin at least two apps first", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mReorder = true; mGrabbed = false;
+        mHero.animate().cancel();
+        mHero.setAlpha(0f);
+        setReorderBanner();
+        mEditBanner.setVisibility(View.VISIBLE);
+        mZone = ZONE_DOCK;
+        mDockIdx = clamp(mDockIdx, 0, mDockItems.size() - 1);
+        applyFocus(true);
+    }
+
+    private void exitReorder() {
+        mReorder = false; mGrabbed = false;
+        mEditBanner.setVisibility(View.GONE);
+        mHero.animate().cancel();
+        mHero.animate().alpha(1f).setDuration(200).start();
+        mEditBanner.removeAllViews();
+        mEditBanner.addView(newText("Edit home apps", 26, 560, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
+        mEditBanner.addView(newText("OK pins or unpins an app  \u00B7  BACK when you're done", 14, 420, 0xFFB9C2CE),
+                lpW(WC, WC, 0, 0, dp(4), 0, 0));
+        applyFocus(true);
+    }
+
+    /** Arrow key while rearranging: moves the cursor, or carries the grabbed card. */
+    private boolean reorderKey(int code) {
+        int cols = Math.max(4, Math.min(mPinCols, 8));
+        int d = 0;
+        switch (code) {
+            case KeyEvent.KEYCODE_DPAD_LEFT: d = -1; break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT: d = 1; break;
+            case KeyEvent.KEYCODE_DPAD_UP: d = -cols; break;
+            case KeyEvent.KEYCODE_DPAD_DOWN: d = cols; break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+                mGrabbed = !mGrabbed; setReorderBanner(); return true;
+            case KeyEvent.KEYCODE_BACK:
+                if (mGrabbed) { mGrabbed = false; setReorderBanner(); } else exitReorder();
+                return true;
+            default: return false;
+        }
+        int to = mDockIdx + d;
+        if (to < 0 || to >= mDockItems.size()) return true;
+        if (!mGrabbed) { mDockIdx = to; applyFocus(true); return true; }
+        List<String> keys = pinKeys();
+        String a = mDockItems.get(mDockIdx).key, b = mDockItems.get(to).key;
+        int ia = keys.indexOf(a), ib = keys.indexOf(b);
+        if (ia < 0 || ib < 0) return true;
+        keys.remove(ia);
+        keys.add(ib, a);
+        savePinKeys(keys);
+        mDockIdx = to;
+        loadDockItems();
+        renderDock();
+        applyFocus(false);
+        return true;
+    }
 
     private boolean askOnStart() { return mGlobal.getBoolean("ask_on_start", true); }
 
@@ -2052,6 +2128,28 @@ public class MainActivity extends Activity {
     }
 
     // ------------------------------------------------------ clock + weather
+
+    private boolean showTopIcons() { return mPrefs.getBoolean("top_icons", true); }
+    private boolean showProfilePill() { return mPrefs.getBoolean("profile_pill", true); }
+
+    /** Customize stays visible so the menu can always be reached. */
+    private boolean pillShown(int i) {
+        if (i == PILL_CUSTOM) return true;
+        if (i == PILL_PROFILE) return showProfilePill();
+        return showTopIcons();
+    }
+
+    private void applyPillVisibility() {
+        if (mPillViews == null) return;
+        for (int i = 0; i < mPillViews.length; i++) mPillViews[i].setVisibility(pillShown(i) ? View.VISIBLE : View.GONE);
+        if (!pillShown(mTopIdx)) mTopIdx = PILL_CUSTOM;
+    }
+
+    private int stepPill(int from, int dx) {
+        int i = from + dx;
+        while (i >= 0 && i < mPillViews.length && !pillShown(i)) i += dx;
+        return (i < 0 || i >= mPillViews.length) ? from : i;
+    }
 
     private boolean clock12() { return mPrefs.getBoolean("clock_12h", true); }
     private boolean weatherOn() { return mPrefs.getBoolean("weather_on", true); }
@@ -2456,6 +2554,7 @@ public class MainActivity extends Activity {
                     return true;
             }
         }
+        if (mReorder && event.getKeyCode() != KeyEvent.KEYCODE_HOME && reorderKey(event.getKeyCode())) return true;
         if (liveVisible()) {                       // HDMI / TV input is on screen
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_BACK: closeLive(); return true;
@@ -2473,6 +2572,7 @@ public class MainActivity extends Activity {
         boolean panelOpen = mPanel.getVisibility() == View.VISIBLE && mZone == ZONE_PANEL;
         if (event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
             if (whoVisible()) hideWho();
+            if (mReorder) exitReorder();
             // HOME inside the launcher means "back to the clean home"
             if (mPanel.getVisibility() == View.VISIBLE) hidePanel();
             if (mAppsOpen) { mTopIdx = PILL_APPS; setAppsOpen(false, true); return true; }
@@ -2541,12 +2641,12 @@ public class MainActivity extends Activity {
         switch (mZone) {
             case ZONE_TOP:
                 if (mOnSchedule) {
-                    if (dx > 0) { mOnSchedule = false; mTopIdx = 0; }
-                } else if (dx < 0 && mTopIdx == 0
+                    if (dx > 0) { mOnSchedule = false; mTopIdx = stepPill(-1, 1); }
+                } else if (dx < 0 && mTopIdx == stepPill(-1, 1)
                         && mSchedulePill != null && mSchedulePill.getVisibility() == View.VISIBLE) {
                     mOnSchedule = true;
                 } else {
-                    mTopIdx = clamp(mTopIdx + dx, 0, mPillViews.length - 1);
+                    mTopIdx = stepPill(mTopIdx, dx);
                 }
                 applyFocus(true);
                 break;
@@ -3037,6 +3137,9 @@ public class MainActivity extends Activity {
             addPanelRow("Show on home \u2026", new Runnable() {
                 @Override public void run() { showPanel(4); }
             });
+            addPanelRow("Rearrange apps \u2026", new Runnable() {
+                @Override public void run() { enterReorder(); }
+            });
             addPanelRow("Add shortcut \u2026", new Runnable() {
                 @Override public void run() { showPanel(8); }
             });
@@ -3063,6 +3166,18 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
+            addPanelRow("Top icons: " + (showTopIcons() ? "shown" : "hidden"), new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().putBoolean("top_icons", !showTopIcons()).apply();
+                    applyPillVisibility(); reshowPanel(3);
+                }
+            });
+            addPanelRow("User switcher: " + (showProfilePill() ? "shown" : "hidden"), new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().putBoolean("profile_pill", !showProfilePill()).apply();
+                    applyPillVisibility(); reshowPanel(3);
+                }
+            });
             addPanelRow("Calendar: " + (calLinked() ? "linked" : "not linked"), new Runnable() {
                 @Override public void run() { showPanel(11); }
             });
@@ -3074,12 +3189,16 @@ public class MainActivity extends Activity {
                     });
                 }
             });
+            addPanelRow("Clock & weather \u2026", new Runnable() {
+                @Override public void run() { showPanel(12); }
+            });
+        } else if (kind == 12) {                           // ---- Clock & weather
             mPanel.addView(sectionLabel("Clock & weather"));
             addPanelRow("Clock: " + (clock12() ? "12-hour \u00B7 AM/PM" : "24-hour"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("clock_12h", !clock12()).apply();
                     applyClockPrefs();
-                    reshowPanel(3);
+                    reshowPanel(12);
                 }
             });
             addPanelRow("Weather: " + (weatherOn() ? "on" : "off"), new Runnable() {
@@ -3087,14 +3206,14 @@ public class MainActivity extends Activity {
                     mPrefs.edit().putBoolean("weather_on", !weatherOn()).apply();
                     updateWeatherText();
                     refreshWeather(true);
-                    reshowPanel(3);
+                    reshowPanel(12);
                 }
             });
             addPanelRow("Temperature: " + (useF() ? "\u00B0F" : "\u00B0C"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("temp_f", !useF()).apply();
                     updateWeatherText();
-                    reshowPanel(3);
+                    reshowPanel(12);
                 }
             });
         } else {                                           // ---- Wi-Fi
@@ -3102,37 +3221,29 @@ public class MainActivity extends Activity {
             addPanelRow("Wi-Fi settings", new Runnable() {
                 @Override public void run() {
                     hidePanel();
-                    try {
-                        Intent i = new Intent(Intent.ACTION_MAIN);
-                        i.setClassName("com.android.tv.settings",
-                                "com.android.tv.settings.network.NetworkActivity");
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startExternal(i);
-                    } catch (Exception e) { openSettings(); }
+                    Intent i = new Intent("android.settings.WIFI_SETTINGS");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (i.resolveActivity(mPM) != null) startExternal(i); else openSettings();
                 }
             });
-            addPanelRow("Hotspot \u00B7 " + getString(R.string.hotspot_ssid), new Runnable() {
-                @Override public void run() { copyHotspotHint(); }
+            addPanelRow("Speed test", new Runnable() {
+                @Override public void run() {
+                    hidePanel();
+                    String pkg = firstInstalled("com.rma.speedtesttv", "com.aura.speedtest", "org.zwanoo.android.speedtest");
+                    if (!pkg.isEmpty()) launchByPackage(pkg);
+                    else {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fast.com"));
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        if (i.resolveActivity(mPM) != null) startExternal(i);
+                        else android.widget.Toast.makeText(MainActivity.this, "No browser installed", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                }
             });
-
-            for (String s : wifiStats()) {
-                TextView info = newText(s, 12.5f, 350, 0xFF9AA0A6);
-                info.setPadding(dp(18), dp(4), dp(18), dp(2));
-                mPanelInfo.add(info);
-                mPanel.addView(info, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
-            }
+            mPanel.addView(sectionLabel("Connection"));
+            for (String[] kv : wifiStats()) addInfoRow(kv[0], kv[1], false);
             String live = liveMbpsLine();
-            mWifiLive = newText(live != null ? live : "Live \u2248 measuring\u2026",
-                    12.5f, 350, 0xFF9AA0A6);
-            mWifiLive.setPadding(dp(18), dp(4), dp(18), dp(2));
-            mPanelInfo.add(mWifiLive);
-            mPanel.addView(mWifiLive, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
-            for (String s : bluetoothDevices()) {
-                TextView info = newText(s, 12.5f, 350, 0xFF9AA0A6);
-                info.setPadding(dp(18), dp(4), dp(18), dp(2));
-                mPanelInfo.add(info);
-                mPanel.addView(info, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
-            }
+            mWifiLive = addInfoRow("Speed", live != null ? live : "measuring\u2026", true);
+            for (String[] kv : bluetoothDevices2()) addInfoRow(kv[0], kv[1], false);
         }
 
         mPanelIdx = 0;
@@ -3299,23 +3410,61 @@ public class MainActivity extends Activity {
         }
     };
 
-    private java.util.ArrayList<String> wifiStats() {
-        java.util.ArrayList<String> out = new java.util.ArrayList<>();
+    /** A read-only "label ... value" row used by the Wi-Fi panel. */
+    private TextView addInfoRow(String label, String value, boolean live) {
+        FrameLayout wrap = new FrameLayout(this);
+        wrap.setPadding(dp(8), dp(1), dp(8), dp(1));
+        TextView l = newText(label, 14, 400, 0xFF9AA3B0);
+        l.setPadding(dp(16), dp(5), dp(16), dp(5));
+        wrap.addView(l, new FrameLayout.LayoutParams(WC, WC, Gravity.START | Gravity.CENTER_VERTICAL));
+        TextView v = newText(value, 14, 520, 0xFFE8EAED);
+        v.setSingleLine(true);
+        v.setEllipsize(TextUtils.TruncateAt.END);
+        v.setMaxWidth(dp(210));
+        v.setPadding(dp(16), dp(5), dp(16), dp(5));
+        wrap.addView(v, new FrameLayout.LayoutParams(WC, WC, Gravity.END | Gravity.CENTER_VERTICAL));
+        mPanel.addView(wrap, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        mPanelInfo.add(v);
+        return v;
+    }
+
+    private String ipAddress() {
+        try {
+            for (java.util.Enumeration<java.net.NetworkInterface> e = java.net.NetworkInterface.getNetworkInterfaces(); e.hasMoreElements(); ) {
+                java.net.NetworkInterface ni = e.nextElement();
+                if (!ni.isUp() || ni.isLoopback()) continue;
+                for (java.util.Enumeration<java.net.InetAddress> a = ni.getInetAddresses(); a.hasMoreElements(); ) {
+                    java.net.InetAddress ia = a.nextElement();
+                    if (ia instanceof java.net.Inet4Address && !ia.isLoopbackAddress()) return ia.getHostAddress();
+                }
+            }
+        } catch (Throwable ignored) { }
+        return null;
+    }
+
+    private java.util.ArrayList<String[]> wifiStats() {
+        java.util.ArrayList<String[]> out = new java.util.ArrayList<>();
         try {
             android.net.wifi.WifiManager wm = (android.net.wifi.WifiManager)
                     getApplicationContext().getSystemService(WIFI_SERVICE);
             android.net.wifi.WifiInfo w = wm.getConnectionInfo();
-            if (w != null) {
-                int rssi = w.getRssi();
-                String bars = rssi >= -50 ? "excellent" : rssi >= -62 ? "good"
-                        : rssi >= -72 ? "fair" : "weak";
-                out.add("Signal " + rssi + " dBm \u00B7 " + bars);
-                int freq = w.getFrequency();
-                out.add((freq > 4900 ? "5 GHz" : freq > 0 ? "2.4 GHz" : "\u2013")
-                        + " \u00B7 link " + w.getLinkSpeed() + " Mbps");
+            String ssid = w != null ? String.valueOf(w.getSSID()).replace("\"", "") : "";
+            if (ssid.isEmpty() || ssid.contains("unknown")) ssid = getString(R.string.wifi_name);
+            if (w != null && w.getNetworkId() != -1 || !ssid.isEmpty()) {
+                if (!ssid.isEmpty()) out.add(new String[] { "Network", ssid });
+                String ip = ipAddress();
+                if (ip != null) out.add(new String[] { "IP address", ip });
+                if (w != null) {
+                    int rssi = w.getRssi();
+                    String q = rssi >= -50 ? "excellent" : rssi >= -62 ? "good" : rssi >= -72 ? "fair" : "weak";
+                    out.add(new String[] { "Signal", q + " (" + rssi + " dBm)" });
+                    int freq = w.getFrequency();
+                    out.add(new String[] { "Band", freq > 5900 ? "6 GHz" : freq > 4900 ? "5 GHz" : freq > 0 ? "2.4 GHz" : "unknown" });
+                    out.add(new String[] { "Link speed", w.getLinkSpeed() + " Mbps" });
+                }
             }
         } catch (Throwable ignored) { }
-        if (out.isEmpty()) out.add("Not connected");
+        if (out.isEmpty()) out.add(new String[] { "Status", "Not connected" });
         return out;
     }
 
@@ -3336,10 +3485,19 @@ public class MainActivity extends Activity {
             long dt = now - prevTm;
             if (dt <= 0 || rx < prevRx) return null;
             double mbps = (rx - prevRx) * 8.0 / dt / 1000.0;
-            return String.format(java.util.Locale.US, "Live \u2248 %.0f Mbps (sampled)", mbps);
+            return String.format(java.util.Locale.US, "%.1f Mbps now", mbps);
         } catch (Throwable t) {
             return null;
         }
+    }
+
+    private java.util.ArrayList<String[]> bluetoothDevices2() {
+        java.util.ArrayList<String[]> out = new java.util.ArrayList<>();
+        for (String t : bluetoothDevices()) {
+            String v = t.replaceFirst("^Bluetooth\\s*\u00B7\\s*", "");
+            out.add(new String[] { "Bluetooth", v });
+        }
+        return out;
     }
 
     private java.util.ArrayList<String> bluetoothDevices() {
@@ -3368,17 +3526,9 @@ public class MainActivity extends Activity {
         return out;
     }
 
-    private void copyHotspotHint() {
-        android.widget.Toast.makeText(this,
-                "Run tools/hotspot.sh on any computer \u00B7 SSID "
-                        + getString(R.string.hotspot_ssid)
-                        + " \u00B7 password " + getString(R.string.hotspot_pass),
-                android.widget.Toast.LENGTH_LONG).show();
-    }
-
     private void positionPanel() {
         if (mPillViews == null) return;
-        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
