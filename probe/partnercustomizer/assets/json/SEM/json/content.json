@@ -1,0 +1,1735 @@
+{
+	"error_code": 1000,
+	"template_id": 20670,
+	"publish_time": 1563348785000,
+	"i18n_url": "http://s3.tcllauncher.com/template_25859/bc135e7786f54bd185eff317ccb8465c.zip?md5=880d4980f5a43c597db1ee35c850696a",
+	"logo_url": "http://s3.tcllauncher.com/logo/6878671a784b4b72af6420d1622835b8.png?md5=e53731676588d12b33c558ff73e8adf8",
+	"tabs": [
+		{
+			"tab_id": 67683,
+			"title": {
+				"display_type": "text",
+				"value": "#117"
+			},
+			"blocks": [
+				{
+					"block_id": 408650,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412809,
+							"desc": "8",
+							"title": [
+								"T-Browser",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1999892659.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531364698000
+				},
+				{
+					"block_id": 408651,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412810,
+							"desc": "8",
+							"title": [
+								"GloboPlay",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1275910681.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.globo.globotv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.globo.globotv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555376020000
+				},
+				{
+					"block_id": 408652,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412811,
+							"desc": "8",
+							"title": [
+								"Spotify",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1801885063.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555375906000
+				},
+				{
+					"block_id": 408653,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412812,
+							"desc": "8",
+							"title": [
+								"Deezer",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/924959697.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531364698000
+				},
+				{
+					"block_id": 408654,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412813,
+							"desc": "8",
+							"title": [
+								"dailymotion",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-73960060.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.dailymotion.dailymotion"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.dailymotion.dailymotion"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532139680000
+				},
+				{
+					"block_id": 408655,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412814,
+							"desc": "8",
+							"title": [
+								"Radioline",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1968314819.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531469249000
+				},
+				{
+					"block_id": 408656,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412815,
+							"desc": "8",
+							"title": [
+								"YouTube Kids",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-614456917.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252777000
+				},
+				{
+					"block_id": 408657,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412816,
+							"desc": "8",
+							"title": [
+								"Looke",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1482119734.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555374916000
+				},
+				{
+					"block_id": 408658,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412817,
+							"desc": "8",
+							"title": [
+								"TelecinePlay ",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-583596960.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.telecine.androidtv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "br.telecine.androidtv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555374916000
+				},
+				{
+					"block_id": 408659,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412818,
+							"desc": "8",
+							"title": [
+								"MUBI",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-816868844.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563348589000
+				}
+			],
+			"latest_time": 1555375906000
+		},
+		{
+			"tab_id": 67617,
+			"tab_image": "http://s3.tcllauncher.com/tab/a09a8497f0da4f0eaa0b0b3055be7c64.png?md5=92c31c2f6db8f7b090ec6e7405c8e533",
+			"tab_action_url": {
+				"behavior": "activity",
+				"package_name": "br.com.encripta.looke"
+			},
+			"title": {
+				"display_type": "text",
+				"value": "#166"
+			},
+			"blocks": [
+				{
+					"block_id": 407886,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412020,
+							"desc": "1",
+							"title": [
+								"Ouro Verde - 1ª Temporada",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1467563710.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65245"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407887,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412021,
+							"desc": "1",
+							"title": [
+								"Alita - Anjo de Combate",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1467511639.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65396"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407888,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412022,
+							"desc": "1",
+							"title": [
+								"Shazam!",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-804228310.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "66627"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407889,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412023,
+							"desc": "1",
+							"title": [
+								"Nós",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/23152516.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "67010"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407890,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412024,
+							"desc": "1",
+							"title": [
+								"Dragon Ball Super - Broly",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-2143874351.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "64433"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407891,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412025,
+							"desc": "1",
+							"title": [
+								"Bem-vindos a Marwen",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1030555106.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "67067"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407892,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412026,
+							"desc": "1",
+							"title": [
+								"De Pernas Pro Ar 3",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/846816840.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "66327"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407893,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412027,
+							"desc": "1",
+							"title": [
+								"Bob Zoom - Volume 5",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/99436832.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "57869"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407894,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412028,
+							"desc": "1",
+							"title": [
+								"A Cinco Passos de Você",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/600102182.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65763"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407895,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412029,
+							"desc": "1",
+							"title": [
+								"Maligno",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-542290013.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65530"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407896,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412030,
+							"desc": "1",
+							"title": [
+								"Se a Rua Beale Falasse",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-774115749.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "66463"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407897,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412031,
+							"desc": "1",
+							"title": [
+								"A Mula",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/738572273.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "63329"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407898,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412032,
+							"desc": "1",
+							"title": [
+								"A Caminho de Casa",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-542297762.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65101"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407899,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412033,
+							"desc": "1",
+							"title": [
+								"Batman vs. As Tartarugas Ninjas",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1633365832.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "64585"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407900,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412034,
+							"desc": "1",
+							"title": [
+								"Palavra Cantada - Vamos Brincar",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1576574844.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "45408"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407901,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412035,
+							"desc": "1",
+							"title": [
+								"Uma Aventura LEGO 2",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1818951274.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65365"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407902,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412036,
+							"desc": "1",
+							"title": [
+								"A Morte Te Dá Parabéns 2",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1492724814.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65390"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407903,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412037,
+							"desc": "1",
+							"title": [
+								"Homem-Aranha - No Aranhaverso",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-633216427.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "63856"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407904,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412038,
+							"desc": "1",
+							"title": [
+								"Stan e Ollie - O Gordo e o Magro",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-816797423.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "64579"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1562810072000
+				},
+				{
+					"block_id": 407905,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412039,
+							"desc": "1",
+							"title": [
+								"Nasce Uma Estrela - Versão Estendida",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-893759090.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "65767"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1563329232000
+				},
+				{
+					"block_id": 407906,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412040,
+							"desc": "1",
+							"title": [
+								"Creed II",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-2099758498.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke",
+								"activity_name": "br.com.encripta.looke.ui.TVDetailsActivity",
+								"extra_map": [
+									{
+										"key": "media_id",
+										"type": "int",
+										"value": "64779"
+									}
+								]
+							},
+							"name": "1_bg",
+							"res_type": 1,
+							"licence_id": "66",
+							"licence_name": "Looke"
+						}
+					],
+					"latest_time": 1563329232000
+				}
+			],
+			"latest_time": 1563329232000
+		},
+		{
+			"tab_id": 67684,
+			"tab_image": "http://s3.tcllauncher.com/tab/314fc880dfd5425590b08e76de035d95.png?md5=1d890cc3aebb0fbb0783f64164ca485a",
+			"tab_action_url": {
+				"behavior": "activity",
+				"action": "com.tcl.partnercustomizer.tkey",
+				"package_name": "com.tcl.partnercustomizer"
+			},
+			"title": {
+				"display_type": "text",
+				"value": "#126"
+			},
+			"blocks": [
+				{
+					"block_id": 408660,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412819,
+							"desc": "8",
+							"title": [
+								"GloboPlay",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1260132354.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.globo.globotv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.globo.globotv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1556440283000
+				},
+				{
+					"block_id": 408661,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412820,
+							"desc": "8",
+							"title": [
+								"TelecinePlay",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1622526726.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.telecine.androidtv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "br.telecine.androidtv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555374664000
+				},
+				{
+					"block_id": 408662,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412821,
+							"desc": "8",
+							"title": [
+								"YouTube Kids",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-98605918.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252352000
+				},
+				{
+					"block_id": 408663,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412822,
+							"desc": "8",
+							"title": [
+								"Spotify",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/2110028770.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555374212000
+				},
+				{
+					"block_id": 408664,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412823,
+							"desc": "8",
+							"title": [
+								"Deezer",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1639801959.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252352000
+				},
+				{
+					"block_id": 408665,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412824,
+							"desc": "8",
+							"title": [
+								"Dailymotion",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/238768304.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.dailymotion.dailymotion"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.dailymotion.dailymotion"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252352000
+				},
+				{
+					"block_id": 408666,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412825,
+							"desc": "8",
+							"title": [
+								"Radioline",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1729754484.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252544000
+				},
+				{
+					"block_id": 408667,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412826,
+							"desc": "8",
+							"title": [
+								"T-Browser",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-605503399.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252544000
+				},
+				{
+					"block_id": 408668,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412827,
+							"desc": "8",
+							"title": [
+								"Looke",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-885160483.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "br.com.encripta.looke"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555327655000
+				},
+				{
+					"block_id": 408669,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412828,
+							"desc": "8",
+							"title": [
+								"MUBI",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1251248312.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563348752000
+				}
+			],
+			"latest_time": 1555375375000
+		},
+		{
+			"tab_id": 65937,
+			"title": {
+				"display_type": "text",
+				"value": "#78"
+			},
+			"blocks": [
+				{
+					"block_id": 387567,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389867,
+							"desc": "8",
+							"title": [
+								"NETFLIX",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/793647022.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.netflix.ninja"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.netflix.ninja"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532141724000
+				},
+				{
+					"block_id": 387568,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389868,
+							"desc": "8",
+							"title": [
+								"T-Channel",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1095353335.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"action": "com.tcl.partnercustomizer.tkey",
+								"package_name": "com.tcl.partnercustomizer"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"action": "com.tcl.partnercustomizer.tkey",
+								"package_name": "com.tcl.partnercustomizer"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532141724000
+				},
+				{
+					"block_id": 387569,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389869,
+							"desc": "8",
+							"title": [
+								"MediaCenter",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/692320080.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.ui_mediaCenter"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.ui_mediaCenter"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 387570,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389870,
+							"desc": "8",
+							"title": [
+								"TV GUARD",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1842391804.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tvweishi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tvweishi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 387571,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389871,
+							"desc": "8",
+							"title": [
+								"YouTube",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/640565965.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 387572,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389872,
+							"desc": "8",
+							"title": [
+								"Google Play Movies&TV",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/233998653.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.videos"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.videos"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 387573,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389873,
+							"desc": "8",
+							"title": [
+								"Google Games",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1988189004.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.play.games"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.play.games"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1534932322000
+				},
+				{
+					"block_id": 387574,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 389874,
+							"desc": "8",
+							"title": [
+								"TCL TV",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-544446582.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				}
+			],
+			"latest_time": 1532142744000
+		}
+	]
+}

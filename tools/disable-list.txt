@@ -9,14 +9,14 @@ com.tcl.esticker       # retail demo / e-sticker / store mode
 com.tcl.exhibit        # retail exhibit/demo (cyberui art, multimode)
 com.tcl.messagebox     # TCL push messages / banner popups
 com.tcl.dashboard      # TCL dashboard + message ext service (ad pushes)
-com.tcl.suspension     # TCL floating quick panel / side menu
+# com.tcl.suspension -> KEEP: it IS the input switcher (Quick panel) and the HDMI side menu
 # com.tcl.gamebar -> KEEP: user has a PC on HDMI and wants VRR/144Hz toggles via Game Bar
 
 # Batch 2 - content rows / partner junk / vestigial
 com.tcl.channelplus    # TCL free-channels FAST input
 com.tcl.waterfall.overseas  # TCL recommendation/browser portal
 com.tcl.partnercustomizer   # partner rows + remote hotkey remaps (tkey)
-com.tcl.globalkeyoverlay    # remote shortcut-key overlays
+# com.tcl.globalkeyoverlay -> KEEP: remote shortcut-key overlays (Game Bar / source menu keys)
 com.tcl.providers.config    # config provider (nothing depends on resolver level)
 com.tcl.t_solo         # TCL T_solo service
 tv.mopa.ginga          # Ginga (Brazilian interactive TV) middleware

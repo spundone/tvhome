@@ -3012,6 +3012,26 @@ public class MainActivity extends Activity {
         } catch (Exception ignored) { }
     }
 
+    /**
+     * Settings > Accounts and Profiles is a slice owned by the Google TV launcher, which stays
+     * disabled so it cannot take HOME. This exported alias is TvSettings' own trampoline: with the
+     * slice unavailable it falls back to the native Android TV accounts screen (add / sync / remove).
+     */
+    private void openAccounts() {
+        try {
+            Intent i = new Intent();
+            i.setClassName("com.android.tv.settings", "com.google.android.tv.settings.AccountActivity");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startExternal(i);
+        } catch (Exception e) {
+            try {
+                Intent i = new Intent("android.settings.ADD_ACCOUNT_SETTINGS");
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startExternal(i);
+            } catch (Exception ignored) { }
+        }
+    }
+
     // -------------------------------------------------------------- panels
 
     private TvInputManager tim() { return (TvInputManager) getSystemService(TV_INPUT_SERVICE); }
@@ -3304,6 +3324,10 @@ public class MainActivity extends Activity {
                     @Override public void run() { deleteProfile(mProfileId); }
                 });
             }
+            mPanel.addView(sectionLabel("Google account"));
+            addPanelRow("Accounts & sign-in", new Runnable() {
+                @Override public void run() { hidePanel(); openAccounts(); }
+            });
         } else if (kind == 4) {                            // ---- Show on home
             addPanelRow("Inputs \u2026", new Runnable() {
                 @Override public void run() { showPanel(15); }
@@ -3389,6 +3413,9 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
+            addPanelRow("Remote buttons \u2026", new Runnable() {
+                @Override public void run() { showPanel(16); }
+            });
             addPanelRow("Top bar \u2026", new Runnable() {
                 @Override public void run() { showPanel(14); }
             });
@@ -3418,6 +3445,42 @@ public class MainActivity extends Activity {
             addPanelRow("Clock & weather \u2026", new Runnable() {
                 @Override public void run() { showPanel(12); }
             });
+            mPanel.addView(sectionLabel("Google"));
+            addPanelRow("Accounts & sign-in", new Runnable() {
+                @Override public void run() { hidePanel(); openAccounts(); }
+            });
+        } else if (kind == 16) {                           // ---- Remote buttons
+            mPanel.addView(sectionLabel("Remote buttons"));
+            addPanelRow("Service: " + (KeyService.running() ? "on" : "off"), new Runnable() {
+                @Override public void run() {
+                    boolean ok = enableKeyService();
+                    android.widget.Toast.makeText(MainActivity.this, ok ? "Turning on\u2026"
+                            : "Run tools/build-install.sh once to allow this", android.widget.Toast.LENGTH_LONG).show();
+                    mRoot.postDelayed(new Runnable() { @Override public void run() { if (mPanelKind == 16) reshowPanel(16); } }, 1200);
+                }
+            });
+            for (int i = 0; i < KeyService.SLOT_NAME.length; i++) {
+                final int slot = i;
+                String app;
+                try { app = String.valueOf(mPM.getApplicationLabel(mPM.getApplicationInfo(KeyService.pkgFor(this, i), 0))); }
+                catch (Exception e) { app = KeyService.pkgFor(this, i); }
+                int kc = KeyService.keyFor(this, i);
+                String shortApp = app.replace("Google Play Store", "Play Store").replace("BrowseHere", "Browser");
+                addPanelRow(KeyService.SLOT_NAME[i] + " \u2192 " + shortApp + ": " + (kc < 0 ? "not set" : KeyEvent.keyCodeToString(kc).replace("KEYCODE_", "").toLowerCase(Locale.US)),
+                        new Runnable() { @Override public void run() { learnButton(slot); } });
+            }
+            addPanelRow("Clear all buttons", new Runnable() {
+                @Override public void run() {
+                    SharedPreferences.Editor ed = mGlobal.edit();
+                    for (int i = 0; i < KeyService.SLOT_NAME.length; i++) ed.remove("rk_" + i);
+                    ed.apply();
+                    reshowPanel(16);
+                }
+            });
+            TextView rh = newText("OK on a row, then press that button on the remote. It will open the app from anywhere.", 11.5f, 350, 0xFF9AA0A6);
+            rh.setPadding(dp(18), dp(6), dp(18), dp(8));
+            mPanelInfo.add(rh);
+            mPanel.addView(rh, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
         } else if (kind == 14) {                           // ---- Top bar
             mPanel.addView(sectionLabel("Top bar"));
             for (final int pid : pillOrder()) {
@@ -3618,6 +3681,53 @@ public class MainActivity extends Activity {
     }
 
     /** In the Top bar and Inputs panels the left/right keys move the highlighted row up or down. */
+    private boolean enableKeyService() {
+        try {
+            String comp = getPackageName() + "/" + KeyService.class.getName();
+            String cur = android.provider.Settings.Secure.getString(getContentResolver(), "enabled_accessibility_services");
+            if (cur == null) cur = "";
+            if (!cur.contains(comp)) cur = cur.isEmpty() ? comp : cur + ":" + comp;
+            android.provider.Settings.Secure.putString(getContentResolver(), "enabled_accessibility_services", cur);
+            android.provider.Settings.Secure.putString(getContentResolver(), "accessibility_enabled", "1");
+            return true;
+        } catch (Throwable t) { return false; }
+    }
+
+    private void learnButton(final int slot) {
+        if (!KeyService.running()) {
+            hidePanel();
+            if (!enableKeyService()) {
+                android.widget.Toast.makeText(this, "Run tools/build-install.sh once to allow remote buttons", android.widget.Toast.LENGTH_LONG).show();
+                return;
+            }
+            android.widget.Toast.makeText(this, "Turning on the button service. Try again in a moment.", android.widget.Toast.LENGTH_LONG).show();
+            return;
+        }
+        hidePanel();
+        final android.app.AlertDialog dlg = new android.app.AlertDialog.Builder(this,
+                android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                .setTitle("Press the " + KeyService.SLOT_NAME[slot] + " button")
+                .setMessage("Press it on your remote now. BACK cancels.")
+                .setNegativeButton("Cancel", null).create();
+        KeyService.sLearned = new Runnable() {
+            @Override public void run() {
+                runOnUiThread(new Runnable() { @Override public void run() {
+                    try { dlg.dismiss(); } catch (Throwable ignored) { }
+                    android.widget.Toast.makeText(MainActivity.this, KeyService.SLOT_NAME[slot] + " button learned", android.widget.Toast.LENGTH_SHORT).show();
+                    showPanel(16);
+                }});
+            }
+        };
+        dlg.setOnDismissListener(new android.content.DialogInterface.OnDismissListener() {
+            @Override public void onDismiss(android.content.DialogInterface d) { KeyService.sLearnSlot = -1; }
+        });
+        KeyService.sLearnSlot = slot;
+        dlg.show();
+        mRoot.postDelayed(new Runnable() { @Override public void run() {
+            if (dlg.isShowing()) { dlg.dismiss(); }
+        }}, 20000);
+    }
+
     private void panelMove(int dir) {
         if (mPanelKind != 14 && mPanelKind != 15) return;
         int row = mPanelIdx;
@@ -3876,22 +3986,26 @@ public class MainActivity extends Activity {
         return out;
     }
 
+    /** Connected Bluetooth devices: bonded devices whose link is up, plus anything on GATT. */
     private java.util.ArrayList<String> bluetoothDevices() {
         java.util.ArrayList<String> out = new java.util.ArrayList<>();
+        java.util.Set<String> seen = new java.util.HashSet<>();
         try {
             android.bluetooth.BluetoothManager bm =
                     (android.bluetooth.BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             android.bluetooth.BluetoothAdapter ad = bm == null ? null : bm.getAdapter();
-            if (ad != null) {
-                java.util.Set<android.bluetooth.BluetoothDevice> s = null;
-                try {
-                    s = (java.util.Set<android.bluetooth.BluetoothDevice>) android.bluetooth.BluetoothAdapter.class
-                            .getMethod("getDevicesMatchingConnectionStates", int[].class)
-                            .invoke(ad, new Object[]{ new int[]{ android.bluetooth.BluetoothProfile.STATE_CONNECTED } });
-                } catch (Throwable t) { s = null; }
-                if (s != null) for (android.bluetooth.BluetoothDevice d : s) {
+            if (ad != null && ad.isEnabled()) {
+                List<android.bluetooth.BluetoothDevice> all = new ArrayList<>(ad.getBondedDevices());
+                try { all.addAll(bm.getConnectedDevices(android.bluetooth.BluetoothProfile.GATT)); } catch (Throwable ignored) { }
+                for (android.bluetooth.BluetoothDevice d : all) {
+                    if (!seen.add(d.getAddress())) continue;
+                    boolean up = false;
+                    try { up = (Boolean) android.bluetooth.BluetoothDevice.class.getMethod("isConnected").invoke(d); }
+                    catch (Throwable t) { up = false; }
+                    if (!up) continue;
                     String n;
-                    try { n = d.getAlias(); } catch (Throwable t) { n = d.getAddress(); }
+                    try { n = d.getAlias(); if (n == null) n = d.getName(); } catch (Throwable t) { n = null; }
+                    if (n == null || n.isEmpty()) n = d.getAddress();
                     out.add("\u266A " + sanitize(n));
                 }
             }
@@ -3932,7 +4046,7 @@ public class MainActivity extends Activity {
             mPanel.setLayoutParams(ap);
             return;
         }
-        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12 || mPanelKind == 14 || mPanelKind == 15) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12 || mPanelKind == 14 || mPanelKind == 15 || mPanelKind == 16) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();

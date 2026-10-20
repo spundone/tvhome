@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "channel_inputs",
+    "children": [
+      {
+        "id": "channels",
+        "children": [
+          {
+            "id": "channel_scan",
+            "children": [
+              {
+                "id": "country_region_menu",
+                "children": [
+                  {
+                    "id": "country_region_option"
+                  }
+                ]
+              },
+              {
+                "id": "muti_standard_title"
+              },
+              {
+                "id": "area_region_menu",
+                "children": [
+                  {
+                    "id": "luzon_menu",
+                    "children": [
+                      {
+                        "id": "luzon_menu_option"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "visayas_menu",
+                    "children": [
+                      {
+                        "id": "visayas_menu_option"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "mindanao_menu",
+                    "children": [
+                      {
+                        "id": "mindanao_menu_option"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "automatic_search"
+              },
+              {
+                "id": "automatic_update"
+              },
+              {
+                "id": "manual_scan"
+              },
+              {
+                "id": "turksat_tkgs_settings",
+                "children": [
+                  {
+                    "id": "tkgs_start_update"
+                  },
+                  {
+                    "id": "tkgs_mode_title",
+                    "children": [
+                      {
+                        "id": "tkgs_mode_options"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tkgs_update_freq"
+                  },
+                  {
+                    "id": "tkgs_service_list",
+                    "children": [
+                      {
+                        "id": "tkgs_service_options"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tkgs_category",
+                    "children": [
+                      {
+                        "id": "tkgs_category_options"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tkgs_update_hidden_freq"
+                  },
+                  {
+                    "id": "tkgs_reset_version"
+                  }
+                ]
+              },
+              {
+                "id": "lcn"
+              },
+              {
+                "id": "fine_tune"
+              },
+              {
+                "id": "ews_local_postal"
+              }
+            ]
+          },
+          {
+            "id": "pvr",
+            "children": [
+              {
+                "id": "pvr_record"
+              },
+              {
+                "id": "pvr_list"
+              }
+            ]
+          },
+          {
+            "id": "advance_sports_mode"
+          },
+          {
+            "id": "channel_organizer"
+          },
+          {
+            "id": "clean_channel_list"
+          },
+          {
+            "id": "channel_list_type_menu",
+            "children": [
+              {
+                "id": "channel_list_type_options"
+              }
+            ]
+          },
+          {
+            "id": "common_interface"
+          },
+          {
+            "id": "epg"
+          },
+          {
+            "id": "channel_diagnostics"
+          },
+          {
+            "id": "subtitle_menu",
+            "children": [
+              {
+                "id": "subtitle_switch"
+              },
+              {
+                "id": "subtitle_1st_menu",
+                "children": [
+                  {
+                    "id": "subtitle_1st_options"
+                  }
+                ]
+              },
+              {
+                "id": "subtitle_2nd_menu",
+                "children": [
+                  {
+                    "id": "subtitle_2nd_options"
+                  }
+                ]
+              },
+              {
+                "id": "subtitle_type_menu",
+                "children": [
+                  {
+                    "id": "subtitle_type_options"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "teletext",
+            "children": [
+              {
+                "id": "teletext_decoding_language_menu",
+                "children": [
+                  {
+                    "id": "teletext_decoding_language_options"
+                  }
+                ]
+              },
+              {
+                "id": "teletext_digital_language_menu",
+                "children": [
+                  {
+                    "id": "teletext_digital_language_options"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "data_service",
+            "children": [
+              {
+                "id": "auto_data_service"
+              },
+              {
+                "id": "data_service_list_menu",
+                "children": [
+                  {
+                    "id": "data_service_list_options"
+                  }
+                ]
+              },
+              {
+                "id": "web_service_list_dialog"
+              }
+            ]
+          },
+          {
+            "id": "audio_language",
+            "children": [
+              {
+                "id": "audio_languages",
+                "children": [
+                  {
+                    "id": "audio_languages_list_options"
+                  }
+                ]
+              },
+              {
+                "id": "preferred_audio_language",
+                "children": [
+                  {
+                    "id": "preferred_audio_language_list_options"
+                  }
+                ]
+              },
+              {
+                "id": "preferred_audio_language_2nd",
+                "children": [
+                  {
+                    "id": "preferred_audio_language_2nd_list_options"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sound_type",
+            "children": [
+              {
+                "id": "sound_type_list_options"
+              }
+            ]
+          },
+          {
+            "id": "authentication_services"
+          },
+          {
+            "id": "time_shift_pop"
+          },
+          {
+            "id": "time_shift"
+          },
+          {
+            "id": "transfer_channel_list",
+            "children": [
+              {
+                "id": "import_from_usb",
+                "children": [
+                  {
+                    "id": "import_from_usb_options"
+                  }
+                ]
+              },
+              {
+                "id": "export_to_usb"
+              }
+            ]
+          },
+          {
+            "id": "weak_signal_alert"
+          }
+        ]
+      },
+      {
+        "id": "channels_jp",
+        "children": [
+          {
+            "id": "channel_prefecture_setting",
+            "children": [
+              {
+                "id": "channel_prefecture",
+                "children": [
+                  {
+                    "id": "channel_prefecture_option"
+                  }
+                ]
+              },
+              {
+                "id": "channel_post_code"
+              }
+            ]
+          },
+          {
+            "id": "automatic_search_jp"
+          },
+          {
+            "id": "channel_preset"
+          },
+          {
+            "id": "channel_skip"
+          },
+          {
+            "id": "reception_setting"
+          },
+          {
+            "id": "record_setting",
+            "children": [
+              {
+                "id": "auto_chapter"
+              },
+              {
+                "id": "auto_delete"
+              },
+              {
+                "id": "schedule"
+              },
+              {
+                "id": "rec_button_setting",
+                "children": [
+                  {
+                    "id": "rec_button_setting_option"
+                  }
+                ]
+              },
+              {
+                "id": "usb_hdd_standby"
+              }
+            ]
+          },
+          {
+            "id": "usb_management"
+          },
+          {
+            "id": "system_adv",
+            "children": [
+              {
+                "id": "bcas_info"
+              },
+              {
+                "id": "broadcasting_mail"
+              },
+              {
+                "id": "cs_board",
+                "children": [
+                  {
+                    "id": "cs1_board"
+                  },
+                  {
+                    "id": "cs2_board"
+                  }
+                ]
+              },
+              {
+                "id": "oad_setting",
+                "children": [
+                  {
+                    "id": "oad_setting_option"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "inputs",
+        "children": [
+          {
+            "id": "cec",
+            "children": [
+              {
+                "id": "t_link"
+              },
+              {
+                "id": "t_link_eARC"
+              },
+              {
+                "id": "t_link_auto_power_on"
+              },
+              {
+                "id": "t_link_auto_standby"
+              },
+              {
+                "id": "hdmi_auto_switch"
+              },
+              {
+                "id": "hdmi_recorder_operation",
+                "children": [
+                  {
+                    "id": "hdmi_recorder_operation_option"
+                  }
+                ]
+              },
+              {
+                "id": "t_link_devices"
+              },
+              {
+                "id": "t_link_guide"
+              }
+            ]
+          },
+          {
+            "id": "input_connected"
+          },
+          {
+            "id": "hdmi_advanced_protocol",
+            "children": [
+              {
+                "id": "hdmi_advanced_protocol_option"
+              }
+            ]
+          },
+          {
+            "id": "allm"
+          },
+          {
+            "id": "vrr"
+          },
+          {
+            "id": "144_vrr"
+          },
+          {
+            "id": "quick_media_switch"
+          }
+        ]
+      }
+    ]
+
+  },
+  {
+    "id": "tv_lock",
+    "children": [
+      {
+        "id": "channel_lock",
+        "children": [
+          {
+            "id": "channel_lock_option"
+          }
+        ]
+      },
+      {
+        "id": "parental_rating",
+        "children": [
+          {
+            "id": "age_rating",
+            "children": [
+              {
+                "id": "age_rating_option"
+              }
+            ]
+          },
+          {
+            "id": "content_rating",
+            "children": [
+              {
+                "id": "content_rating_option"
+              }
+            ]
+          },
+          {
+            "id": "us",
+            "children": [
+              {
+                "id": "tv_rating",
+                "children": [
+                  {
+                    "id": "tv_rating_option"
+                  }
+                ]
+              },
+              {
+                "id": "mpaa",
+                "children": [
+                  {
+                    "id": "mpaa_option"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "canada",
+            "children": [
+              {
+                "id": "english_rating",
+                "children": [
+                  {
+                    "id": "english_rating_option"
+                  }
+                ]
+              },
+              {
+                "id": "french_rating",
+                "children": [
+                  {
+                    "id": "french_rating_option"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "rrt_settings",
+            "children": [
+              {
+                "id": "rrt_settings_option"
+              }
+            ]
+          },
+          {
+            "id": "reset_rrt"
+          },
+          {
+            "id": "unrated",
+            "children": [
+              {
+                "id": "unrated_option"
+              }
+            ]
+          },
+          {
+            "id": "rating_enable"
+          },
+          {
+            "id": "other_rating",
+            "children": [
+              {
+                "id": "other_rating_option"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "input_lock",
+        "children": [
+          {
+            "id": "input_lock_option"
+          }
+        ]
+      },
+      {
+        "id": "tv_buttons_lock"
+      },
+      {
+        "id": "channel_scan_lock"
+      },
+      {
+        "id": "change_password"
+      },
+      {
+        "id": "max_volume"
+      },
+      {
+        "id": "clean_all"
+      }
+    ]
+  },
+  {
+    "id": "game_mode_auto",
+    "children": [
+      {
+        "id": "game_mode_subtitle"
+      },
+      {
+        "id":"hdmi_1",
+        "children": [
+          {
+            "id": "hdmi_1_option"
+          }
+        ]
+      },
+      {
+        "id":"hdmi_2",
+        "children": [
+          {
+            "id": "hdmi_2_option"
+          }
+        ]
+      },
+      {
+        "id":"hdmi_3",
+        "children": [
+          {
+            "id": "hdmi_3_option"
+          }
+        ]
+      },
+      {
+        "id":"hdmi_4",
+        "children": [
+          {
+            "id": "hdmi_4_option"
+          }
+        ]
+      }
+    ]
+  },
+  {"id": "tv_standby",
+    "children": [
+      {
+        "id": "tv_standby_switch"
+      },
+      {
+        "id":"standby_mode",
+        "children": [
+          {
+            "id": "standby_mode_option",
+            "category": "settings_standby_mode_explain"
+          }
+        ]
+      }
+    ]},
+  {
+    "id":"standby_mode_new",
+    "children": [
+      {
+        "id": "standby_mode_new_option",
+        "category": "settings_standby_mode_explain"
+      }
+    ]
+  },
+  {
+    "id": "closed_captions",
+    "children": [
+      {
+        "id": "cc_mode",
+        "children": [
+          {
+            "id": "cc_mode_option"
+          }
+        ]
+      },
+      {
+        "id": "cc_prefer_language_title",
+        "children": [
+          {
+            "id": "cc_prefer_language"
+          }
+        ]
+      },
+      {
+        "id": "analogue_cc",
+        "children": [
+          {
+            "id": "analogue_cc_option"
+          }
+        ]
+      },
+      {
+        "id": "digital_cc",
+        "children": [
+          {
+            "id": "digital_cc_option"
+          }
+        ]
+      },
+      {
+        "id": "cc_option",
+        "children": [
+          {
+            "id": "mode",
+            "children": [
+              {
+                "id": "mode_option"
+              }
+            ]
+          },
+          {
+            "id": "font_style",
+            "children": [
+              {
+                "id": "font_style_option"
+              }
+            ]
+          },
+          {
+            "id": "font_size",
+            "children": [
+              {
+                "id": "font_size_option"
+              }
+            ]
+          },
+          {
+            "id": "font_edge_style",
+            "children": [
+              {
+                "id": "font_edge_style_option"
+              }
+            ]
+          },
+          {
+            "id": "font_edge_color",
+            "children": [
+              {
+                "id": "font_edge_color_option"
+              }
+            ]
+          },
+          {
+            "id": "fg_color",
+            "children": [
+              {
+                "id": "fg_color_option"
+              }
+            ]
+          },
+          {
+            "id": "bg_color",
+            "children": [
+              {
+                "id": "bg_color_option"
+              }
+            ]
+          },
+          {
+            "id": "fg_opacity",
+            "children": [
+              {
+                "id": "fg_opacity_option"
+              }
+            ]
+          },
+          {
+            "id": "bg_opacity",
+            "children": [
+              {
+                "id": "bg_opacity_option"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "superimpose",
+        "children": [
+          {
+            "id": "superimpose_option"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "audio_description_dtv",
+    "children": [
+      {
+        "id": "ad_speaker"
+      },
+      {
+        "id": "headphone"
+      },
+      {
+        "id": "audio_des_control"
+      },
+      {
+        "id": "ad_volume"
+      }
+    ]
+  },
+  {
+    "id": "audio_description2",
+    "children": [
+      {
+        "id": "audio_description2_switch"
+      },
+      {
+        "id": "audio_description2_volume"
+      }
+    ]
+  },
+  {
+    "id": "menu_sounds",
+    "children": [
+      {
+        "id": "menu_sounds"
+      }
+    ]
+  },
+  {
+    "id": "hbbtv_settings",
+    "children": [
+      {
+        "id": "hbbtv"
+      },
+      {
+        "id": "hbbtv_watermark"
+      },
+      {
+        "id": "cookies"
+      },
+      {
+        "id": "third_part_cookie"
+      },
+      {
+        "id": "device_id"
+      },
+      {
+        "id": "tracking",
+        "children": [
+          {
+            "id": "tracking_option"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "emergency_alert",
+    "children": [
+      {
+        "id": "emergency_information"
+      },
+      {
+        "id": "emergency_language",
+        "children": [
+          {
+            "id": "emergency_language_option"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "advanced_settings",
+    "children": [
+      {
+        "id": "led_indicator_title",
+        "children": [
+          {
+            "id": "led_indicator_option"
+          }
+        ]
+      },
+      {
+        "id": "environment",
+        "children": [
+          {
+            "id": "environment_option"
+          }
+        ]
+      },
+      {
+        "id": "shop_mode_settings",
+        "children": [
+          {
+            "id": "esticker"
+          },
+          {
+            "id": "esticker_ui7",
+            "children": [
+              {
+                "id": "basic_product_info_sub",
+                "children": [
+                  {
+                    "id": "basic_product_info"
+                  },
+                  {
+                    "id": "price_setting"
+                  }
+                ]
+              },
+              {
+                "id": "usps"
+              },
+              {
+                "id": "update"
+              }
+            ]
+          },
+          {
+            "id": "settings_store_demo_video",
+            "children": [
+              {
+                "id": "repeat_all"
+              },
+              {
+                "id": "settings_store_feed_playback",
+                "children":[
+                  {
+                    "id": "settings_store_feed_playback_option"
+                  }
+                ]
+              },
+              {
+                "id": "settings_usps_playback",
+                "children":[
+                  {
+                    "id": "settings_usps_playback_option"
+                  }
+                ]
+              },
+              {
+                "id": "demo_video_update_ui7"
+              }
+            ]
+          },
+          {
+            "id": "e_sticker_update"
+          },
+          {
+            "id": "demo_mode",
+            "children":[
+              {
+                "id": "demo_mode_option"
+              }
+            ]
+          },
+          {
+            "id": "delete_demo"
+          },
+          {
+            "id": "demo_video_update"
+          },
+          {
+            "id": "settings_store_posplayback",
+            "children":[
+              {
+                "id": "settings_store_posplayback_option"
+              }
+            ]
+          },
+          {
+            "id": "settings_store_storeplayback",
+            "children":[
+              {
+                "id": "settings_store_storeplayback_option"
+              }
+            ]
+          },
+          {
+            "id": "settings_store_repeatall"
+          },
+          {
+            "id": "settings_lock_picture_settings"
+          }
+        ]
+      },
+      {
+        "id": "auto_shop_mode"
+      },
+      {
+        "id": "notification_switch"
+      },
+      {
+        "id": "set_top_box"
+      },
+      {
+        "id": "wireless_display"
+      },
+      {
+        "id": "camera_flicker_reduction",
+        "children": [
+          {
+            "id": "camera_flicker_reduction_option"
+          }
+        ]
+      },
+      {
+        "id": "switching_display_message"
+      },
+      {
+        "id": "app_link"
+      },
+      {
+        "id": "settings_control_four"
+      },
+      {
+        "id": "settings_bubble_settings"
+      }
+    ]
+  },
+  {
+    "id": "gesture_control",
+    "children": [
+      {
+        "id": "gesture_capture"
+      },
+      {
+        "id": "gesture_video"
+      }
+    ]
+  },
+  {
+    "id": "works_with_alexa"
+  }
+]

@@ -88,6 +88,17 @@ for P in android.permission.BLUETOOTH_CONNECT android.permission.BLUETOOTH_SCAN;
     && echo "  ok: $P" || echo "  FAILED: $P"
 done
 
+# Remote-button remapping runs as an accessibility service; the permission lets the launcher switch it on.
+adb -s "$SER" shell pm grant com.spandan.tvhome android.permission.WRITE_SECURE_SETTINGS >/dev/null 2>&1 \
+  && echo "  ok: WRITE_SECURE_SETTINGS" || echo "  FAILED: WRITE_SECURE_SETTINGS"
+COMP=com.spandan.tvhome/com.spandan.tvhome.KeyService
+sleep 3   # the system drops the old entry a moment after a reinstall
+CUR=$(adb -s "$SER" shell settings get secure enabled_accessibility_services | tr -d '\r')
+case "$CUR" in *"$COMP"*) ;; *)
+  [ "$CUR" = "null" ] || [ -z "$CUR" ] && NEW="$COMP" || NEW="$CUR:$COMP"
+  adb -s "$SER" shell settings put secure enabled_accessibility_services "$NEW"
+  adb -s "$SER" shell settings put secure accessibility_enabled 1 ;; esac
+
 # Reinstalls can knock the default-home preference off the freshly installed package;
 # re-assert it (only works while the stock launchers are disabled, or resolver may prompt).
 adb -s "$SER" shell cmd package set-home-activity com.spandan.tvhome/.MainActivity >/dev/null 2>&1 \

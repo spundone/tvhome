@@ -1,0 +1,1854 @@
+/**
+menu:定义菜单选项时使用
+参数-- menuName : 选项的名称，要求：必须配置
+      menuNextLevelName : 选项在进入下一级列表后标题的名称（为了处理北美区域需求，在未进入下一级列表时选项显示的是单数形式，进入后的列表标题显示的是复数形式）
+        menuBiName : 选项的BI名称，要求：必须配置，否则导致bi无法上报
+        menuExplain : 选项的解释，气泡说明，要求：配置可选，也可以在业务代码中配置
+        menuExplainIcon: 气泡说明的图标，要求：配置可选，也可以在业务代码中配置
+        menuGroup : 选项的分组，用于区分不同的分组，用于浮窗按组显示
+       menuIcon : 选项的图标，半屏菜单只有主菜单有
+       actionClassName : 如果此选项需要特殊Action类处理，则需要配置此项，此项配置的是类型的全路径，即包含包名，如：com.tcl.settings.MainActivityDialog
+       menu : 子菜单列表
+       menuMargin : 菜单间隔属性，选配，如果配置为: "true" ，则与前一项不是同一个UI列表分组，表示此菜单与上一个菜单之间存在间隔；第一项代码中会默认处理为；如果不配置或配置为其他，则与前一项是同一个分组
+**/
+
+[
+  {
+    "menuName": "@device_display_sound",
+    "menuIcon": "@ic_photo_size_select_actual",
+    "menuBiName": "Display and Sound",
+    "menuExplain": "@device_display_sound",
+    "actionClassName": "com.tcl.settings.viewmodel.display.DisplayAndSoundMainMenuVM",
+    "menu":[
+      {
+        "menuName": "@tcl_image_setting",
+        "menuIcon": "@ic_picture",
+        "menuBiName": "Picture",
+        "menuExplain": "@picture_explain",
+        "actionClassName": "com.tcl.settings.viewmodel.picture.PictureMainMenuVM",
+        "menu": [
+          {
+            "menuName": "@picturemode",
+            "menuNextLevelName": "@picturemodes",
+            "menuBiName": "Picture preset",
+            "menuMargin" : "true",
+            "menuGroup" : "picture_mode",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.PicturePresetScrollerLayoutVM"
+          },
+          {
+            "menuName": "@brightness",
+            "menuExplain": "@brightness_setting_explain",
+            "menuBiName": "Brightness settings",
+            "menuMargin" : "true",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.BrightnessSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@brightness",
+                "menuExplain": "@brightness_explain",
+                "menuExplainIcon": "@settings_pic_brightness",
+                "menuBiName": "Brightness",
+                "menuGroup" : "brightness_menu",
+                "menuMargin" : "true",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.BacklightSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@contrast",
+                "menuExplain": "@contrast_explain",
+                "menuExplainIcon": "@settings_pic_contrast",
+                "menuBiName": "Contrast",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.ContrastSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@pic_black_level",
+                "menuExplain": "@black_level_explain",
+                "menuExplainIcon": "@settings_pic_black_level",
+                "menuBiName": "Black level",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.BlackLevelSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@gamma",
+                "menuExplain": "@gamma_explain",
+                "menuExplainIcon": "@settings_pic_gamma",
+                "menuBiName": "Gamma",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.GammaListSwitchVM"
+              },
+              {
+                "menuName": "@gamma",
+                "menuExplain": "@gamma_explain",
+                "menuExplainIcon": "@settings_pic_gamma",
+                "menuBiName": "Gamma",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.GammaSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@oversea_settings_hdr_conversion",
+                "menuExplain": "@oversea_settings_hdr_conversion_explain",
+                "menuExplainIcon": "@settings_pic_auto_hdr_conversion",
+                "menuBiName": "Automatic HDR Conversion",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoHDRConversionSwitchVM"
+              },
+              {
+                "menuName": "@dynamic_tone_mapping",
+                "menuExplain": "@dynamic_hdr_tone_mapping_mapping",
+                "menuExplainIcon": "@settings_pic_hdr_tone_mapping",
+                "menuBiName": "Dynamic Tone_Mapping",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.HDRToneMappingViewModel"
+              },
+              {
+                "menuName": "@dcc",
+                "menuExplain": "@dcc_explain",
+                "menuExplainIcon": "@settings_pic_dynamic_contrast",
+                "menuBiName": "Dynamic contrast",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.DccSelectLayoutVM"
+              },
+              {
+                "menuName": "@blackstretch",
+                "menuExplain": "@oversea_settings_adjust_contrast_des",
+                "menuExplainIcon": "@settings_pic_black_stretch",
+                "menuBiName": "Black stretch",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.BlackStretchSelectLayoutVM"
+              },
+              {
+                "menuName": "@localdimming",
+                "menuExplain": "@localdimming_explain",
+                "menuExplainIcon": "@settings_pic_local_dimming",
+                "menuBiName": "Local Dimming",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.LocaldimmingSelectLayoutVM"
+              },
+              {
+                "menuName": "@settings_peak_brightness_title",
+                "menuExplain": "@settings_peak_luminance_des",
+                "menuExplainIcon": "@settings_pic_peak_luminance",
+                "menuBiName": "Peak Luminance",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.PeakLuminanceSelectLayoutVM"
+              },
+              {
+                "menuName": "@local_contrast",
+                "menuExplain": "@oversea_settings_dynamic_contrast",
+                "menuBiName": "Local contrast",
+                "menuGroup" : "brightness_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.MicrodimmingSelectLayoutVM"
+              },
+              {
+                "menuName": "@dynamic_brightness",
+                "menuExplain": "@naturelight_explain",
+                "menuBiName": "Dynamic Brightness",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.NaturelightSelectLayoutVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@color",
+            "menuExplain": "@color_explain",
+            "menuBiName": "Colour",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.ColorSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@color_saturation",
+                "menuExplain": "@explanation_color_saturation",
+                "menuExplainIcon": "@settings_pic_color_saturation",
+                "menuBiName": "Colour saturation",
+                "menuMargin" : "true",
+                "menuGroup" : "color_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.SaturationSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@hue",
+                "menuExplain": "@tint_explain",
+                "menuExplainIcon": "@settings_pic_tint",
+                "menuBiName": "Tint",
+                "menuGroup" : "color_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.HueSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@dynamic_color",
+                "menuBiName": "Dynamic Color",
+                "menuExplain": "@explanation_dynamic_color",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.ColorEnhanceSelectLayoutVM"
+              },
+              {
+                "menuName": "@adaptive_color_tempreture",
+                "menuExplain": "@adaptive_color_tempreture_explain",
+                "menuExplainIcon": "@settings_pic_adaptive_color_temperature",
+                "menuBiName": "Intelligent Picture-Adaptive Color Tempreture",
+                "actionClassName": "com.tcl.settings.viewmodel.intelligent.AdaptivePQColorTemperaturePopMenuVM"
+              },
+              {
+                "menuName": "@colortemperature",
+                "menuBiName": "Colour temperature",
+                "menuExplain": "@explanation_color_temperature",
+                "menuExplainIcon": "@settings_pic_color_temperature",
+                "menuGroup" : "color_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.ColortemperatureSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@rgbmode",
+                "menuExplain": "@rgbmode_explain",
+                "menuBiName": "RGB mode",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.RgbModeSelectLayoutVM"
+              },
+              {
+                "menuName": "@white_balance",
+                "menuBiName": "White balance",
+                "menuExplain": "@white_balance_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.WhiteBalanceSubMenuVM",
+                "menu": [
+                  {
+                    "menuName": "@two_points",
+                    "menuBiName": "2 points",
+                    "menuExplain": "@explanation_2_points",
+                    "menuMargin" : "true",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointSelectLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_R",
+                    "menuBiName": "R-Gain",
+                    "menuExplain": "@explanation_r_gain",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsRSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_G",
+                    "menuBiName": "G-Gain",
+                    "menuExplain": "@explanation_g_gain",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsGSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_B",
+                    "menuBiName": "B-Gain",
+                    "menuExplain": "@explanation_b_gain",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsBSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_R_off",
+                    "menuBiName": "R-offset",
+                    "menuExplain": "@explanation_r_offset",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsROffsetSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_G_off",
+                    "menuBiName": "G-offset",
+                    "menuExplain": "@explanation_g_offset",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsGOffsetSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_B_off",
+                    "menuBiName": "B-offset",
+                    "menuExplain": "@explanation_b_offset",
+                    "menuGroup" : "white_2points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsBOffsetSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@picture_white_balance_reset",
+                    "menuBiName": "White balance-Reset",
+                    "menuExplain": "@explanation_white_balance_reset",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwoPointsResetTCLAlertDialogVM"
+                  },
+                  {
+                    "menuName": "@twenty_points",
+                    "menuBiName": "20 points",
+                    "menuExplain": "@explanation_20_points",
+                    "menuMargin" : "true",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TenWhiteBalanceSelectLayoutVM"
+                  },
+                  {
+                    "menuName": "@ten_white_balance_interval",
+                    "menuBiName": "20 points Interval",
+                    "menuExplain": "@explanation_interval",
+                    "menuGroup" : "white_20points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TwentyPointWhiteBalanSeekbar"
+                  },
+                  {
+                    "menuName": "@ten_white_balance_red",
+                    "menuBiName": "White balance-Red",
+                    "menuExplain": "@explanation_red",
+                    "menuGroup" : "white_20points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TenWhiteBaRedSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@ten_white_balance_greed",
+                    "menuBiName": "White balance-Green",
+                    "menuExplain": "@explanation_green",
+                    "menuGroup" : "white_20points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TenWhiteBaGreedSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@ten_white_balance_blue",
+                    "menuBiName": "White balance-Blue",
+                    "menuExplain": "@explanation_blue",
+                    "menuGroup" : "white_20points_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TenWhiteBalanceBlueSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@ten_white_balance_reset",
+                    "menuBiName": "10 points-Reset",
+                    "menuExplain": "@explanation_white_balance_reset",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.TenWhiteBaResetTCLAlertDialogVM"
+                  }
+                ]
+              },
+              {
+                "menuName": "@colorspace",
+                "menuBiName": "Colour space",
+                "menuExplain": "@colorspace_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.ColorSpaceSubMenuVM",
+                "menu": [
+                  {
+                    "menuName": "@colorspace_item",
+                    "menuBiName": "Colour space",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceItemSelectLayoutVM"
+                  },
+                  {
+                    "menuName": "@colorspace_color",
+                    "menuBiName": "Colour",
+                    "menuExplain": "@explanation_color_space_color",
+                    "menuGroup" : "color_space_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceColorSelectLayoutVM"
+                  },
+                  {
+                    "menuName": "@colorspace_red",
+                    "menuBiName": "Red",
+                    "menuExplain": "@explanation_color_space_red",
+                    "menuGroup" : "color_space_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceHSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@colorspace_green",
+                    "menuBiName": "Green",
+                    "menuExplain": "@explanation_color_space_green",
+                    "menuGroup" : "color_space_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceSSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@colorspace_blue",
+                    "menuBiName": "Blue",
+                    "menuExplain": "@explanation_color_space_blue",
+                    "menuGroup" : "color_space_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceISeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@motion_reset",
+                    "menuBiName": "Colour space-Reset",
+                    "menuExplain": "@explanation_color_space_reset",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.ColorspaceCustomReset"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "menuName": "@clarity",
+            "menuBiName": "Clarity",
+            "menuExplain": "@clarity_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.ClaritySubMenuVM",
+            "menu": [
+              {
+                "menuName": "@sharpness",
+                "menuExplain": "@sharpness_explain",
+                "menuExplainIcon": "@settings_pic_sharpness",
+                "menuBiName": "Sharpness",
+                "menuMargin" : "true",
+                "menuGroup" : "clarity_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.SharpnessSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@mpegnr",
+                "menuExplain": "@digital_noise_reduction_explain",
+                "menuBiName": "Digital noise reduction",
+                "menuGroup" : "clarity_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.MpegNrSelectLayoutVM"
+              },
+              {
+                "menuName": "@noisereduction",
+                "menuExplain": "@noise_reduction_explain",
+                "menuExplainIcon": "@settings_pic_noise_reduction",
+                "menuBiName": "Noise reduction",
+                "menuGroup" : "clarity_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.NoisereDuctionSelectLayoutVM"
+              },
+              {
+                "menuName": "@de_contour",
+                "menuExplain": "@explanation_de_contour",
+                "menuExplainIcon": "@settings_pic_gradation_clear",
+                "menuBiName": "Gradation clear",
+                "menuGroup" : "clarity_menu",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.DeContourSelectLayoutVM"
+              },
+
+              {
+                "menuName": "@settings_pic_aisr",
+                "menuExplain": "@settings_pic_aisr_desc",
+                "menuBiName": "Super Resolution",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.PictureAISRViewModel"
+              },
+
+              {
+                "menuName": "@settings_pq_precision_detail_title",
+                "menuExplain": "@settings_pq_precision_detail_summary",
+                "menuBiName": "Precision Detail",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.PrecisionDetailViewModel"
+              }
+            ]
+          },
+          {
+            "menuName": "@motion",
+            "menuExplain": "@motion_explain",
+            "menuBiName": "Motion",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.MotionClaritySubMenuVM",
+            "menu": [
+              {
+                "menuName": "@motion_clarity",
+                "menuBiName": "Motion clarity menu",
+                "menuExplain": "@oversea_settings_memc_explanation",
+                "menuMargin" : "true",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.MemcSubMenuVM",
+                "menu": [
+                  {
+                    "menuName": "@motion_clarity",
+                    "menuBiName": "Motion clarity",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.MemcItemSelectLayoutVM"
+                  },
+                  {
+                    "menuName": "@blur_reduction",
+                    "menuExplain": "@blur_reduction_explain",
+                    "menuExplainIcon": "@settings_pic_reduction",
+                    "menuBiName": "Blur reduction",
+                    "menuGroup" : "motion_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.BlurReductionSeekbarLayoutVN"
+                  },
+                  {
+                    "menuName": "@judder_reduction",
+                    "menuExplain": "@judder_reduction_explain",
+                    "menuExplainIcon": "@settings_pic_reduction",
+                    "menuBiName": "Judder reduction",
+                    "menuGroup" : "motion_menu",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.JudderReductionSeekbarLayoutVM"
+                  },
+                  {
+                    "menuName": "@motion_reset",
+                    "menuBiName": "Motion clarity-Reset",
+                    "actionClassName": "com.tcl.settings.viewmodel.picture.MotionResetTCLAlertDialogVM"
+                  }
+                ]
+              },
+              {
+                "menuName": "@led_motion_clarity",
+                "menuExplain": "@led_motion_clarity_explain",
+                "menuExplainIcon": "@settings_pic_led_motion_clarity",
+                "menuBiName": "Clear LED Motion",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.MotionClarityLedSelectLayoutVM"
+              },
+              {
+                "menuName": "@settings_dynamic_acceleration",
+                "menuExplain": "@settings_dynamic_acceleration_explain",
+                "menuExplainIcon": "@settings_pic_dynamic_acceleration",
+                "menuBiName": "Dynamic Acceleration",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.MotionDynamicAccelerationViewModel"
+              },
+              {
+                "menuName": "@game_direct_sync",
+                "menuBiName": "Refresh Rate",
+                "menuExplain": "@game_direct_sync_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.RefreshRateSelectLayoutVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@picturereset",
+            "menuExplain": "@picturereset_explain",
+            "menuBiName": "Picture reset",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.PictureResetTCLAlertDialogVM"
+          },
+          {
+            "menuName": "@apply_all_picture_mode",
+            "menuBiName": "Apply all picture mode",
+            "menuExplain": "@explanation_apply_all_picture_mode_new",
+            "menuMargin" : "true",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.ApplyAllSelectLayoutVM"
+          },
+          {
+            "menuName": "@oversea_settings_eye_health_proction",
+            "menuExplain": "@oversea_settings_eye_health_proction_explain",
+            "menuBiName": "Eye Health Proction",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.EyeHealthSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@adaptive_brightness",
+                "menuExplain": "@explanation_adaptive_brightness",
+                "menuBiName": "Adaptive Brightness",
+                "menuMargin" : "true",
+                "actionClassName": "com.tcl.settings.viewmodel.intelligent.LightsensorSelectLayoutVM"
+              },
+              {
+                "menuName": "@blue_light_filter",
+                "menuExplain": "@oversea_settings_blue_light_filter_explain",
+                "menuBiName": "Blue Light Filter",
+                "menuExplainIcon": "@settings_pic_blue_light",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.BlueLightFilterSelectLayoutVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@automatic_content_recognition",
+            "menuBiName": "Automatic content recognition",
+            "menuExplain": "@automatic_content_recognition_des",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.AutomaticContentRecognitionVM"
+          },
+          {
+            "menuName": "@auto_calibration_menu_title",
+            "menuBiName": "DDC",
+            "menuExplain": "@auto_calibration_menu_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@auto_calibration_ddc",
+                "menuExplain": "@auto_calibration_ddc_explain",
+                "menuBiName": "Pairing DDC Client",
+                "menuMargin" : "true",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationDDCVM"
+              },
+              {
+                "menuName": "@auto_calibration_date",
+                "menuBiName": "Calibration date",
+                "menuExplain": "@auto_calibration_date_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationDateVM"
+              },
+              {
+                "menuName": "@auto_calibration_import_data",
+                "menuBiName": "Import data",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationImportDataVM"
+              },
+              {
+                "menuName": "@auto_calibration_export_data",
+                "menuBiName": "Export data",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationExportDataVM"
+              },
+              {
+                "menuName": "@auto_calibration_delete_data",
+                "menuBiName": "Delete data",
+                "menuExplain": "@auto_calibration_delete_data_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.picture.AutoCalibrationDeleteDataVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@ddc_hdr_mode_title",
+            "menuBiName": "HDR Mode",
+            "menuExplain": "@ddc_hdr_mode_des",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.HDRModeLayoutVM"
+          },
+          {
+            "menuName": "@ddc_eoft_peak_title",
+            "menuBiName": "Eoft Peak",
+            "menuExplain": "@ddc_eoft_peak_des",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.DDCEoftPeakVM"
+          },
+          {
+            "menuName": "@name_iPQ",
+            "menuExplain": "@settings_ipq_explain",
+            "menuExplain": "@explanation_iPQ",
+            "menuBiName": "iPQ",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.IPQSwitchVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@screen_settings",
+        "menuIcon": "@ic_screen_up",
+        "menuBiName": "Screen settings",
+        "menuExplain": "@screen_settings_explain",
+        "actionClassName": "com.tcl.settings.viewmodel.picture.ScreenSettingsSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@auto_format",
+            "menuExplain": "@auto_format_explain",
+            "menuBiName": "Auto Detect",
+            "menuMargin" : "true",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.AutoformatSelectLayoutVM"
+          },
+          {
+            "menuName": "@aspectratio",
+            "menuExplain": "@screen_mode_explain",
+            "menuBiName": "Screen mode",
+            "actionClassName":"com.tcl.settings.viewmodel.picture.ScreenModeSelectLayoutVM"
+          },
+          {
+            "menuName": "@overscan",
+            "menuExplain": "@overscan_explain",
+            "menuBiName": "Overscan",
+            "actionClassName": "com.tcl.settings.viewmodel.picture.OverscanSelectLayoutVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@tcl_sound_setting",
+        "menuIcon": "@ic_volume_up",
+        "menuBiName": "Sound",
+        "menuExplain": "@sound_explain",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.SoundModeMainMenuVM",
+        "menu": [
+          {
+            "menuName": "@soundmode",
+            "menuNextLevelName": "@sound_preset",
+            "menuBiName": "Sound preset",
+            "menuExplain": "@explanation_sound_mode",
+            "menuGroup" : "sound_mode",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundPresetPopMenuVM"
+          },
+          {
+            "menuName": "@audio_output_soundbar_combo",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundbarComboConnectionVM"
+          },
+          {
+            "menuName": "@oversea_settings_sound_customization",
+            "menuBiName": "Sound Customization",
+            "menuExplain": "@oversea_settings_sound_customization_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundCustomizationSubMenuVM"
+          },
+          {
+            "menuName": "@custom_beosonic",
+            "menuBiName": "Custom Beosonic",
+            "menuExplain": "@sm_customer_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundCustomMenuVM"
+          },
+          {
+            "menuName": "@volume_equalizer_title",
+            "menuBiName": "Volume Equalizer",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.VolumeEqualizerVM",
+            "menu": [
+              {
+                "menuName": "@volume_equalizer_loudness_title",
+                "menuBiName": "Loudness",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.DynamicVolumeEnhancerVM",
+                "menuExplain": "volume_equalizer_loudness_tip"
+              },
+              {
+                "menuName": "@volume_equalizer_treble",
+                "menuBiName": "Loudness",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.TrebleVolumeGainVM",
+                "menuExplain": "volume_equalizer_treble_tip"
+              },
+              {
+                "menuName": "@volume_equalizer_bass",
+                "menuBiName": "Bass",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.BassVolumeGainVM",
+                "menuExplain": "volume_equalizer_bass_tip"
+              }
+            ]
+          },
+          {
+            "menuName": "@settings_audio_processing",
+            "menuExplain": "@settings_audio_processing_tip",
+            "menuBiName": "Audio processing",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AudioProcessingMenuVM"
+          },
+          {
+            "menuName": "@settings_soundbar_settings",
+            "menuExplain": "@settings_soundbar_settings_explanation",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySoundBarSettingSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@bass_enhancer",
+                "menuExplain": "@explanation_bass_enhancer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyQBassEnhancerSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@bass_enhancer",
+                "menuExplain": "@explanation_bass_enhancer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySBassEnhancerSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@defination",
+                "menuExplain": "@explanation_definition",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySDefinitionSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@defination",
+                "menuExplain": "@explanation_definition",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyQDefinitionSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@settings_satellite_speaker",
+                "menuBiName": "Surround Speaker VOL",
+                "menuExplain": "@settings_satellite_speaker_explain",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySurroundSpeakerSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@voice_clarity",
+                "menuBiName": "Dialog enhancer",
+                "menuExplain": "@explanation_dialog_enhancer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyDialogEnhancerSwitchPopMenuVM"
+              },
+              {
+                "menuName": "@voice_clarity",
+                "menuBiName": "Dialog enhancer",
+                "menuExplain": "@explanation_dialog_enhancer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyDialogEnhancerSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@surround_virtualizer",
+                "menuBiName": "Surround virtualizer",
+                "menuExplain": "@explanation_surround_virtualizer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySurroundVirtualizedSwitchPopMenuVM"
+              },
+              {
+                "menuName": "@surround_virtualizer",
+                "menuBiName": "Surround virtualizer",
+                "menuExplain": "@explanation_surround_virtualizer",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadySurroundVirtualizedSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@settings_night",
+                "menuBiName": "Night",
+                "menuExplain": "@settings_night_explanation",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyNightSwitchPopMenuVM"
+              },
+              {
+                "menuName": "@settings_ai_sonic",
+                "menuBiName": "AI Sonic",
+                "menuExplain": "@settings_ai_sonic_desc",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyAISonicSelectLayoutVM"
+              },
+              {
+                "menuName": "@sound_reset",
+                "menuBiName": "Restore default",
+                "menuExplain": "@settings_sbar_restore_explanation",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReadyResetTCLAlertDialogVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@microphone_settings",
+            "menuBiName": "Microphone settings",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.MicrophoneSubMenuVM",
+            "menu":[
+              {
+                "menuName": "@microphone_switch",
+                "menuExplain": "@explanation_microphone",
+                "menuBiName": "Microphone switch",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.MicrophoneSwitchPopMenuVM"
+              },
+              {
+                "menuName": "@microphone_volume",
+                "menuExplain": "@explanation_volume",
+                "menuBiName": "Microphone volume",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.MicrophoneVolumeSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@reverberation",
+                "menuExplain": "@explanation_reverberation",
+                "menuBiName": "Reverberation",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.ReverberationPopMenuVM"
+              },
+              {
+                "menuName": "@microphone_custom",
+                "menuExplain": "@explanation_microphone_settings_custom",
+                "menuBiName": "Microphone Custom",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.MicrophoneCustomSeekbarLayoutVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@oversea_settings_acoustics_laboratory",
+            "menuBiName": "Acoustics Laboratory",
+            "menuExplain": "@oversea_settings_acoustics_laboratory_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AcousticsLaboratorySubMenuVM",
+            "menu":[
+              {
+                "menuName": "@soundavc",
+                "menuExplain": "@sound_sound_auto_volome_control_explanation",
+                "menuBiName": "Auto volume control",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.AutoVolumeControlPopMenuVM"
+              },
+              {
+                "menuName": "@settings_sound_vertical_field",
+                "menuExplain": "@settings_sound_vertical_field_des",
+                "menuBiName": "Vertical Sound Field",
+                "actionClassName": "com.tcl.settings.viewmodel.intelligent.SoundVerticalFieldSelectLayoutVM"
+              },
+              {
+                "menuName": "@sound_field_ai_sonic",
+                "menuExplain": "@sound_field_ai_sonic_des",
+                "menuBiName": "Adaptive AI Sonic",
+                "actionClassName": "com.tcl.settings.viewmodel.intelligent.AdaptiveAISonicPopMenuVM"
+              },
+              {
+                "menuName": "@sound_field_detection",
+                "menuExplain": "@oversea_settings_sound_experience",
+                "menuBiName": "Sound Field Detection",
+                "actionClassName": "com.tcl.settings.viewmodel.intelligent.SoundfieldDetectionIntentVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@oversea_settings_settings_other",
+            "menuBiName": "Other Settings",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.OtherSettingsSubMenuVM",
+            "menu":[
+              {
+                "menuName": "@soundscene",
+                "menuExplain": "@sound_soundscene_explain",
+                "menuBiName": "TV placement",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundScenePopMenuVM"
+              },
+              {
+                "menuName": "@soundbalance",
+                "menuExplain": "@sound_soundbalance_explain",
+                "menuBiName": "Sound balance",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundBalanceSeekbarLayoutVM"
+              },
+              {
+                "menuName": "@settings_dobly_atmos",
+                "menuExplain": "@settings_dolby_atmos_tip",
+                "menuBiName": "Dolby Atmos",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.DolbyAtmosVM"
+              },
+              {
+                "menuName": "@dts_drc",
+                "menuExplain": "@dtsdrc_description",
+                "menuBiName": "DTS DRC",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.DTSDRCControlVM"
+              },
+              {
+                "menuName": "@audio_only",
+                "menuExplain": "@sound_audio_only_explain",
+                "menuBiName": "Audio only",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.AudioOnlyCountDownVM"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "menuName": "@audio_output_setting",
+        "menuIcon": "@ic_audio_output_up",
+        "menuExplain": "@explanation_audio_output_new",
+        "menuBiName": "Audio Output setting",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.AudioOutputMainMenuVM",
+        "menu": [
+          {
+            "menuName": "@audio_output",
+            "menuExplain": "@explanation_audio_output_new",
+            "menuBiName": "Audio output",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundOutputPopMenuVM"
+          },
+          {
+            "menuName": "@digital_audio_output_type",
+            "menuExplain": "@sound_digital_output_explain",
+            "menuBiName": "Digital audio out",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SPDIFTypePopMenuVM"
+          },
+          {
+            "menuName": "@wireless_speaker_voice_manage_title",
+            "menuBiName": "Speaker Management (Z100)",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundWirelessSpeakersSettingsVM"
+          },
+          {
+            "menuName": "@wireless_speaker_voice_manage_titles",
+            "menuBiName": "Speaker Management (Z100)",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SoundWirelessSpeakersManageVM",
+            "menu": [
+              {
+                "menuName": "wireless_speaker_voice_pair_and_manage",
+                "menuBiName": "Pairing and Management",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundWirelessSpeakersPairAndManageVM"
+              },
+              {
+                "menuName": "settings_audio_wifi_pair_pop",
+                "menuBiName": "Pairing pop-up window",
+                "menuExplain": "@settings_audio_wifi_pair_pop_tip",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundWirelessSpeakersPairPopItemModel"
+              },
+              {
+                "menuName": "wireless_speaker_voice_subwoofer_settings",
+                "menuBiName": "Subwoofer Settings",
+                "menuExplain": "@settings_bass_wireless_speakers_tip",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundSubwooferTickMarBarItemModel"
+              },
+              {
+                "menuName": "wireless_speaker_voice_subwoofer_settings",
+                "menuBiName": "Sound bass wireless speakers",
+                "menuExplain": "@settings_bass_wireless_speakers_tip",
+                "actionClassName": "com.tcl.settings.viewmodel.sound.SoundSubwooferTwoWayBarItemModel"
+              }
+            ]
+          },
+          {
+            "menuName": "@dtvaudiodelay",
+            "menuExplain": "@explanation_optimize_audio_delay",
+            "menuBiName": "Audio delay",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.DtvAudioDelaySeekbarLayoutVM"
+          },
+          {
+            "menuName": "@digital_audio_output_delay",
+            "menuBiName": "Digital audio out delay",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.SPDIFDelaySeekbarLayoutVM"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "menuName": "@bar_title_menu",
+    "menuBiName": "Menu",
+    "actionClassName": "com.tcl.settings.viewmodel.sound.LangAudioMainMenuVM",
+    "menu": [
+      {
+        "menuName": "@audio_language",
+        "menuNextLevelName": "@audio_languages",
+        "menuExplain": "@explanation_audio_language",
+        "menuBiName": "Audio language",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.QuickAudioLanguagePopMenuVM"
+      },
+      {
+        "menuName": "@audio_description_des",
+        "menuExplain": "@sound_ad_explain",
+        "menuBiName": "Audio description",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.QuickAudioDescriptionSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@des_ad_speaker",
+            "menuExplain": "@des_ad_speaker_explain",
+            "menuBiName": "AD Speaker",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AudioDesSpeakerPopMenuVM"
+          },
+          {
+            "menuName": "@des_headphone",
+            "menuExplain": "@des_headphone_explain",
+            "menuBiName": "Headphone",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AudioDesHeadPhonePopMenuVM"
+          },
+          {
+            "menuName": "@audio_description_des",
+            "menuBiName": "Audio description",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AudioDesControlPopMenuVM"
+          },
+          {
+            "menuName": "@des_volume",
+            "menuBiName": "AD volume",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.AudioDesVolumeSeekbarLayoutVM"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "menuName": "@tcl_tv_channel_setting",
+    "menuIcon": "@icon_channel_selector",
+    "menuExplain": "@explanation_channels",
+    "actionClassName": "com.tcl.settings.viewmodel.channel.ChannelMainMenuVM",
+    "menu": [
+      {
+        "menuName": "@channel_scan",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.ChannelScanSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@country",
+            "menuBiName": "Country/Region",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CountryPopMenuVM"
+          },
+          {
+            "menuName": "@muti_standard_title",
+            "menuBiName": "TV Transmission",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.TvTransmissionVM"
+          },
+          {
+            "menuName": "@area",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.AreaSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@luzon",
+                "menuBiName": "Luzon",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.LuzonSubMenuVM"
+              },
+              {
+                "menuName": "@visayas",
+                "menuBiName": "Visayas",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.VisayasSubMenuVM"
+              },
+              {
+                "menuName": "@mindanao",
+                "menuBiName": "Mindanao",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.MindanaoSubMenuVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@automatic_search",
+            "menuBiName": "Automatic search",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.AutomaticSearchIntentVM"
+          },
+          {
+            "menuName": "@automatic_update",
+            "menuBiName": "Automatic update",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.AutomaticUpdateIntentVM"
+          },
+          {
+            "menuName": "@manual_scan",
+            "menuBiName": "Manual scan",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.ManualScanIntentVM"
+          },
+          {
+            "menuName": "@turksat_tkgs_settings",
+            "menuBiName": "Turksat TKGS settings",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSSettingsSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@tkgs_start_update",
+                "menuBiName": "Start update",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSUpdateVersionVM"
+              },
+              {
+                "menuName": "@tkgs_mode_title",
+                "menuBiName": "Turksat TKGS mode",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSModePopMenuVM"
+              },
+              {
+                "menuName": "@tkgs_update_freq",
+                "menuBiName": "Update frequencies",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSFrequenciesDialogVM"
+              },
+              {
+                "menuName": "@tkgs_service_list",
+                "menuBiName": "Turksat TKGS list",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSPreferredListPopMenuVM"
+              },
+              {
+                "menuName": "@tkgs_category",
+                "menuBiName": "TKGS category",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSCategoryPopMenuVM"
+              },
+              {
+                "menuName": "@tkgs_update_hidden_freq",
+                "menuBiName": "Update hidden frequencies",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSHiddenFrequenciesDialogVM"
+              },
+              {
+                "menuName": "@tkgs_reset_version",
+                "menuBiName": "Reset version",
+                "actionClassName": "com.tcl.settings.viewmodel.channel.TKGSResetAlertDialogVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@fine_tune",
+            "menuBiName": "Fine tune",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.FineTuneIntentVM"
+          },
+          {
+            "menuName": "@favourite_network",
+            "menuBiName": "Favourite network",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.FavouriteNetworkPopMenuVM"
+          },
+          {
+            "menuName": "@channel_lcn",
+            "menuBiName": "LCN",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.LCNPopMenuVM"
+          },
+          {
+            "menuName": "@ews_local_postal_codes",
+            "menuBiName": "EWS local postal codes",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.EWSLocalPostalCodesDialogVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@channel_organizer",
+        "menuExplain": "@channel_organizer_explain",
+        "menuBiName": "Channel organizer",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.ChannelOrganizerIntentVM"
+      },
+      {
+        "menuName": "@clean_channellist",
+        "menuBiName": "Clean channel list",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CleanChannelListTCLAlertDialogVM"
+      },
+      {
+        "menuName": "@channel_list_type",
+        "menuBiName": "Channel list type",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.ChannelListTypePopMenuVM"
+      },
+      {
+        "menuName": "@common_interface",
+        "menuBiName": "Common interface",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CIIntentVM"
+      },
+      {
+        "menuName": "@epg",
+        "menuExplain": "@channel_epg_explain",
+        "menuBiName": "EPG",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.EPGIntentVM"
+      },
+      {
+        "menuName": "@channel_diagnostics",
+        "menuExplain": "@channel_diagnostics_explain",
+        "menuBiName": "Channel diagnostics",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.ChannelDiagnosticsDialogVM"
+      },
+      {
+        "menuName": "@timeshift",
+        "menuExplain": "@timeshift_explain",
+        "menuBiName": "Time shift",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.TimeShiftPopMenuVM"
+      },
+      {
+        "menuName": "@subtitle",
+        "menuExplain": "@explanation_subtitle",
+        "menuBiName": "Subtitle",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.SubtitleSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@subtitle_switch",
+            "menuBiName": "Subtitle",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.SubtitleSwitchPopMenuVM"
+          },
+          {
+            "menuName": "@subtitle_language1",
+            "menuBiName": "Digital subtitle language 1st",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.SubtitleFirstLanguagePopMenuVM"
+          },
+          {
+            "menuName": "@subtitle_language2",
+            "menuBiName": "Digital subtitle language 2nd",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.SubtitleSecondLanguagePopMenuVM"
+          },
+          {
+            "menuName": "@subtitle_type",
+            "menuBiName": "Subtitle type",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.SubtitleTypePopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@teletext",
+        "menuExplain": "@explanation_teletext",
+        "menuBiName": "Teletext",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.TeletextSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@teletext_decoding_page_language",
+            "menuBiName": "Decoding page language",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.TeletextDecodingLanguagePopMenuVM"
+          },
+          {
+            "menuName": "@teletext_digital_teletext_language",
+            "menuBiName": "Digital teletext language",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.TeletextDigitalLanguagePopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@data_service",
+        "menuBiName": "Data service",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.DataServiceSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@data_service_auto",
+            "menuBiName": "Auto data service",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.AutoDataServicePopMenuVM"
+          },
+          {
+            "menuName": "@data_service_list",
+            "menuBiName": "Data service list",
+            "menuExplain": "@explanation_teletext",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.DataServiceListPopMenuVM"
+          },
+          {
+            "menuName": "@ginga_web_service_client_list",
+            "menuBiName": "Web service client list",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.WebServiceClientListDialogVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@authentication_services",
+        "menuBiName": "Authentication for TV services",
+        "menuExplain": "@authentication_services_des",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.AuthenticationPopMenuVM"
+      },
+      {
+        "menuName": "@transfer_channel_list",
+        "menuBiName": "Transfer channel list",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.TransferChannelListSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@import_from_usb",
+            "menuBiName": "Import from USB",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.FileListPopMenuVM"
+          },
+          {
+            "menuName": "@export_to_usb",
+            "menuBiName": "Export from USB",
+            "menuExplain": "@export_to_usb_explain",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.ExportChannelListDialogVM"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "menuName": "@tcl_tv_channel_setting",
+    "menuIcon": "@icon_channel_selector",
+    "menuExplain": "@explanation_channels_jp",
+    "menuBiName": "Channels",
+    "actionClassName":"com.tcl.settings.viewmodel.channel.japan.ChannelMainMenuVMJP",
+    "menu":[
+      {
+        "menuName": "@channel_prefecture_setting",
+        "menuExplain": "@explanation_channel_prefecture",
+        "menuBiName": "Prefecture settings",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.japan.PrefectureSettingsSubMenuVM",
+        "menu":[
+          {
+            "menuName": "@channel_prefecture",
+            "menuBiName": "Prefecture",
+            "actionClassName":"com.tcl.settings.viewmodel.channel.japan.PrefecturePopMenuVM"
+          },
+          {
+            "menuName": "@channel_post_code",
+            "menuBiName": "Post Code",
+            "actionClassName":"com.tcl.settings.viewmodel.channel.japan.PostCodeDialogVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@channel_scan",
+        "menuExplain": "@explanation_channel_scan",
+        "menuBiName": "Channel Scan",
+        "actionClassName":"com.tcl.settings.viewmodel.channel.japan.AutomaticSearchIntentVMJP"
+      },
+      {
+        "menuName": "@channel_preset",
+        "menuExplain": "@explanation_channel_preset",
+        "menuBiName": "Channel Preset",
+        "actionClassName":"com.tcl.settings.viewmodel.channel.japan.PresetDialogVM"
+      },
+      {
+        "menuName": "@channel_skip",
+        "menuExplain": "@explanation_channel_skip",
+        "menuBiName": "Channel Skip",
+        "actionClassName":"com.tcl.settings.viewmodel.channel.japan.SkipIntentVM"
+      },
+      {
+        "menuName": "@channel_reception",
+        "menuExplain": "@explanation_channel_reception",
+        "menuBiName": "Reception Setting",
+        "actionClassName":"com.tcl.settings.viewmodel.channel.japan.ReceptionIntentVM"
+      },
+      {
+        "menuName": "@record_setting",
+        "menuExplain": "@explanation_record_setting",
+        "menuBiName": "Recording Settings",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.japan.RecordingSettingsSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@auto_capture",
+            "menuExplain": "@explanation_auto_capture",
+            "menuBiName": "Auto Chapter",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.AutoCapturePopMenuVM"
+          },
+          {
+            "menuName": "@auto_delete",
+            "menuExplain": "@explanation_auto_delete",
+            "menuBiName": "Auto Delete",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.AutoDeletePopMenuVM"
+          },
+          {
+            "menuName": "@schedule",
+            "menuExplain": "@explanation_schedule",
+            "menuBiName": "Schedule",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.DateTimeReseIntentVM"
+          },
+          {
+            "menuName": "@rec_time_setting",
+            "menuBiName": "Rec Button Setting",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.RecordTimeSettingPopMenuVM"
+          },
+          {
+            "menuName": "@usb_hdd",
+            "menuExplain": "@explanation_usb_hdd",
+            "menuBiName": "USB HDD Standby",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.UsbHddPopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@usb_management",
+        "menuBiName": "USB Management",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.UsbManagementIntentVM"
+      },
+      {
+        "menuName": "@system_adv",
+        "menuBiName": "Advanced settings",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.japan.AdvancedSettingsSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@bcas_info",
+            "menuBiName": "Cas Information",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.japan.CasInformationDialogVM"
+          },
+          {
+            "menuName": "@broadcasting_mail",
+            "menuExplain": "@explanation_broadcasting_mail",
+            "menuBiName": "Broadcasting Mail",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.BroadMailIntentVM"
+          },
+          {
+            "menuName": "@cs_board",
+            "menuExplain": "@explanation_cs_board",
+            "menuBiName": "CS board",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.japan.CsBoardSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@cs1_board",
+                "menuBiName": "CS1 board",
+                "actionClassName": "com.tcl.settings.viewmodel.system.japan.Cs1BoardIntentVM"
+              },
+              {
+                "menuName": "@cs2_board",
+                "menuBiName": "CS2 board",
+                "actionClassName": "com.tcl.settings.viewmodel.system.japan.Cs2BoardIntentVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@oad_setting",
+            "menuExplain": "@explanation_oad",
+            "menuBiName": "OAD Setting",
+            "actionClassName": "com.tcl.settings.viewmodel.system.japan.OadSettingPopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@oversea_settings_weak_signal_alert_title",
+        "menuExplain": "@oversea_settings_weak_signal_alert_description",
+        "menuBiName": "Signal alert",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.WeakSignalAlertSwitchPopMenuVM"
+      }
+    ]
+  },
+  {
+    "menuName": "@tcl_system_setting",
+    "menuIcon": "@icon_system_selector",
+    "menuExplain": "@system_explain",
+    "menuBiName": "System",
+    "actionClassName": "com.tcl.settings.viewmodel.base.MainMenuItemBaseVM",
+    "menu": [
+      {
+        "menuName": "@country",
+        "menuBiName": "Country/Region",
+        "actionClassName": "com.tcl.settings.viewmodel.system.CountryPopMenuVM"
+      },
+      {
+        "menuName": "@lock",
+        "menuBiName": "Lock",
+        "actionClassName": "com.tcl.settings.viewmodel.system.SystemLockSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@channel_lock",
+            "menuBiName": "Channel lock",
+            "actionClassName": "com.tcl.settings.viewmodel.system.ChannelLockDialogVM"
+          },
+          {
+            "menuName": "@parental_rating",
+            "menuBiName": "Parental rating",
+            "actionClassName": "com.tcl.settings.viewmodel.system.ParentalRatingSubMenuVM",
+            "menu": [
+              {
+                "menuName": "@age_rating",
+                "menuBiName": "Age rating",
+                "actionClassName": "com.tcl.settings.viewmodel.system.AgeRatingPopMenuVM"
+              },
+              {
+                "menuName": "@content_rating",
+                "menuBiName": "Content rating",
+                "actionClassName": "com.tcl.settings.viewmodel.system.ContentRatingPopMenuVM"
+              },
+              {
+                "menuName": "@atsc_us",
+                "menuBiName": "US",
+                "actionClassName": "com.tcl.settings.viewmodel.system.AtscUSSubMenuVM",
+                "menu": [
+                  {
+                    "menuName": "@tv_rating",
+                    "menuExplain": "@tv_ratings_subtitle",
+                    "menuBiName": "TV rating",
+                    "actionClassName": "com.tcl.settings.viewmodel.system.AtscUSTVRatingPopMenuVM"
+                  },
+                  {
+                    "menuName": "@mpaa",
+                    "menuExplain": "@mpaa_subtitle",
+                    "menuBiName": "MPAA",
+                    "actionClassName": "com.tcl.settings.viewmodel.system.AtscUSMpaaPopMenuVM"
+                  }
+                ]
+              },
+              {
+                "menuName": "@atsc_canada",
+                "menuBiName": "Canada",
+                "actionClassName": "com.tcl.settings.viewmodel.system.AtscCanadaSubMenuVM",
+                "menu": [
+                  {
+                    "menuName": "@canada_english",
+                    "menuExplain": "@tv_ratings_subtitle",
+                    "menuBiName": "Canada English",
+                    "actionClassName": "com.tcl.settings.viewmodel.system.AtscCanadaEnglishPopMenuVM"
+                  },
+                  {
+                    "menuName": "@canada_french",
+                    "menuExplain": "@mpaa_subtitle",
+                    "menuBiName": "Canada French",
+                    "actionClassName": "com.tcl.settings.viewmodel.system.AtscCanadaFrenchPopMenuVM"
+                  }
+                ]
+              },
+              {
+                "menuName": "@rrt_settings",
+                "menuExplain": "@rrt_settings_explain",
+                "menuBiName": "RRT settings",
+                "actionClassName": "com.tcl.settings.viewmodel.system.RRTSettingsSubMenuVM"
+              },
+              {
+                "menuName": "@reset_rrt",
+                "menuExplain": "@reset_rrt_explain",
+                "menuBiName": "Reset RRT",
+                "actionClassName": "com.tcl.settings.viewmodel.system.ResetRRTTCLAlertDialogVM"
+              },
+              {
+                "menuName": "@urated",
+                "menuBiName": "Unrated",
+                "actionClassName": "com.tcl.settings.viewmodel.system.UratedPopMenuVM"
+              },
+              {
+                "menuName": "@rating_enable",
+                "menuBiName": "Rating enable",
+                "actionClassName": "com.tcl.settings.viewmodel.system.RatingEnablePopMenuVM"
+              },
+              {
+                "menuName": "@other_rating_system",
+                "menuBiName": "Other Ratings",
+                "actionClassName": "com.tcl.settings.viewmodel.system.OtherRatingSubMenuVM"
+              }
+            ]
+          },
+          {
+            "menuName": "@inputs_lock",
+            "menuBiName": "Inputs lock",
+            "actionClassName": "com.tcl.settings.viewmodel.system.InputLockDialogVM"
+          },
+          {
+            "menuName": "@tv_buttons_lock",
+            "menuBiName": "TV buttons lock",
+            "actionClassName": "com.tcl.settings.viewmodel.system.FrontPanelLockPopMenuVM"
+          },
+          {
+            "menuName": "@channel_scan_lock",
+            "menuBiName": "Channel scan lock",
+            "actionClassName": "com.tcl.settings.viewmodel.system.InstallationLockPopMenuVM"
+          },
+          {
+            "menuName": "@change_password",
+            "menuBiName": "Change password",
+            "actionClassName": "com.tcl.settings.viewmodel.system.SystemChangePwDialogVM"
+          },
+          {
+            "menuName": "@max_volume",
+            "menuBiName": "Max volume",
+            "actionClassName": "com.tcl.settings.viewmodel.system.SystemMaxVolSeekbarLayoutVM"
+          },
+          {
+            "menuName": "@clean_all",
+            "menuExplain": "@system_clean_all_explain",
+            "menuBiName": "Clean all",
+            "actionClassName": "com.tcl.settings.viewmodel.system.SystemCleanAllTCLAlertDialogVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@inputs_header_cec",
+        "menuExplain": "@system_tlink_explain",
+        "menuBiName": "Consumer Electronic Control (CEC)",
+        "actionClassName": "com.tcl.settings.viewmodel.system.TLinkSubMenuVM"
+      },
+      {
+        "menuName": "@earc_mode",
+        "menuExplain": "@explanation_earc",
+        "menuBiName": "eARC mode",
+        "actionClassName": "com.tcl.settings.viewmodel.system.EARCModeSwitchPopMenuVM"
+      },
+      {
+        "menuName": "@vrr",
+        "menuBiName": "VRR",
+        "actionClassName": "com.tcl.settings.viewmodel.system.VRRSwitchPopMenuVM"
+      },
+      {
+        "menuName": "@hbbtv_settings",
+        "menuBiName": "HbbTV settings",
+        "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvSettings",
+        "menu": [
+          {
+            "menuName": "@hbbtv",
+            "menuExplain": "@oversea_settings_hbbtv_switch_description",
+            "menuBiName": "HbbTV",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvPopMenuVM"
+          },
+          {
+            "menuName": "@oversea_settings_new_watermark_title",
+            "menuExplain": "@oversea_settings_new_watermark_description",
+            "menuBiName": "Watermark",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvWatermarkPopMenuVM"
+          },
+          {
+            "menuName": "@hbbtv_cookies",
+            "menuExplain": "@oversea_settings_hbbtv_cookies_description",
+            "menuBiName": "Cookies",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvCookiePopMenuVM"
+          },
+          {
+            "menuName": "@hbbtv_third_part_cookies",
+            "menuExplain": "@oversea_settings_hbbtv_third_part_cookies_description",
+            "menuBiName": "Third party cookie",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvThirdPartCookiePopMenuVM"
+          },
+          {
+            "menuName": "@hbbtv_deviceid",
+            "menuBiName": "Device ID",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvDeviceIdItemVM"
+          },
+          {
+            "menuName": "@hbbtv_dnt_state",
+            "menuBiName": "Tracking",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvDntStatePopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@amazon_alexa",
+        "menuBiName": "Works with Alexa",
+        "actionClassName": "com.tcl.settings.viewmodel.system.AmazonAlexaBaseVM"
+      },
+      {
+        "menuName": "@device_sound_effects",
+        "menuBiName": "Menu sounds",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.KeyTonePopMenuVM"
+      },
+      {
+        "menuName": "@setting_location",
+        "menuBiName": "Environment",
+        "actionClassName": "com.tcl.settings.viewmodel.system.EnvironmentPopMenuVM"
+      },
+      {
+        "menuName": "@technology_introduction",
+        "menuBiName": "Tech introduction",
+        "actionClassName": "com.tcl.settings.viewmodel.system.TechnologyIntroductionIntentVM"
+      },
+      {
+        "menuName": "@shop_mode_settings",
+        "actionClassName": "com.tcl.settings.viewmodel.system.ShopModeSettingsSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@esticker",
+            "menuBiName": "E-sticker",
+            "actionClassName": "com.tcl.settings.viewmodel.system.EStickerSwitchPopMenuVM"
+          },
+          {
+            "menuName": "@e_sticker_update",
+            "menuBiName": "E-sticker update",
+            "actionClassName": "com.tcl.settings.viewmodel.system.EStickerUpdateIntentVM"
+          },
+          {
+            "menuName": "@esticker",
+            "menuBiName": "E-sticker",
+            "actionClassName": "com.tcl.settings.viewmodel.system.EstickerSubMenuVM"
+          },
+          {
+            "menuName": "@settings_store_demo_video",
+            "menuBiName": "Store Demo Video",
+            "actionClassName": "com.tcl.settings.viewmodel.system.StoreDemoVideoSubMenuVM"
+          },
+          {
+            "menuName": "@demo_mode",
+            "menuBiName": "Demo mode",
+            "actionClassName": "com.tcl.settings.viewmodel.system.DemoModePopMenuVM"
+          },
+          {
+            "menuName": "@delete_demo",
+            "menuBiName": "Delete demo",
+            "actionClassName": "com.tcl.settings.viewmodel.system.DeleteModeTCLAlertDialogVM"
+          },
+          {
+            "menuName": "@e_sticker_demo_video_update",
+            "menuBiName": "Demo video update",
+            "actionClassName": "com.tcl.settings.viewmodel.system.DemoVideoUpdateIntentVM"
+          },
+          {
+            "menuName": "@settings_store_posplayback",
+            "menuBiName": "Play time setting",
+            "actionClassName": "com.tcl.settings.viewmodel.system.PlayTimeSettingSelectLayoutVM"
+          },
+          {
+            "menuName": "@settings_store_storeplayback",
+            "menuBiName": "Cycle time",
+            "actionClassName": "com.tcl.settings.viewmodel.system.CycleTimeSelectLayoutVM"
+          },
+          {
+            "menuName": "@settings_store_repeatall",
+            "menuBiName": "Repeat all video",
+            "actionClassName": "com.tcl.settings.viewmodel.system.RepeatAllVideoSelectLayoutVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@auto_shop_mode",
+        "menuBiName": "Auto shop mode",
+        "actionClassName": "com.tcl.settings.viewmodel.system.AutoShopModePopMenuVM"
+      },
+      {
+        "menuName": "@switching_display",
+        "menuBiName": "Switching Display",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.SwitchingDisplayPopMenuVM"
+      },
+      {
+        "menuName": "@notification_switch",
+        "menuBiName": "Notification switch",
+        "actionClassName": "com.tcl.settings.viewmodel.system.NotificationSwitchVM"
+      },
+      {
+        "menuName": "@emergency_alert",
+        "menuBiName": "Emergency Alert",
+        "actionClassName": "com.tcl.settings.viewmodel.system.EmergencyAlertSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@video_ei_mode_title",
+            "menuBiName": "Emergency Information",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.EmergencyInformationPopMenuVM"
+          },
+          {
+            "menuName": "@video_ei_language_title",
+            "menuBiName": "Emergency Language",
+            "actionClassName": "com.tcl.settings.viewmodel.sound.EmergencyLanguagePopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@system_adv",
+        "menuBiName": "Advanced settings",
+        "actionClassName": "com.tcl.settings.viewmodel.system.SystemAdvanceSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@hdmi_advance_standard",
+            "menuBiName": "HDMI advanced standard",
+            "actionClassName": "com.tcl.settings.viewmodel.system.Hdmi2PopMenuVM"
+          },
+          {
+            "menuName": "@set_top_box",
+            "menuBiName": "Set top box",
+            "actionClassName": "com.tcl.settings.viewmodel.system.StartTopBoxIntentVM"
+          },
+          {
+            "menuName": "@led_indicator",
+            "menuBiName": "LED indicator",
+            "actionClassName": "com.tcl.settings.viewmodel.system.LedIndicatorPopMenuVM"
+          },
+          {
+            "menuName": "@wireless_display",
+            "menuBiName": "Wireless display",
+            "actionClassName": "com.tcl.settings.viewmodel.system.WirelessDisplayIntentVM"
+          },
+          {
+            "menuName": "@hbbtv",
+            "menuBiName": "HbbTV",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvPopMenuOldVersionVM"
+          },
+          {
+            "menuName": "@hbbtv_cookie",
+            "menuBiName": "HbbTV cookie",
+            "actionClassName": "com.tcl.settings.viewmodel.system.HbbtvCookiePopMenuOldVersionVM"
+          },
+          {
+            "menuName": "@camera_flicker_reduction",
+            "menuBiName": "Camera flicker reduction",
+            "actionClassName": "com.tcl.settings.viewmodel.system.CameraFlickerPopMenuVM"
+          },
+          {
+            "menuName": "@settings_external_device_controls",
+            "menuExplain": "@settings_supports_control4_des",
+            "menuBiName": "Settings Control Four",
+            "actionClassName": "com.tcl.settings.viewmodel.system.ControlFourPopMenuVM"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "menuName": "@broadcast",
+    "menuBiName": "Broadcast",
+    "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionMainMenuVM",
+    "menu": [
+      {
+        "menuName": "@close_caption_mode",
+        "menuBiName": "CC mode",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionModePopMenuVM"
+      },
+      {
+        "menuName": "@close_caption_prefer_language",
+        "menuExplain": "@oversea_settings_close_caption_prefer_language_description",
+        "menuBiName": "CC Prefer Language",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionPreferLanguagePopMenuVM"
+      },
+      {
+        "menuName": "@close_caption_analog",
+        "menuBiName": "Analogue CC option",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionAnalogPopMenuVM"
+      },
+      {
+        "menuName": "@close_caption_digital",
+        "menuBiName": "Digital CC option",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionDigitalPopMenuVM"
+      },
+      {
+        "menuName": "@close_caption_digital",
+        "menuBiName": "Digital CC option",
+        "menuExplain": "@oversea_settings_close_caption_digital_description",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionDigital2PopMenuVM"
+      },
+      {
+        "menuName": "@close_caption_option",
+        "menuBiName": "CC option",
+        "actionClassName": "com.tcl.settings.viewmodel.channel.CloseCaptionOptionSubMenuVM",
+        "menu": [
+          {
+            "menuName": "@cc_option_mode",
+            "menuBiName": "CC option-Mode",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionModePopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_font_style",
+            "menuBiName": "CC option-Font style",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFontStylePopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_font_size",
+            "menuBiName": "CC option-Font size",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFontSizePopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_font_edge_style",
+            "menuBiName": "CC option-Font edge style",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFontEdgeStylePopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_font_edge_color",
+            "menuBiName": "CC option-Font edge colour",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFontEdgeColorPopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_fg_color",
+            "menuBiName": "CC option-FG colour",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFgColorPopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_bg_color",
+            "menuBiName": "CC option-BG colour",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionBgColorPopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_fg_opacity",
+            "menuBiName": "CC option-FG opacity",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionFgOpacityPopMenuVM"
+          },
+          {
+            "menuName": "@cc_option_bg_opacity",
+            "menuBiName": "CC option-BG opacity",
+            "actionClassName": "com.tcl.settings.viewmodel.channel.CCOptionBgOpacityPopMenuVM"
+          }
+        ]
+      },
+      {
+        "menuName": "@caption",
+        "menuBiName": "Caption",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.SystemCaptionPopMenuVM"
+      },
+      {
+        "menuName": "@caption_language",
+        "menuBiName": "Caption language",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.SystemCaptionLanPopMenuVM"
+      },
+      {
+        "menuName": "@moji_super",
+        "menuBiName": "MOJI-SUPER",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.SystemMojiPopMenuVM"
+      },
+      {
+        "menuName": "@moji_super_language",
+        "menuBiName": "MOJI-SUPER language",
+        "actionClassName": "com.tcl.settings.viewmodel.system.japan.SystemMojiLanPopMenuVM"
+      }
+    ]
+  },
+  {
+    "menuName": "@video_description_title",
+    "menuBiName": "Video Description",
+    "menuExplain": "@sound_ad_explain",
+    "actionClassName": "com.tcl.settings.viewmodel.sound.VideoDescriptionSubMenuVM",
+    "menu": [
+      {
+        "menuName": "@video_description_title",
+        "menuBiName": "Video Description",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.VideoDescriptionPopMenuVM"
+      },
+      {
+        "menuName": "@video_description_volume_title",
+        "menuBiName": "Video Description Volume",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.VideoDescriptionSeekbarLayoutVM"
+      }
+    ]
+  },
+  {
+    "menuName": "@voice_language",
+    "menuExplain": "@explanation_audio_language",
+    "menuBiName": "Audio language",
+    "actionClassName": "com.tcl.settings.viewmodel.sound.AudioLanguageSubMenuVM",
+    "menu": [
+      {
+        "menuName": "@audio_language",
+        "menuNextLevelName": "@audio_languages",
+        "menuExplain": "@explanation_audio_language",
+        "menuBiName": "Audio language",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.AudioLanguagesFullScreenPopMenuVM"
+      },
+      {
+        "menuName": "@preferred_audio_language",
+        "menuExplain": "@explanation_preferred_audio_language",
+        "menuBiName": "Preferred audio language",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.AudioLanguagePreferredFirstPopMenuVM"
+      },
+      {
+        "menuName": "@preferred_audio_language_2nd",
+        "menuExplain": "@explanation_preferred_audio_language2",
+        "menuBiName": "Preferred audio language 2nd",
+        "actionClassName": "com.tcl.settings.viewmodel.sound.AudioLanguagePreferredSecondPopMenuVM"
+      }
+    ]
+  },
+  {
+    "menuName": "@tcl_google_setting",
+    "menuIcon": "@icon_settings_selector",
+    "menuExplain": "@google_explain",
+    "menuBiName": "More settings",
+    "actionClassName": "com.tcl.settings.viewmodel.google.GoogleSettingsBaseVM",
+    "menu":[]
+  }
+]

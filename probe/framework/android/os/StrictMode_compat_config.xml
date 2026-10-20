@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><config><compat-change description="Detect explicit calls to {@link Runtime#gc()}." enableSinceTargetSdk="34" id="3400644" name="DETECT_EXPLICIT_GC"><meta-data definedIn="android.os.StrictMode" sourcePosition="frameworks/base/core/java/android/os/StrictMode.java:355"/></compat-change></config>

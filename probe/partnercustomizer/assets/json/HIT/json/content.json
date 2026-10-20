@@ -1,0 +1,842 @@
+{
+	"error_code": 1000,
+	"template_id": 20671,
+	"publish_time": 1563349444000,
+	"i18n_url": "http://s3.tcllauncher.com/template_25863/44cf69164aca4d5e9ba88c29a5f8f71e.zip?md5=f65709237508e30c3511733b224bcc4c",
+	"tabs": [
+		{
+			"tab_id": 67612,
+			"title": {
+				"display_type": "text",
+				"value": "#117"
+			},
+			"blocks": [
+				{
+					"block_id": 407841,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411945,
+							"desc": "8",
+							"title": [
+								"T-Browser",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1999892659.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531364698000
+				},
+				{
+					"block_id": 407842,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411946,
+							"desc": "8",
+							"title": [
+								"Spotify",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1417245927.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1533713380000
+				},
+				{
+					"block_id": 407843,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411947,
+							"desc": "8",
+							"title": [
+								"Deezer",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/924959697.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531364698000
+				},
+				{
+					"block_id": 407844,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411948,
+							"desc": "8",
+							"title": [
+								"Radioline",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1968314819.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1531469249000
+				},
+				{
+					"block_id": 407845,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411949,
+							"desc": "8",
+							"title": [
+								"YouTube Kids",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-614456917.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252777000
+				},
+				{
+					"block_id": 407846,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411950,
+							"desc": "8",
+							"title": [
+								"MUBI",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-26353487.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563327350000
+				},
+				{
+					"block_id": 407847,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411989,
+							"desc": "8",
+							"title": [
+								"TV Remote",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1968505762.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.MultiScreenInteraction_TV",
+								"extra_map": [
+									{
+										"key": "appstore",
+										"type": "string",
+										"value": "appmarket2"
+									}
+								]
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.MultiScreenInteraction_TV",
+								"extra_map": [
+									{
+										"key": "appstore",
+										"type": "string",
+										"value": "appmarket2"
+									}
+								]
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563327350000
+				},
+				{
+					"block_id": 407848,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 411952,
+							"desc": "8",
+							"title": [
+								"FlixOle",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1000179847.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.flixole.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.flixole.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1560928757000
+				}
+			],
+			"latest_time": 1563327350000
+		},
+		{
+			"tab_id": 67688,
+			"tab_image": "http://s3.tcllauncher.com/tab/3b5a08ed4f2d4fedadbc86a8de6506c6.png?md5=d614d57f30a27aa8522f3e4f72c63009",
+			"tab_action_url": {
+				"behavior": "activity",
+				"action": "com.tcl.partnercustomizer.tkey",
+				"package_name": "com.tcl.partnercustomizer"
+			},
+			"title": {
+				"display_type": "text",
+				"value": "#126"
+			},
+			"blocks": [
+				{
+					"block_id": 408696,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412855,
+							"desc": "8",
+							"title": [
+								"YouTube Kids",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-98605918.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tvkids"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252352000
+				},
+				{
+					"block_id": 408697,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412856,
+							"desc": "8",
+							"title": [
+								"Spotify",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/698670002.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.spotify.tv.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1555477027000
+				},
+				{
+					"block_id": 408698,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412857,
+							"desc": "8",
+							"title": [
+								"Deezer",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1639801959.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "deezer.android.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252352000
+				},
+				{
+					"block_id": 408699,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412858,
+							"desc": "8",
+							"title": [
+								"Radioline",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1729754484.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.radioline.android.radioline"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252544000
+				},
+				{
+					"block_id": 408700,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412859,
+							"desc": "8",
+							"title": [
+								"T-Browser",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-605503399.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.browser"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1554252544000
+				},
+				{
+					"block_id": 408701,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412860,
+							"desc": "8",
+							"title": [
+								"MUBI",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1283956328.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.mubi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563327048000
+				},
+				{
+					"block_id": 408702,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412861,
+							"desc": "8",
+							"title": [
+								"TV Remote",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/506657774.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.MultiScreenInteraction_TV",
+								"extra_map": [
+									{
+										"key": "appstore",
+										"type": "string",
+										"value": "appmarket2"
+									}
+								]
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.MultiScreenInteraction_TV",
+								"extra_map": [
+									{
+										"key": "appstore",
+										"type": "string",
+										"value": "appmarket2"
+									}
+								]
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1563326997000
+				},
+				{
+					"block_id": 408703,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412862,
+							"desc": "8",
+							"title": [
+								"FlixOle",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1403305010.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.flixole.android"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.flixole.android"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1560927243000
+				}
+			],
+			"latest_time": 1563326997000
+		},
+		{
+			"tab_id": 67675,
+			"title": {
+				"display_type": "text",
+				"value": "#78"
+			},
+			"blocks": [
+				{
+					"block_id": 408556,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412715,
+							"desc": "8",
+							"title": [
+								"NETFLIX",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/793647022.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.netflix.ninja"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.netflix.ninja"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532141724000
+				},
+				{
+					"block_id": 408557,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412716,
+							"desc": "8",
+							"title": [
+								"T-Channel",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1095353335.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"action": "com.tcl.partnercustomizer.tkey",
+								"package_name": "com.tcl.partnercustomizer"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"action": "com.tcl.partnercustomizer.tkey",
+								"package_name": "com.tcl.partnercustomizer"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532141724000
+				},
+				{
+					"block_id": 408558,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412717,
+							"desc": "8",
+							"title": [
+								"MediaCenter",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/692320080.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.ui_mediaCenter"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.ui_mediaCenter"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 408559,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412718,
+							"desc": "8",
+							"title": [
+								"TV GUARD",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/1842391804.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tvweishi"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tvweishi"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 408560,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412719,
+							"desc": "8",
+							"title": [
+								"YouTube",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/640565965.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.youtube.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 408561,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412720,
+							"desc": "8",
+							"title": [
+								"Google Play Movies&TV",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/233998653.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.videos"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.videos"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				},
+				{
+					"block_id": 408562,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412721,
+							"desc": "8",
+							"title": [
+								"Google Games",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-1988189004.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.play.games"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.google.android.play.games"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1534932322000
+				},
+				{
+					"block_id": 408563,
+					"display_type": 2,
+					"control": true,
+					"resources": [
+						{
+							"res_id": 412722,
+							"desc": "8",
+							"title": [
+								"TCL TV",
+								""
+							],
+							"type": "image",
+							"display_control": true,
+							"url": "assets://com.tcl.partnercustomizer/cache/image/-544446582.0",
+							"action_control": true,
+							"action_type": 2,
+							"action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tv"
+							},
+							"name": "1_bg",
+							"default_action_url": {
+								"behavior": "activity",
+								"package_name": "com.tcl.tv"
+							},
+							"res_type": 8,
+							"licence_id": "0"
+						}
+					],
+					"latest_time": 1532142744000
+				}
+			],
+			"latest_time": 1532142744000
+		}
+	]
+}

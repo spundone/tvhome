@@ -142,6 +142,29 @@ To go back to stock (after `restore.sh`):
 cmd package set-home-activity com.google.android.apps.tv.launcherx/.home.HomeActivity
 ```
 
+### Accounts and Profiles
+
+Settings → *Accounts and Profiles* is a slice (`account_slice_uri`, supplied by
+the Google overlay for TvSettings) that is **hosted by the Google TV launcher**
+(`com.google.android.apps.tv.launcherx.sliceprovider`). Because `launcherx` is
+disabled so it cannot take HOME, that row renders nothing and two-panel Settings
+swallows the click. There is no way to run just the slice provider: shell cannot
+change component state for that package, and a sideloaded launcher cannot get a
+non-zero intent-filter priority, so `launcherx` either owns HOME or is off.
+
+tvHome therefore ships its own entry point to TvSettings' **native** accounts
+screen (`com.google.android.tv.settings.AccountActivity`, the exported trampoline
+that falls back to `AccountsActivity` when the slice is missing):
+
+- *Customize* pill → **Google** → **Accounts & sign-in**, and
+- the *User switcher* (profile) panel → **Google account** → **Accounts & sign-in**
+  when that pill is shown.
+
+It lists the signed-in Google account, Add account (full Google sign-in), Sync
+now, Remove account and the synced-app toggles. Google TV extras such as child
+profiles and content preferences exist only inside `launcherx`, so they stay
+unavailable while it is disabled.
+
 ### A third-party launcher stealing HOME
 
 Projectivy Launcher (`com.spocky.projengmenu`) ships an accessibility service that
@@ -364,3 +387,18 @@ Customize > Top bar lists every top icon: OK shows or hides it, left/right moves
 the order (Customize itself always stays). Long-press any app and choose Add to top bar to put it
 there as an icon (up to 4; remove it from the same list). Customize > Show on home > Inputs does
 the same for HDMI 1, HDMI 2, AirPlay and friends: show/hide with OK, reorder with left/right.
+
+### Remote app buttons
+
+Customize > Remote buttons maps the remote's app buttons (YouTube, Netflix, Prime Video, Sony LIV,
+TCL Channel, Web browser) to SmartTube, CloudStream, Stremio, Crunchyroll, Play Store and the browser.
+Choose a row, press that button on the remote once, and it is learned. It works from inside any app:
+tvHome ships a small accessibility service that sees the key before the TV's own shortcut handler.
+`tools/build-install.sh` grants `WRITE_SECURE_SETTINGS` and switches the service on (reinstalling
+turns it off, so rerun the script or use Remote buttons > Service). Change a target app in
+`KeyService.java` (`SLOT_PKG`).
+
+### Input switcher and Game Bar
+
+Do not disable `com.tcl.suspension` (it is the input switcher quick panel and HDMI side menu) or
+`com.tcl.globalkeyoverlay` (remote shortcut overlays). Both are kept in the debloat list now.

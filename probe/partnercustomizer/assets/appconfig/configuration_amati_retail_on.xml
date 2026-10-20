@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <country value="all">
+
+        <basic-mode-live-tv-app-uri value="android-app://com.tcl.tv" />
+
+        <epg-app-deep-link url="app://com.tcl.tv/epg" />
+
+        <notifications-allowed-apps>
+            <app package_name="com.tcl.partnercustomizer" />
+            <app package_name="com.tcl.ttvs" />
+            <app package_name="com.tcl.airplay2" />
+            <app package_name="com.tcl.useragreement" />
+            <app package_name="com.tcl.messagebox" />
+            <app package_name="com.tcl.versionUpdateApp"/>
+            <app package_name="com.android.tv.settings"/>
+            <app package_name="com.google.android.apps.tv.alwayson"/>
+        </notifications-allowed-apps>
+
+        <device-mode value="store_demo" />
+
+        <basic-mode-blocked-apps>
+
+            <google-basic-mode-blocked-apps>
+                <app package_name="com.google.android.apps.mediashell" />
+                <app package_name="com.google.android.katniss" />
+                <app package_name="com.google.android.videos" />
+                <app package_name="com.google.android.youtube.tvmusic" />
+                <app package_name="com.google.android.play.games" />
+            </google-basic-mode-blocked-apps>
+
+            <partner-basic-mode-blocked-apps>
+                <app package_name="com.tcl.appmarket2" />
+                <app package_name="com.tcl.assistant" />
+                <app package_name="com.tcl.bootadservice" />
+                <app package_name="com.tcl.usercenter" />
+                <app package_name="com.tcl.smartalexa" />
+                <app package_name="com.tcl.gallery" />
+                <app package_name="com.tcl.messagebox" />
+                <app package_name="com.mediatek.androidbox"/>
+                <app package_name="com.tcl.browser"/>
+            </partner-basic-mode-blocked-apps>
+
+        </basic-mode-blocked-apps>
+
+    </country>
+
+    <country value="US MX CA">
+        <partner-system-apps-basic-mode-order>
+            <app package_name="com.netflix.ninja" />
+            <app package_name="com.google.android.youtube.tv" />
+            <app package_name="com.amazon.amazonvideo.livingroom" />
+            <app package_name="com.tcl.waterfall.overseas" />
+            <app package_name="com.tcl.dashboard" />
+            <app package_name="com.tcl.guard" />
+        </partner-system-apps-basic-mode-order>
+
+    </country>
+
+    <country value="GB">
+        <partner-system-apps-basic-mode-order>
+            <app package_name="com.netflix.ninja" />
+            <app package_name="com.tcl.waterfall.overseas" />
+            <app package_name="bbc.iplayer.android" />
+            <app package_name="com.google.android.youtube.tv" />
+            <app package_name="com.amazon.amazonvideo.livingroom" />
+            <app package_name="com.tcl.MultiScreenInteraction_TV" />
+            <app package_name="com.tcl.guard" />
+        </partner-system-apps-basic-mode-order>
+
+    </country>
+
+    <country value="default">
+
+        <partner-system-apps-basic-mode-order>
+            <app package_name="com.netflix.ninja" />
+            <app package_name="com.tcl.partnercustomizer" />
+            <app package_name="com.google.android.youtube.tv" />
+            <app package_name="com.amazon.amazonvideo.livingroom" />
+            <app package_name="com.tcl.MultiScreenInteraction_TV" />
+            <app package_name="com.tcl.guard" />
+        </partner-system-apps-basic-mode-order>
+
+    </country>
+
+</configuration>

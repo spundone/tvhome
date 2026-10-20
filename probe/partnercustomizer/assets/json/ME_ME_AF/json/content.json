@@ -1,0 +1,1052 @@
+{
+  "error_code": 1000,
+  "template_id": 10558,
+  "publish_time": 1533116047000,
+  "i18n_url": "http://s3.tcllauncher.com/template_20706/6f9ede0cb4214d409b0a818d382fa016.zip?md5=1e92aabb7a0130e2d40997cf8a6578b2",
+  "tabs": [
+    {
+      "tab_id": 62525,
+      "title": {
+        "display_type": "text",
+        "value": "#118"
+      },
+      "blocks": [
+        {
+          "block_id": 350467,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348455,
+              "desc": "8",
+              "title": [
+                "Gameloft",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-84051196.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.html.pga",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.html.pga",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532143106000
+        },
+        {
+          "block_id": 350468,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348456,
+              "desc": "8",
+              "title": [
+                "MUBI",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/750677533.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.mubi"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.mubi"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350469,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348457,
+              "desc": "8",
+              "title": [
+                "T Browser",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-1999892659.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.browser"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.browser"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350470,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348501,
+              "desc": "8",
+              "title": [
+                "MagiConnect",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/808689470.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.MultiScreenInteraction_TV",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.MultiScreenInteraction_TV",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350471,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348459,
+              "desc": "8",
+              "title": [
+                "Spotify",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/905716089.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.spotify.tv.android"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.spotify.tv.android"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350472,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348460,
+              "desc": "8",
+              "title": [
+                "Alpha Nitro",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1512099637.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.android.HEP.GloftANHP",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.android.HEP.GloftANHP",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350474,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348462,
+              "desc": "8",
+              "title": [
+                "Deezer",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/924959697.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "deezer.android.tv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "deezer.android.tv"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350475,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348463,
+              "desc": "8",
+              "title": [
+                "dailymotion",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-73960060.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.dailymotion.dailymotion"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.dailymotion.dailymotion"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350476,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348464,
+              "desc": "8",
+              "title": [
+                "Radioline",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-1968314819.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.radioline.android.radioline"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.radioline.android.radioline"
+              }
+            }
+          ],
+          "latest_time": 1532143464000
+        },
+        {
+          "block_id": 350517,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348502,
+              "desc": "8",
+              "title": [
+                "YUPPTV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1753227028.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.yupptv.androidtv",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.yupptv.androidtv",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1533115752000
+        },
+        {
+          "block_id": 350518,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348503,
+              "desc": "8",
+              "title": [
+                "RedBull TV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/917612933.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.nousguide.android.rbtv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.nousguide.android.rbtv"
+              }
+            }
+          ],
+          "latest_time": 1533115752000
+        }
+      ],
+      "latest_time": 1533115752000
+    },
+    {
+      "tab_id": 62527,
+      "title": {
+        "display_type": "text",
+        "value": "#117"
+      },
+      "blocks": [
+        {
+          "block_id": 350491,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348479,
+              "desc": "8",
+              "title": [
+                "Gameloft",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-84051196.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.html.pga",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.html.pga",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532144212000
+        },
+        {
+          "block_id": 350492,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348480,
+              "desc": "8",
+              "title": [
+                "MUBI",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/750677533.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.mubi"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.mubi"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350493,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348481,
+              "desc": "8",
+              "title": [
+                "T-Browser",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-1999892659.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.browser"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.browser"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350494,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348504,
+              "desc": "8",
+              "title": [
+                "MagiConnect",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/808689470.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.MultiScreenInteraction_TV",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.MultiScreenInteraction_TV",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350495,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348483,
+              "desc": "8",
+              "title": [
+                "Spotify",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/905716089.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.spotify.tv.android"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.spotify.tv.android"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350496,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348484,
+              "desc": "8",
+              "title": [
+                "Alpha Nitro",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1512099637.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.android.HEP.GloftANHP",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.gameloft.android.HEP.GloftANHP",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350497,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348485,
+              "desc": "8",
+              "title": [
+                "YUPPTV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1753227028.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.yupptv.androidtv",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.yupptv.androidtv",
+                "extra_map": [
+                  {
+                    "key": "appstore",
+                    "type": "string",
+                    "value": "appmarket2"
+                  }
+                ]
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350498,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348486,
+              "desc": "8",
+              "title": [
+                "Deezer",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/924959697.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "deezer.android.tv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "deezer.android.tv"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350499,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348487,
+              "desc": "8",
+              "title": [
+                "dailymotion",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-73960060.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.dailymotion.dailymotion"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.dailymotion.dailymotion"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350500,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348488,
+              "desc": "8",
+              "title": [
+                "Radioline",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-1968314819.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.radioline.android.radioline"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.radioline.android.radioline"
+              }
+            }
+          ],
+          "latest_time": 1532151766000
+        },
+        {
+          "block_id": 350519,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 348505,
+              "desc": "8",
+              "title": [
+                "RedBull TV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/917612933.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.nousguide.android.rbtv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.nousguide.android.rbtv"
+              }
+            }
+          ],
+          "latest_time": 1533115999000
+        }
+      ],
+      "latest_time": 1533115999000
+    },
+    {
+      "tab_id": 62414,
+      "title": {
+        "display_type": "text",
+        "value": "#78"
+      },
+      "blocks": [
+        {
+          "block_id": 349398,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346923,
+              "desc": "8",
+              "title": [
+                "NETFLIX",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/793647022.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.netflix.ninja"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.netflix.ninja"
+              }
+            }
+          ],
+          "latest_time": 1532141724000
+        },
+        {
+          "block_id": 349399,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346924,
+              "desc": "8",
+              "title": [
+                "T-Channel",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1095353335.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "action": "com.tcl.partnercustomizer.tkey",
+                "package_name": "com.tcl.partnercustomizer"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "action": "com.tcl.partnercustomizer.tkey",
+                "package_name": "com.tcl.partnercustomizer"
+              }
+            }
+          ],
+          "latest_time": 1532141724000
+        },
+        {
+          "block_id": 349400,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346925,
+              "desc": "8",
+              "title": [
+                "MediaCenter",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/692320080.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.ui_mediaCenter"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.ui_mediaCenter"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        },
+        {
+          "block_id": 349401,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346926,
+              "desc": "8",
+              "title": [
+                "TV GUARD",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/1842391804.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.tvweishi"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.tvweishi"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        },
+        {
+          "block_id": 349402,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346927,
+              "desc": "8",
+              "title": [
+                "YouTube",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/640565965.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.youtube.tv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.youtube.tv"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        },
+        {
+          "block_id": 349403,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346928,
+              "desc": "8",
+              "title": [
+                "Google Play Movies&TV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/233998653.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.videos"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.videos"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        },
+        {
+          "block_id": 349404,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346929,
+              "desc": "8",
+              "title": [
+                "Google Games",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-1988189004.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.gms"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.google.android.gms"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        },
+        {
+          "block_id": 349405,
+          "display_type": 2,
+          "control": true,
+          "resources": [
+            {
+              "res_id": 346930,
+              "desc": "8",
+              "title": [
+                "TCL TV",
+                ""
+              ],
+              "type": "image",
+              "display_control": true,
+              "url": "assets://com.tcl.partnercustomizer/cache/image/-544446582.0",
+              "action_control": true,
+              "action_type": 2,
+              "action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.tv"
+              },
+              "name": "1_bg",
+              "default_action_url": {
+                "behavior": "activity",
+                "package_name": "com.tcl.tv"
+              }
+            }
+          ],
+          "latest_time": 1532142744000
+        }
+      ],
+      "latest_time": 1532142744000
+    }
+  ]
+}
