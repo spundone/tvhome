@@ -42,7 +42,8 @@
 
     <string-array name="home_cmd_label">
         <item>Movie mode</item>
-        <item>M: Master bedroom off</item>
+        <item>Master bedroom: cool white 100%</item>
+        <item>Master bedroom: off</item>
         <item>Master bedroom: on</item>
         <item>Master bedroom: dim</item>
         <item>Master bedroom: amber</item>
@@ -50,6 +51,7 @@
     </string-array>
     <string-array name="home_cmd_query">
         <item>movie mode</item>
+        <item>set the master bedroom lights to cool white at 100 percent brightness</item>
         <item>turn off the master bedroom lights</item>
         <item>turn on the master bedroom lights</item>
         <item>dim the master bedroom lights to 30 percent</item>

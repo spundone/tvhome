@@ -2378,14 +2378,13 @@ public class MainActivity extends Activity {
         card.animate().cancel();
         card.animate().scaleX(s).scaleY(s).translationZ(on ? dp(18) : 0f)
                 .setDuration(on ? 230 : 150)
-                .setInterpolator(on ? new OvershootInterpolator(0.35f) : new DecelerateInterpolator())
+                .setInterpolator(new DecelerateInterpolator(1.3f))
                 .start();
         if (gloss != null) {
             gloss.animate().cancel();
-            // light settles from above; never moves sideways
-            if (on) gloss.setTranslationY(-dp(14));
-            gloss.animate().alpha(on ? 1f : 0f).translationY(0f).setDuration(on ? 260 : 120)
-                    .setInterpolator(new DecelerateInterpolator()).start();
+            gloss.setTranslationX(0f);
+            gloss.setTranslationY(0f);
+            gloss.animate().alpha(on ? 1f : 0f).setDuration(on ? 200 : 120).start();
         }
         if (ovl != null) {
             ovl.animate().cancel();
@@ -2762,18 +2761,49 @@ public class MainActivity extends Activity {
             }
         } else if (kind == 1) {                            // ---- Home (assistant)
             mPanel.addView(sectionLabel("Google Home"));
-            String[] labels = getResources().getStringArray(R.array.home_cmd_label);
-            String[] queries = getResources().getStringArray(R.array.home_cmd_query);
-            for (int i = 0; i < labels.length && i < queries.length; i++) {
-                final String q = queries[i];
-                addPanelRow(labels[i], new Runnable() {
-                    @Override public void run() { runAssistant(q); }
+            for (final String[] hc : homeCmds()) {
+                addPanelRow(hc[0], new Runnable() {
+                    @Override public void run() { runAssistant(hc[1]); }
+                });
+            }
+            addPanelRow("+  Add command\u2026", new Runnable() {
+                @Override public void run() {
+                    hidePanel();
+                    askFields("Add Google Home command", new String[] { "Button name", "What to say (e.g. turn on the fan)" }, null,
+                            new FieldsCb() { @Override public void done(String[] v) {
+                                if (v[0].isEmpty() || v[1].isEmpty()) return;
+                                List<String[]> l = homeCmds();
+                                l.add(new String[] { v[0], v[1] });
+                                saveHomeCmds(l);
+                            }});
+                }
+            });
+            if (!homeCmds().isEmpty()) {
+                addPanelRow("Edit or remove commands\u2026", new Runnable() {
+                    @Override public void run() { showPanel(10); }
                 });
             }
             TextView hint = newText("Opens the voice assistant \u00B7 OK to run", 11.5f, 350, 0xFF9AA0A6);
             hint.setPadding(dp(18), dp(2), dp(18), dp(8));
             mPanelInfo.add(hint);
             mPanel.addView(hint, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        } else if (kind == 10) {                           // ---- Manage home commands
+            mPanel.addView(sectionLabel("Home commands"));
+            final List<String[]> cl = homeCmds();
+            for (int ci = 0; ci < cl.size(); ci++) {
+                final int idx = ci;
+                addPanelRow("\u2715  " + cl.get(ci)[0], new Runnable() {
+                    @Override public void run() {
+                        List<String[]> l = homeCmds();
+                        if (idx < l.size()) l.remove(idx);
+                        saveHomeCmds(l);
+                        if (l.isEmpty()) showPanel(1); else reshowPanel(10);
+                    }
+                });
+            }
+            addPanelRow("Reset to defaults", new Runnable() {
+                @Override public void run() { mPrefs.edit().remove("home_cmds").apply(); showPanel(1); }
+            });
         } else if (kind == 9) {                            // ---- Remove shortcut
             mPanel.addView(sectionLabel("Remove from home"));
             for (final String[] cu : customs()) {
@@ -3061,6 +3091,32 @@ public class MainActivity extends Activity {
         if (kind == 2) mRoot.postDelayed(mWifiTick, 2000L);
     }
 
+    /** Voice commands for the Home panel, per profile. Rows are "label\tquery". */
+    private List<String[]> homeCmds() {
+        List<String[]> out = new ArrayList<>();
+        String raw = mPrefs.getString("home_cmds", null);
+        if (raw == null) {
+            String[] l = getResources().getStringArray(R.array.home_cmd_label);
+            String[] q = getResources().getStringArray(R.array.home_cmd_query);
+            for (int i = 0; i < l.length && i < q.length; i++) out.add(new String[] { l[i], q[i] });
+            return out;
+        }
+        for (String line : raw.split("\n")) {
+            String[] p = line.split("\t", 2);
+            if (p.length == 2 && !p[0].isEmpty()) out.add(p);
+        }
+        return out;
+    }
+
+    private void saveHomeCmds(List<String[]> l) {
+        StringBuilder sb = new StringBuilder();
+        for (String[] c : l) {
+            if (sb.length() > 0) sb.append('\n');
+            sb.append(c[0].replace('\t', ' ').replace('\n', ' ')).append('\t').append(c[1].replace('\t', ' ').replace('\n', ' '));
+        }
+        mPrefs.edit().putString("home_cmds", sb.toString()).apply();
+    }
+
     private void reshowPanel(int kind) {
         int keep = mPanelIdx;
         showPanel(kind);
@@ -3070,9 +3126,9 @@ public class MainActivity extends Activity {
 
     /** Adds one navigable panel row + the action its OK press runs (remote and touch share it). */
     private void addPanelRow(String label, final Runnable action) {
-        TextView row = newText(label, (mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 15 : 16.5f, 400, 0xFFE8EAED);
+        TextView row = newText(label, (mPanelKind == 1 || mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 15 : 16.5f, 400, 0xFFE8EAED);
         row.setSingleLine(true);
-        int vp = (mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 5 : 11;
+        int vp = (mPanelKind == 1 || mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 5 : 11;
         row.setPadding(dp(18), dp(vp), dp(18), dp(vp));
         row.setGravity(Gravity.CENTER_VERTICAL);
         final int rowIdx = mPanelRuns.size();
@@ -3219,7 +3275,7 @@ public class MainActivity extends Activity {
 
     private void positionPanel() {
         if (mPillViews == null) return;
-        int anchor = mPanelKind == 1 ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
