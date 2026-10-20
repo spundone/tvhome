@@ -1489,9 +1489,10 @@ public class MainActivity extends Activity {
                 for (int i = 0; i < mPanelRows.size(); i++) {
                     TextView r = mPanelRows.get(i);
                     boolean on = i == mPanelIdx;
-                    r.setBackground(on ? round(0xFFFFFFFF, 0, 0, 14) : null);
+                    r.setBackground(on ? round(mPanelMat ? 0xFFE3E6EC : 0xFFFFFFFF, 0, 0, mPanelMat ? 12 : 14) : null);
                     r.setTextColor(on ? 0xFF0C0D10 : 0xFFE8EAED);
                     if (i < mPanelVals.size() && mPanelVals.get(i) != null) styleChip(mPanelVals.get(i), on);
+                    if (on) scrollPanelTo(r);
                 }
                 return;
         }
@@ -2580,9 +2581,9 @@ public class MainActivity extends Activity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         int kc0 = event.getKeyCode();
         if ((kc0 == KeyEvent.KEYCODE_DPAD_CENTER || kc0 == KeyEvent.KEYCODE_ENTER)
-                && (mZone == ZONE_DOCK || mZone == ZONE_GRID) && !mEditMode && !mReorder
+                && (mCenterDown || ((mZone == ZONE_DOCK || mZone == ZONE_GRID) && !mEditMode && !mReorder
                 && !whoVisible() && !liveVisible()
-                && !(mPanel.getVisibility() == View.VISIBLE && mZone == ZONE_PANEL)) {
+                && !(mPanel.getVisibility() == View.VISIBLE && mZone == ZONE_PANEL)))) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (event.getRepeatCount() == 0) {
                     mCenterDown = true; mLongHandled = false;
@@ -2591,7 +2592,7 @@ public class MainActivity extends Activity {
                     mRoot.removeCallbacks(mLongPress);
                     mLongPress.run();
                 }
-                return true;
+                return true;        // key repeats while held never reach the menu
             }
             if (event.getAction() == KeyEvent.ACTION_UP && mCenterDown) {
                 mCenterDown = false;
@@ -2900,8 +2901,47 @@ public class MainActivity extends Activity {
         showPanel(kind);
     }
 
+    private boolean materialMenus() { return mPrefs.getBoolean("menu_material", true); }
+
+    /** Glass for the quick panels, plain Material (Leanback-like) for the long lists and menus. */
+    private void stylePanel(int kind) {
+        boolean mat = materialMenus() && (kind == 3 || kind == 4 || kind >= 6);
+        if (mat) {
+            GradientDrawable g = new GradientDrawable();
+            g.setColor(0xFF1E222B);
+            g.setCornerRadius(dp(20));
+            mPanel.setBackground(g);
+        } else {
+            mPanel.setBackground(GlassHelper.panel(this, mAdvancedGlass, 24));
+        }
+        mPanelMat = mat;
+    }
+
+    private boolean mPanelMat = false;
+
+    /** Long panels slide up so the focused row stays on screen. */
+    private void scrollPanelTo(final View row) {
+        mPanel.post(new Runnable() {
+            @Override public void run() {
+                int[] l = new int[2];
+                row.getLocationOnScreen(l);
+                float ty = mPanel.getTranslationY();
+                float top = l[1] - ty, bot = top + row.getHeight();
+                int sh = mRoot.getHeight();
+                float want = 0f;
+                if (bot > sh - dp(28)) want = (sh - dp(28)) - bot;
+                if (want < -mPanel.getTop() + dp(10) && false) want = 0f;
+                mPanel.animate().cancel();
+                mPanel.animate().translationY(want).setDuration(160).start();
+            }
+        });
+    }
+
     private void showPanel(int kind) {
         mPanelKind = kind;
+        mPanel.animate().cancel();
+        mPanel.setTranslationY(0f);
+        stylePanel(kind);
         mPanel.removeAllViews();
         mPanelRows.clear();
         mPanelVals.clear();
@@ -3231,6 +3271,12 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
+            addPanelRow("Menu style: " + (materialMenus() ? "Material" : "Glass"), new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().putBoolean("menu_material", !materialMenus()).apply();
+                    reshowPanel(3);
+                }
+            });
             addPanelRow("Top icons: " + (showTopIcons() ? "shown" : "hidden"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("top_icons", !showTopIcons()).apply();
@@ -3410,7 +3456,7 @@ public class MainActivity extends Activity {
         if (ci > 0 && mPanelKind != 1) { name = label.substring(0, ci); val = label.substring(ci + 2); }
         TextView row = newText(name, compactPanel() ? 15.5f : 16.5f, 420, 0xFFE8EAED);
         row.setSingleLine(true);
-        int vp = compactPanel() ? 4 : 11;
+        int vp = mPanelMat ? 8 : (compactPanel() ? 4 : 11);
         row.setPadding(dp(16), dp(vp), dp(16), dp(vp));
         row.setGravity(Gravity.CENTER_VERTICAL);
         final int rowIdx = mPanelRuns.size();
@@ -3637,6 +3683,14 @@ public class MainActivity extends Activity {
 
     private void positionPanel() {
         if (mPillViews == null) return;
+        {   // size to full content so tall panels can scroll instead of being squeezed
+            FrameLayout.LayoutParams fp = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
+            int fw = fp.width > 0 ? fp.width : dp(356);
+            mPanel.measure(View.MeasureSpec.makeMeasureSpec(fw, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            fp.height = mPanel.getMeasuredHeight();
+            mPanel.setLayoutParams(fp);
+        }
         if (mPanelKind == 13 && mMenuAnchor != null) {
             int[] al = new int[2];
             mMenuAnchor.getLocationOnScreen(al);
