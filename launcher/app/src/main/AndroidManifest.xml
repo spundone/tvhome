@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.spandan.tvhome"
+    android:hardwareAccelerated="true">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.type.television" android:required="false" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+        <package android:name="org.smarttube.stable" />
+        <package android:name="org.smarttube.modded" />
+        <package android:name="com.music.bitchord.tv" />
+        <package android:name="com.tcl.browser" />
+        <package android:name="com.crunchyroll.crunchyroid" />
+        <package android:name="com.stremio.one" />
+        <package android:name="com.lagradost.cloudstream3" />
+        <package android:name="com.mixplorer" />
+        <package android:name="com.tcl.tv" />
+        <package android:name="com.android.tv.settings" />
+        <package android:name="com.google.android.youtube.tv" />
+        <package android:name="com.netflix.ninja" />
+        <package android:name="com.apple.atve.androidtv.appletv" />
+        <package android:name="com.amazon.amazonvideo.livingroom" />
+        <package android:name="com.spotify.tv.android" />
+        <package android:name="org.jellyfin.androidtv" />
+        <package android:name="com.valvesoftware.steamlink" />
+        <package android:name="com.nvidia.geforcenow" />
+        <package android:name="in.startv.hotstar" />
+        <package android:name="com.sonyliv" />
+    </queries>
+
+    <application
+        android:label="TV Home"
+        android:icon="@drawable/ic_launcher"
+        android:banner="@drawable/ic_launcher"
+        android:allowBackup="true"
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:resizeableActivity="false"
+            android:showWhenLocked="true"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter android:priority="3">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>            <intent-filter android:priority="3">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

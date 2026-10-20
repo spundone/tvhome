@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== TV Home configuration =====================================
+         dock_pkg / dock_label / dock_data / dock_icon are index aligned.
+         dock_data empty string  -> plain app launch
+         dock_data "https://..." -> open that URL inside the same package
+    ===================================================================== -->
+
+    <!-- Weather, name, Wi-Fi and hotspot strings are generated from tools/local.env -->
+
+    <!-- Default home pins (raw dock_pkg entries). The Customize pill / Edit home apps overrides this. -->
+    <string-array name="pin_default">
+        <item>org.smarttube.stable</item>
+        <item>com.tcl.browser</item>
+        <item>org.smarttube.stable|https://www.youtube.com/@abpananda</item>
+        <item>org.smarttube.stable|https://www.youtube.com/@aajtak</item>
+        <item>com.crunchyroll.crunchyroid</item>
+        <item>com.stremio.one</item>
+        <item>in.startv.hotstar</item>
+        <item>com.netflix.ninja</item>
+        <item>org.jellyfin.androidtv</item>
+        <item>com.nvidia.geforcenow</item>
+        <item>com.spotify.tv.android</item>
+        <item>com.android.vending</item>
+    </string-array>
+
+
+    <!-- Up-next chip OK target -->
+    <string name="schedule_launch_pkg">in.startv.hotstar</string>
+
+    <!-- Pin grid density -->
+    <integer name="pin_cols">6</integer>
+    <integer name="grid_cols">6</integer>
+
+    <!-- Color buttons (PROG_RED..BLUE) map to these pin indices -->
+    <integer-array name="quick_pin_idx">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+    </integer-array>
+
+    <string-array name="home_cmd_label">
+        <item>Movie mode</item>
+        <item>M: Master bedroom off</item>
+        <item>Master bedroom: on</item>
+        <item>Master bedroom: dim</item>
+        <item>Master bedroom: amber</item>
+        <item>All lights off</item>
+    </string-array>
+    <string-array name="home_cmd_query">
+        <item>movie mode</item>
+        <item>turn off the master bedroom lights</item>
+        <item>turn on the master bedroom lights</item>
+        <item>dim the master bedroom lights to 30 percent</item>
+        <item>set the master bedroom lights to amber</item>
+        <item>turn off all the lights</item>
+    </string-array>
+
+    <!-- Dense pins (2 rows). Missing packages are skipped at load time. -->
+    <string-array name="dock_pkg">
+        <item>org.smarttube.stable</item>
+        <item>com.music.bitchord.tv</item>
+        <item>com.tcl.browser</item>
+        <item>org.smarttube.stable|https://www.youtube.com/@abpananda</item>
+        <item>org.smarttube.stable|https://www.youtube.com/@aajtak</item>
+        <item>com.crunchyroll.crunchyroid</item>
+        <item>com.stremio.one</item>
+        <item>com.lagradost.cloudstream3</item>
+        <item>in.startv.hotstar</item>
+        <item>com.netflix.ninja</item>
+        <item>org.jellyfin.androidtv</item>
+        <item>com.nvidia.geforcenow</item>
+        <item>com.limelight</item>
+        <item>com.spotify.tv.android</item>
+        <item>com.android.vending</item>
+        <item>com.google.android.youtube.tvmusic</item>
+        <item>com.mixplorer|https://mixplorer.local.not-installed</item>
+    </string-array>
+
+    <string-array name="dock_label">
+        <item>SmartTube</item>
+        <item></item>
+        <item>Browser</item>
+        <item>ABP Ananda</item>
+        <item>Aaj Tak</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>JioHotstar</item>
+        <item></item>
+        <item></item>
+        <item>GeForce NOW</item>
+        <item>Moonlight</item>
+        <item></item>
+        <item>Play Store</item>
+        <item>YT Music</item>
+        <item>MiXplorer</item>
+    </string-array>
+
+    <string-array name="dock_data">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>https://www.youtube.com/results?search_query=abp+ananda+live</item>
+        <item>https://www.youtube.com/results?search_query=aaj+tak+live</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="dock_icon">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>ic_ch_abp</item>
+        <item>ic_ch_aajtak</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="grid_exclude">
+        <item>com.spandan.tvhome</item>
+        <item>com.android.tv.settings</item>
+        <item>com.google.android.apps.tv.launcherx</item>
+        <item>com.google.android.tv.launcher</item>
+        <item>com.google.android.tungsten.setupwraith</item>
+        <item>com.google.android.katniss</item>
+        <item>eu.chainfire.tv.sideloadlauncher</item>
+        <item>com.spocky.projengmenu</item>
+        <item>com.finalwire.aida64</item>
+        <item>com.rma.speedtesttv</item>
+        <item>com.aura.speedtest</item>
+        <item>com.google.android.videos</item>
+        <item>com.graymatrix.did</item>
+        <item>com.mediatek.airplaydaemon</item>
+        <item>com.google.android.apps.mediashell</item>
+        <item>com.google.android.apps.tv.dreamx</item>
+        <item>com.google.android.tv.remote.service</item>
+        <item>com.tcl.eva</item>
+        <item>com.tcl.smartalexa</item>
+        <item>com.tcl.usercenter</item>
+        <item>com.tcl.hearaid</item>
+        <item>com.tcl.tv.tclhome_passive</item>
+    </string-array>
+</resources>

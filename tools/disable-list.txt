@@ -1,0 +1,44 @@
+# TCL Smart TV Pro (G08, Android 14) debloat manifest
+# Each batch: verified with a screenshot before proceeding.
+# NEVER uninstall - pm disable-user --user 0 only. Restore with tools/restore.sh
+
+# Batch 1 - TCL cleaner/telemetry/demo junk
+com.tcl.guard          # TCL "TV Weishi" cleaner/permission manager/package installer intercept
+com.tcl.logkit         # log capture + upload on boot
+com.tcl.esticker       # retail demo / e-sticker / store mode
+com.tcl.exhibit        # retail exhibit/demo (cyberui art, multimode)
+com.tcl.messagebox     # TCL push messages / banner popups
+com.tcl.dashboard      # TCL dashboard + message ext service (ad pushes)
+com.tcl.suspension     # TCL floating quick panel / side menu
+# com.tcl.gamebar -> KEEP: user has a PC on HDMI and wants VRR/144Hz toggles via Game Bar
+
+# Batch 2 - content rows / partner junk / vestigial
+com.tcl.channelplus    # TCL free-channels FAST input
+com.tcl.waterfall.overseas  # TCL recommendation/browser portal
+com.tcl.partnercustomizer   # partner rows + remote hotkey remaps (tkey)
+com.tcl.globalkeyoverlay    # remote shortcut-key overlays
+com.tcl.providers.config    # config provider (nothing depends on resolver level)
+com.tcl.t_solo         # TCL T_solo service
+tv.mopa.ginga          # Ginga (Brazilian interactive TV) middleware
+# com.tvos  -> KEEP: it is tvos-framework-res.apk (framework resource overlay), not an app
+# com.mediatek.network -> moved to batch 4 (MtkNetworkMonitorService, system-uid priv-app)
+
+# Batch 3 - setup/repair/first-run remnants (setup already done)
+com.tcl.hotelmenu       # hotel/host mode menu
+com.tcl.ocean.instructions  # first-run instruction dialogs
+com.tcl.useragreement   # user agreement first-run app
+com.tcl.initsetup       # TCL part of setup wizard
+com.tcl.factory.view    # factory menu (hidden keycodes)
+com.tcl.repairguide     # service diagnostics
+com.tcl.gallery         # TCL photo screensaver (dream)
+com.mediatek.backgrounddetection  # MTK screen on/off detector
+com.tcl.inputmethod.international  # TCL keyboard (Gboard is active IME)
+
+# Batch 4 - last, verified heavy
+com.google.android.play.games   # preloaded games service
+com.tcl.interactive     # TCL interactive popup helper
+com.tpa.kb              # TCL keyboard helper (verify typing after)
+
+# Batch 5 - default-home switch (tvHome is the launcher now)
+com.google.android.apps.tv.launcherx        # stock Google TV launcher (ad banner) - HOME falls to setupwraith without this disable
+com.google.android.tungsten.setupwraith     # Google setup/recovery HOME fallback - steals HOME when launcherx is off

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="linear" android:angle="270"
+                android:startColor="#FF030308" android:endColor="#FF070A14" />
+        </shape>
+    </item>
+    <!-- aurora: indigo top-right, teal mid-left, warm rose low-right. Low alpha so QLED blacks stay black -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:gradientRadius="1100dp"
+                android:centerX="0.82" android:centerY="0.12"
+                android:startColor="#803B3FB8" android:endColor="#00000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:gradientRadius="900dp"
+                android:centerX="0.12" android:centerY="0.45"
+                android:startColor="#520F7C86" android:endColor="#00000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:gradientRadius="800dp"
+                android:centerX="0.70" android:centerY="0.62"
+                android:startColor="#3DA8325F" android:endColor="#00000000" />
+        </shape>
+    </item>
+</layer-list>

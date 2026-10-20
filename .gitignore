@@ -1,0 +1,13 @@
+# private / local
+tools/local.env
+launcher/app/src/main/res/values/local_secrets.xml
+# device dumps and personal screenshots
+backup/
+shots/
+# toolchains and build output
+.venv/
+tools/jdk17/
+launcher/app/build/
+*.apk
+*.keystore
+.DS_Store
