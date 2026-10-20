@@ -16,6 +16,9 @@ launcher works on any Android TV / Google TV that allows sideloading.
 - Profiles ("Who's watching"): own pins, inputs, clock/weather prefs and name per profile
 - Customize pill: pick home apps, show/hide inputs, 12/24h clock, weather, °C/°F, app names, wallpaper
 - Liquid-glass pills and panels over a pre-blurred wallpaper (no live blur, cheap on 2 GB devices)
+- Add your own shortcuts per profile: websites/web apps, YouTube live/search via SmartTube (e.g. a news channel), or any app deep link (favicons fetched automatically)
+- Recent apps appear after the inputs; wallpapers: generated, plain, or your own photo (copy to the app's `wallpapers/` folder or paste an image link in the TV)
+- First run asks your name; with 2+ profiles a "Who's watching?" screen appears on startup (toggle in the profile menu)
 - No root, no Play Store: debloat is `pm disable-user` only and `tools/restore.sh` reverses it
 
 ## Quick start
