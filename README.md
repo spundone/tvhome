@@ -341,3 +341,13 @@ set master bedroom to cool white ; set master bedroom brightness to 100 percent
 
 Use the device name exactly as Google Home shows it (here the bulb is called "Master").
 If a phrase falls through to a web search, the assistant did not match a device or action.
+
+### Google Calendar chip
+
+The "up next" chip can read your Google Calendar. In Google Calendar on the web: Settings,
+pick your calendar, Integrate calendar, copy **Secret address in iCal format**. On the TV:
+Customize > Calendar > Link calendar, paste the link. It refreshes every 15 minutes, caches the
+result for offline use, and is stored per profile on the TV only (never in this repo). Anyone with
+that link can read your calendar, so keep it private and reset it in Google Calendar if it leaks.
+The chip shows the next timed event ("Standup · in 2 h"), or an all-day event ("Holiday · tomorrow").
+Without a calendar linked, the old `schedule.txt` file is used.

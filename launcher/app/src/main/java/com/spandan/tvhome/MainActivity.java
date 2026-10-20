@@ -497,7 +497,7 @@ public class MainActivity extends Activity {
         mSchedulePill.setPadding(dp(14), dp(6), dp(14), dp(6));
         mSchedulePill.setVisibility(View.GONE);
         mSchedulePill.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { openScheduleTarget(); }
+            @Override public void onClick(View v) { if (!calLinked()) openScheduleTarget(); }
         });
         ((FrameLayout) mSchedulePill).addView(mScheduleLine, lpF(WC, WC, Gravity.CENTER, 0, 0, 0, 0));
         left.addView(dateRow, lpW(WC, WC, 0, 0, dp(6), 0, 0));
@@ -1790,6 +1790,9 @@ public class MainActivity extends Activity {
         mZone = mDockItems.isEmpty() ? ZONE_TOP : ZONE_DOCK;
         refreshProfileUi();
         refreshWeather(false);
+        loadCalCache();
+        refreshCalendar(false);
+        updateScheduleLine();
         applyFocus(false);
         android.widget.Toast.makeText(this, "Hi, " + profileName(), android.widget.Toast.LENGTH_SHORT).show();
     }
@@ -2658,7 +2661,12 @@ public class MainActivity extends Activity {
         switch (mZone) {
             case ZONE_TOP:
                 if (mPanel.getVisibility() == View.VISIBLE) { hidePanel(); return; }
-                if (mOnSchedule) { openScheduleTarget(); return; }
+                if (mOnSchedule) {
+                    if (calLinked()) android.widget.Toast.makeText(this, String.valueOf(mScheduleLine.getText()).replace("\u25B8 ", ""),
+                            android.widget.Toast.LENGTH_LONG).show();
+                    else openScheduleTarget();
+                    return;
+                }
                 activatePill(mTopIdx);
                 break;
             case ZONE_HDMI:
@@ -2787,6 +2795,45 @@ public class MainActivity extends Activity {
             hint.setPadding(dp(18), dp(2), dp(18), dp(8));
             mPanelInfo.add(hint);
             mPanel.addView(hint, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        } else if (kind == 11) {                           // ---- Calendar
+            mPanel.addView(sectionLabel("Google Calendar"));
+            addPanelRow(calLinked() ? "Change calendar link\u2026" : "Link calendar\u2026", new Runnable() {
+                @Override public void run() {
+                    hidePanel();
+                    askFields("Calendar link", new String[] { "Secret address in iCal format (https://\u2026/basic.ics)" },
+                            new String[] { calUrl() }, new FieldsCb() { @Override public void done(String[] v) {
+                                String u = v[0].trim();
+                                if (u.isEmpty()) return;
+                                if (!(u.startsWith("http") || u.startsWith("webcal"))) {
+                                    android.widget.Toast.makeText(MainActivity.this, "That doesn't look like a calendar link", android.widget.Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                mPrefs.edit().putString("cal_url", u).putLong("cal_ts", 0).remove("cal_events").apply();
+                                loadCalCache(); updateScheduleLine();
+                                refreshCalendar(true);
+                                android.widget.Toast.makeText(MainActivity.this, "Calendar linked", android.widget.Toast.LENGTH_SHORT).show();
+                            }});
+                }
+            });
+            if (calLinked()) {
+                addPanelRow("Refresh now", new Runnable() {
+                    @Override public void run() { refreshCalendar(true); android.widget.Toast.makeText(MainActivity.this, "Refreshing\u2026", android.widget.Toast.LENGTH_SHORT).show(); }
+                });
+                addPanelRow("Status: " + (mPrefs.getBoolean("cal_ok", false) ? "synced" : "not synced"), new Runnable() {
+                    @Override public void run() { refreshCalendar(true); reshowPanel(11); }
+                });
+                addPanelRow("Unlink calendar", new Runnable() {
+                    @Override public void run() {
+                        mPrefs.edit().remove("cal_url").remove("cal_events").remove("cal_ts").remove("cal_ok").apply();
+                        loadCalCache(); updateScheduleLine(); showPanel(3);
+                    }
+                });
+            }
+            TextView ct = newText("Google Calendar on the web > Settings > your calendar > Integrate calendar > Secret address in iCal format. Keep it private.", 11.5f, 350, 0xFF9AA0A6);
+            ct.setPadding(dp(18), dp(6), dp(18), dp(8));
+            ct.setMaxWidth(dp(330));
+            mPanelInfo.add(ct);
+            mPanel.addView(ct, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
         } else if (kind == 10) {                           // ---- Manage home commands
             mPanel.addView(sectionLabel("Home commands"));
             final List<String[]> cl = homeCmds();
@@ -2974,6 +3021,14 @@ public class MainActivity extends Activity {
                     }
                 });
             }
+            addPanelRow("Reset home apps", new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().remove("pins").apply();
+                    reloadDock();
+                    reshowPanel(4);
+                }
+            });
+
         } else if (kind == 3) {                            // ---- Customize
             mPanel.addView(sectionLabel("Home screen"));
             addPanelRow("Edit home apps", new Runnable() {
@@ -2997,13 +3052,6 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
-            addPanelRow("Reset home apps", new Runnable() {
-                @Override public void run() {
-                    mPrefs.edit().remove("pins").apply();
-                    reloadDock();
-                    reshowPanel(3);
-                }
-            });
 
             mPanel.addView(sectionLabel("Look"));
             addPanelRow("Wallpaper \u2026", new Runnable() {
@@ -3014,6 +3062,9 @@ public class MainActivity extends Activity {
                     mPrefs.edit().putBoolean("show_names", !mPrefs.getBoolean("show_names", true)).apply();
                     reshowPanel(3);
                 }
+            });
+            addPanelRow("Calendar: " + (calLinked() ? "linked" : "not linked"), new Runnable() {
+                @Override public void run() { showPanel(11); }
             });
             addPanelRow("Your name: " + profileName(), new Runnable() {
                 @Override public void run() {
@@ -3228,6 +3279,7 @@ public class MainActivity extends Activity {
             mGreeting.setText(greeting());
             mDate.setText(new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault())
                     .format(new Date()));
+            refreshCalendar(false);
             updateScheduleLine();
             refreshWeather(false);
             mRoot.postDelayed(this, 60000L);
@@ -3326,7 +3378,7 @@ public class MainActivity extends Activity {
 
     private void positionPanel() {
         if (mPillViews == null) return;
-        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
@@ -3469,6 +3521,8 @@ public class MainActivity extends Activity {
         mGreeting.setText(greeting());
         mDate.setText(new SimpleDateFormat("EEEE, d MMMM", Locale.getDefault())
                 .format(new Date()));
+        loadCalCache();
+        refreshCalendar(false);
         updateScheduleLine();
         if (mRecentsDirty) { mRecentsDirty = false; loadHdmiItems(); renderHdmiStrip(); clampAll(); }
         updateWeatherText();
@@ -3513,7 +3567,100 @@ public class MainActivity extends Activity {
         }
     }
 
+    // ------------------------------------------------------------- calendar
+
+    private String calUrl() { return mPrefs.getString("cal_url", ""); }
+    private boolean calLinked() { return !calUrl().isEmpty(); }
+    private List<CalendarFeed.Event> mCalEvents = new ArrayList<>();
+    private boolean mCalBusy = false;
+
+    /** Cached events are stored as "start|end|allday|title" so the chip works offline. */
+    private void loadCalCache() {
+        mCalEvents = new ArrayList<>();
+        for (String line : mPrefs.getString("cal_events", "").split("\n")) {
+            String[] p = line.split("\\|", 4);
+            if (p.length < 4) continue;
+            try {
+                CalendarFeed.Event e = new CalendarFeed.Event();
+                e.start = Long.parseLong(p[0]); e.end = Long.parseLong(p[1]);
+                e.allDay = "1".equals(p[2]); e.title = p[3];
+                mCalEvents.add(e);
+            } catch (Exception ignored) { }
+        }
+    }
+
+    private void refreshCalendar(boolean force) {
+        if (!calLinked() || mCalBusy) return;
+        long age = System.currentTimeMillis() - mPrefs.getLong("cal_ts", 0);
+        if (!force && age < 15 * 60 * 1000L) return;
+        mCalBusy = true;
+        final String url = calUrl().replaceFirst("^webcal://", "https://");
+        final SharedPreferences prefs = mPrefs;
+        new Thread(new Runnable() {
+            @Override public void run() {
+                try {
+                    java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                    c.setConnectTimeout(10000); c.setReadTimeout(20000);
+                    c.setInstanceFollowRedirects(true);
+                    java.io.BufferedReader r = new java.io.BufferedReader(new java.io.InputStreamReader(c.getInputStream(), "UTF-8"));
+                    StringBuilder sb = new StringBuilder(); String ln; int total = 0;
+                    while ((ln = r.readLine()) != null) { sb.append(ln).append('\n'); total += ln.length(); if (total > 12_000_000) break; }
+                    r.close(); c.disconnect();
+                    String ics = sb.toString();
+                    if (!ics.contains("BEGIN:VCALENDAR")) throw new RuntimeException("not an iCal feed");
+                    List<CalendarFeed.Event> ev = CalendarFeed.parse(ics, System.currentTimeMillis(), 21,
+                            java.time.ZoneId.systemDefault());
+                    StringBuilder out = new StringBuilder();
+                    for (int i = 0; i < ev.size() && i < 30; i++) {
+                        CalendarFeed.Event e = ev.get(i);
+                        if (out.length() > 0) out.append('\n');
+                        out.append(e.start).append('|').append(e.end).append('|').append(e.allDay ? "1" : "0")
+                                .append('|').append(e.title.replace('|', '/').replace('\n', ' '));
+                    }
+                    prefs.edit().putString("cal_events", out.toString()).putLong("cal_ts", System.currentTimeMillis())
+                            .putBoolean("cal_ok", true).apply();
+                } catch (Throwable t) {
+                    prefs.edit().putBoolean("cal_ok", false).apply();
+                } finally {
+                    mCalBusy = false;
+                    runOnUiThread(new Runnable() { @Override public void run() {
+                        if (prefs == mPrefs) { loadCalCache(); updateScheduleLine(); }
+                    }});
+                }
+            }
+        }, "tvhome-calendar").start();
+    }
+
+    private String nextCalendarLabel() {
+        long now = System.currentTimeMillis();
+        CalendarFeed.Event pick = null;
+        for (CalendarFeed.Event e : mCalEvents) {
+            if (e.end <= now) continue;
+            if (e.allDay && e.start > now + 36L * 3600000L) { if (pick == null) pick = e; break; }
+            if (pick == null) pick = e;
+            if (!e.allDay) { pick = pick.allDay ? e : pick; break; }
+        }
+        if (pick == null) return null;
+        String t = pick.title.length() > 38 ? pick.title.substring(0, 37) + "\u2026" : pick.title;
+        if (pick.allDay) {
+            java.util.Calendar a = java.util.Calendar.getInstance(); a.setTimeInMillis(pick.start);
+            java.util.Calendar b = java.util.Calendar.getInstance();
+            boolean today = a.get(java.util.Calendar.DAY_OF_YEAR) == b.get(java.util.Calendar.DAY_OF_YEAR)
+                    && a.get(java.util.Calendar.YEAR) == b.get(java.util.Calendar.YEAR);
+            if (today || pick.start <= now) return t + " \u00B7 today";
+            long days = (pick.start - now + 43200000L) / 86400000L;
+            return t + " \u00B7 " + (days <= 1 ? "tomorrow" : "in " + days + " d");
+        }
+        if (pick.start <= now) return t + " \u00B7 now";
+        long mins = (pick.start - now) / 60000L;
+        String when = mins < 60 ? "in " + Math.max(1, mins) + " min"
+                : mins < 60 * 24 ? "in " + (mins + 30) / 60 + " h"
+                : "in " + (mins + 720) / 1440 + " d";
+        return t + " \u00B7 " + when;
+    }
+
     private String readNextEvent() {
+        if (calLinked()) return nextCalendarLabel();
         try {
             java.io.File f = new java.io.File(getExternalFilesDir(null), "schedule.txt");
             if (!f.exists()) return null;
