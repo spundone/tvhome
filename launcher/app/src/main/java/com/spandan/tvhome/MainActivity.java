@@ -2915,6 +2915,9 @@ public class MainActivity extends Activity {
             mPanel.setBackground(GlassHelper.panel(this, mAdvancedGlass, 24));
         }
         mPanelMat = mat;
+        FrameLayout.LayoutParams wp = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
+        wp.width = dp(kind == 13 ? 250 : kind == 2 ? 330 : (kind == 1 || kind == 10) ? 310 : 290);        // the app menu is a narrow popup
+        mPanel.setLayoutParams(wp);
     }
 
     private boolean mPanelMat = false;
@@ -3695,15 +3698,18 @@ public class MainActivity extends Activity {
             int[] al = new int[2];
             mMenuAnchor.getLocationOnScreen(al);
             FrameLayout.LayoutParams ap = (FrameLayout.LayoutParams) mPanel.getLayoutParams();
-            int pw = ap.width > 0 ? ap.width : dp(356);
+            int pw = dp(250);
             mPanel.measure(View.MeasureSpec.makeMeasureSpec(pw, View.MeasureSpec.EXACTLY),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             int ph = mPanel.getMeasuredHeight();
             int sw = mRoot.getMeasuredWidth(), sh = mRoot.getMeasuredHeight();
             int x = al[0] + mMenuAnchor.getWidth() / 2 - pw / 2;
             x = Math.max(dp(16), Math.min(x, sw - pw - dp(16)));
-            int y = al[1] - ph - dp(10);                      // above the card
-            if (y < dp(16)) y = Math.min(al[1] + mMenuAnchor.getHeight() + dp(10), sh - ph - dp(16));
+            int y = al[1] + mMenuAnchor.getHeight() + dp(8);   // below the card
+            if (y + ph > sh - dp(12)) {
+                int clamped = sh - ph - dp(12);                  // slide up a little if that still clears the card
+                y = clamped >= al[1] + mMenuAnchor.getHeight() * 0.6f ? clamped : al[1] - ph - dp(8);
+            }
             ap.setMargins(x, Math.max(dp(16), y), 0, 0);
             mPanel.setLayoutParams(ap);
             return;
