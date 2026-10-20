@@ -1486,11 +1486,10 @@ public class MainActivity extends Activity {
                 for (int i = 0; i < mPillViews.length; i++) stylePill(i, i == mTopIdx);
                 for (int i = 0; i < mPanelRows.size(); i++) {
                     TextView r = mPanelRows.get(i);
-                    if (i == mPanelIdx) {
-                        r.setBackground(round(0x2E2E3440, 0xB3FFFFFF, 1, 14));
-                    } else {
-                        r.setBackground(null);
-                    }
+                    boolean on = i == mPanelIdx;
+                    r.setBackground(on ? round(0xFFFFFFFF, 0, 0, 14) : null);
+                    r.setTextColor(on ? 0xFF0C0D10 : 0xFFE8EAED);
+                    if (i < mPanelVals.size() && mPanelVals.get(i) != null) styleChip(mPanelVals.get(i), on);
                 }
                 return;
         }
@@ -2732,10 +2731,11 @@ public class MainActivity extends Activity {
         mPanelKind = kind;
         mPanel.removeAllViews();
         mPanelRows.clear();
+        mPanelVals.clear();
         mPanelInfo.clear();
         mPanelRuns.clear();
         mWifiLive = null;
-        mPanel.setPadding(dp(8), dp(12), dp(8), dp(12));
+        mPanel.setPadding(dp(6), dp(12), dp(6), dp(12));
 
         if (kind == 0) {                                   // ---- Inputs
             mPanel.addView(sectionLabel("Live & inputs"));
@@ -2975,33 +2975,9 @@ public class MainActivity extends Activity {
                 });
             }
         } else if (kind == 3) {                            // ---- Customize
-            mPanel.addView(sectionLabel("Customize"));
+            mPanel.addView(sectionLabel("Home screen"));
             addPanelRow("Edit home apps", new Runnable() {
                 @Override public void run() { enterEditMode(); }
-            });
-            addPanelRow("Your name: " + profileName(), new Runnable() {
-                @Override public void run() {
-                    hidePanel();
-                    askName("Your name", profileName(), new NameCb() {
-                        @Override public void done(String n) { renameProfile(mProfileId, n); }
-                    });
-                }
-            });
-            addPanelRow("App names: " + (mPrefs.getBoolean("show_names", true) ? "on focus" : "hidden"), new Runnable() {
-                @Override public void run() {
-                    mPrefs.edit().putBoolean("show_names", !mPrefs.getBoolean("show_names", true)).apply();
-                    reshowPanel(3);
-                }
-            });
-            addPanelRow("Wallpaper \u2026", new Runnable() {
-                @Override public void run() { showPanel(7); }
-            });
-            addPanelRow("Recent apps: " + (recentOn() ? "on" : "off"), new Runnable() {
-                @Override public void run() {
-                    mPrefs.edit().putBoolean("recent_on", !recentOn()).apply();
-                    loadHdmiItems(); renderHdmiStrip(); clampAll();
-                    reshowPanel(3);
-                }
             });
             addPanelRow("Show on home \u2026", new Runnable() {
                 @Override public void run() { showPanel(4); }
@@ -3014,6 +2990,40 @@ public class MainActivity extends Activity {
                     @Override public void run() { showPanel(9); }
                 });
             }
+            addPanelRow("Recent apps: " + (recentOn() ? "on" : "off"), new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().putBoolean("recent_on", !recentOn()).apply();
+                    loadHdmiItems(); renderHdmiStrip(); clampAll();
+                    reshowPanel(3);
+                }
+            });
+            addPanelRow("Reset home apps", new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().remove("pins").apply();
+                    reloadDock();
+                    reshowPanel(3);
+                }
+            });
+
+            mPanel.addView(sectionLabel("Look"));
+            addPanelRow("Wallpaper \u2026", new Runnable() {
+                @Override public void run() { showPanel(7); }
+            });
+            addPanelRow("App names: " + (mPrefs.getBoolean("show_names", true) ? "on focus" : "hidden"), new Runnable() {
+                @Override public void run() {
+                    mPrefs.edit().putBoolean("show_names", !mPrefs.getBoolean("show_names", true)).apply();
+                    reshowPanel(3);
+                }
+            });
+            addPanelRow("Your name: " + profileName(), new Runnable() {
+                @Override public void run() {
+                    hidePanel();
+                    askName("Your name", profileName(), new NameCb() {
+                        @Override public void done(String n) { renameProfile(mProfileId, n); }
+                    });
+                }
+            });
+            mPanel.addView(sectionLabel("Clock & weather"));
             addPanelRow("Clock: " + (clock12() ? "12-hour \u00B7 AM/PM" : "24-hour"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("clock_12h", !clock12()).apply();
@@ -3036,13 +3046,6 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
-            addPanelRow("Reset home apps", new Runnable() {
-                @Override public void run() {
-                    mPrefs.edit().remove("pins").apply();
-                    reloadDock();
-                    reshowPanel(3);
-                }
-            });
         } else {                                           // ---- Wi-Fi
             mPanel.addView(sectionLabel("Network"));
             addPanelRow("Wi-Fi settings", new Runnable() {
@@ -3057,7 +3060,7 @@ public class MainActivity extends Activity {
                     } catch (Exception e) { openSettings(); }
                 }
             });
-            addPanelRow("Parents hotspot \u00B7 " + getString(R.string.hotspot_ssid), new Runnable() {
+            addPanelRow("Hotspot \u00B7 " + getString(R.string.hotspot_ssid), new Runnable() {
                 @Override public void run() { copyHotspotHint(); }
             });
 
@@ -3125,11 +3128,19 @@ public class MainActivity extends Activity {
     }
 
     /** Adds one navigable panel row + the action its OK press runs (remote and touch share it). */
+    private final List<TextView> mPanelVals = new ArrayList<>();
+
+    private boolean compactPanel() { return mPanelKind == 1 || mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6; }
+
+    /** One navigable row. "Name: value" renders the value as a chip on the right. */
     private void addPanelRow(String label, final Runnable action) {
-        TextView row = newText(label, (mPanelKind == 1 || mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 15 : 16.5f, 400, 0xFFE8EAED);
+        String name = label, val = null;
+        int ci = label.indexOf(": ");
+        if (ci > 0 && mPanelKind != 1) { name = label.substring(0, ci); val = label.substring(ci + 2); }
+        TextView row = newText(name, compactPanel() ? 15.5f : 16.5f, 420, 0xFFE8EAED);
         row.setSingleLine(true);
-        int vp = (mPanelKind == 1 || mPanelKind == 3 || mPanelKind == 4 || mPanelKind >= 6) ? 5 : 11;
-        row.setPadding(dp(18), dp(vp), dp(18), dp(vp));
+        int vp = compactPanel() ? 4 : 11;
+        row.setPadding(dp(16), dp(vp), dp(16), dp(vp));
         row.setGravity(Gravity.CENTER_VERTICAL);
         final int rowIdx = mPanelRuns.size();
         mPanelRuns.add(action);
@@ -3137,7 +3148,34 @@ public class MainActivity extends Activity {
             @Override public void onClick(View v) { runPanelRow(rowIdx); }
         });
         mPanelRows.add(row);
-        mPanel.addView(row, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        FrameLayout wrap = new FrameLayout(this);
+        wrap.setPadding(dp(8), dp(1), dp(8), dp(1));
+        wrap.addView(row, new FrameLayout.LayoutParams(MP, WC));
+        TextView chip = null;
+        if (val != null) {
+            chip = newText(val, 13, 520, 0xFFE3E7EE);
+            chip.setSingleLine(true);
+            chip.setPadding(dp(12), dp(3), dp(12), dp(3));
+            styleChip(chip, false);
+            FrameLayout.LayoutParams cp = new FrameLayout.LayoutParams(WC, WC, Gravity.END | Gravity.CENTER_VERTICAL);
+            cp.rightMargin = dp(10);
+            wrap.addView(chip, cp);
+        }
+        mPanelVals.add(chip);
+        mPanel.addView(wrap, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+    }
+
+    private void styleChip(TextView cv, boolean rowFocused) {
+        String t = String.valueOf(cv.getText()).toLowerCase(Locale.US);
+        boolean on = t.startsWith("on") || t.startsWith("shown") || t.startsWith("12") || t.startsWith("expressive");
+        boolean off = t.startsWith("off") || t.startsWith("hidden");
+        if (rowFocused) {
+            cv.setBackground(round(0x1A000000, 0, 0, 12));
+            cv.setTextColor(0xFF2A3350);
+        } else {
+            cv.setBackground(round(off ? 0x1AFFFFFF : (on ? 0x334F7BFF : 0x22FFFFFF), 0, 0, 12));
+            cv.setTextColor(off ? 0xFF8B93A0 : (on ? 0xFFBFD4FF : 0xFFE3E7EE));
+        }
     }
 
     private void runPanelRow(int rowIdx) {
@@ -3146,9 +3184,9 @@ public class MainActivity extends Activity {
     }
 
     private TextView sectionLabel(String s) {
-        TextView t = newText(s.toUpperCase(), 11, 480, 0xFF6F7880);
-        t.setPadding(dp(18), dp(8), dp(18), dp(6));
-        t.setLetterSpacing(0.09f);
+        TextView t = newText(s.toUpperCase(), 10.5f, 560, 0xFF7D8794);
+        t.setPadding(dp(18), dp(compactPanel() ? 7 : 8), dp(18), dp(3));
+        t.setLetterSpacing(0.14f);
         return t;
     }
 
