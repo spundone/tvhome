@@ -2905,7 +2905,7 @@ public class MainActivity extends Activity {
 
     /** Glass for the quick panels, plain Material (Leanback-like) for the long lists and menus. */
     private void stylePanel(int kind) {
-        boolean mat = materialMenus() && (kind == 3 || kind == 4 || kind >= 6);
+        boolean mat = materialMenus();
         if (mat) {
             GradientDrawable g = new GradientDrawable();
             g.setColor(0xFF1E222B);
