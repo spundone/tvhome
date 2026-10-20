@@ -985,7 +985,7 @@ public class MainActivity extends Activity {
             h.label = name;
             h.inputId = id;
             h.run = new Runnable() {
-                @Override public void run() { tuneToInput(id, label); }
+                @Override public void run() { openInputInTvApp(id, label); }
             };
             mAllInputs.add(h);
         }
@@ -1106,6 +1106,21 @@ public class MainActivity extends Activity {
         styleHdmiCaps(-1);
         mHdmiStrip.setVisibility(mHdmiItems.isEmpty() ? View.GONE : View.VISIBLE);
         if (mHdmiDivider != null) mHdmiDivider.setVisibility(mHdmiItems.isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    /**
+     * Tunes through the TV app, exactly like the remote's source button, so the system's Game Bar,
+     * idle popup and picture settings treat it as a normal input. Falls back to the built-in viewer.
+     */
+    private void openInputInTvApp(String inputId, String label) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW,
+                    android.media.tv.TvContract.buildChannelUriForPassthroughInput(inputId));
+            i.setPackage("com.tcl.tv");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (i.resolveActivity(mPM) != null) { startExternal(i); return; }
+        } catch (Throwable ignored) { }
+        tuneToInput(inputId, label);
     }
 
     private void activateHdmi() {
