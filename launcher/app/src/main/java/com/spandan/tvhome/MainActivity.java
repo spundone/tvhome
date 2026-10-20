@@ -367,7 +367,125 @@ public class MainActivity extends Activity {
         return 0xFFF2F4F7;
     }
 
+    // ------------------------------------------------ configurable top bar
+
+    private static final int BUILTIN_PILLS = 7, MAX_TOP_CUSTOM = 4;
+    private final String[] PILL_NAMES = { "All apps", "Gemini", "Home", "Wi-Fi", "Customize", "Settings", "Profile" };
+
+    /** Rows are "label\tpackage\turl". Pill index = BUILTIN_PILLS + row. */
+    private List<String[]> topCustoms() {
+        List<String[]> out = new ArrayList<>();
+        for (String line : mPrefs.getString("top_customs", "").split("\n")) {
+            String[] p = line.split("\t", -1);
+            if (p.length >= 3 && !p[1].isEmpty()) out.add(p);
+        }
+        return out;
+    }
+
+    private void saveTopCustoms(List<String[]> l) {
+        StringBuilder sb = new StringBuilder();
+        for (String[] c : l) {
+            if (sb.length() > 0) sb.append('\n');
+            sb.append(c[0].replace('\t', ' ').replace('\n', ' ')).append('\t').append(c[1]).append('\t')
+                    .append(c[2].replace('\t', ' ').replace('\n', ' '));
+        }
+        mPrefs.edit().putString("top_customs", sb.toString()).putString("pill_order", mPrefs.getString("pill_order", "")).apply();
+    }
+
+    private int pillCount() { return BUILTIN_PILLS + topCustoms().size(); }
+
+    private String pillName(int i) {
+        if (i < BUILTIN_PILLS) return i == PILL_PROFILE ? profileName() : PILL_NAMES[i];
+        List<String[]> c = topCustoms();
+        return i - BUILTIN_PILLS < c.size() ? c.get(i - BUILTIN_PILLS)[0] : "?";
+    }
+
+    private List<Integer> pillOrder() {
+        int n = pillCount();
+        List<Integer> out = new ArrayList<>();
+        for (String t : mPrefs.getString("pill_order", "").split(",")) {
+            try { int v = Integer.parseInt(t.trim()); if (v >= 0 && v < n && !out.contains(v)) out.add(v); } catch (Exception ignored) { }
+        }
+        for (int i = 0; i < n; i++) if (!out.contains(i)) out.add(i);
+        return out;
+    }
+
+    private void savePillOrder(List<Integer> o) {
+        StringBuilder sb = new StringBuilder();
+        for (int v : o) { if (sb.length() > 0) sb.append(','); sb.append(v); }
+        mPrefs.edit().putString("pill_order", sb.toString()).apply();
+    }
+
+    private java.util.Set<Integer> hiddenPills() {
+        java.util.Set<Integer> h = new java.util.HashSet<>();
+        for (String t : mPrefs.getString("pill_hidden", "").split(",")) {
+            try { h.add(Integer.parseInt(t.trim())); } catch (Exception ignored) { }
+        }
+        return h;
+    }
+
+    private void saveHiddenPills(java.util.Set<Integer> h) {
+        StringBuilder sb = new StringBuilder();
+        for (int v : h) { if (sb.length() > 0) sb.append(','); sb.append(v); }
+        mPrefs.edit().putString("pill_hidden", sb.toString()).apply();
+    }
+
+    private void buildPills() {
+        mPills.removeAllViews();
+        int n = pillCount();
+        mPillLabels = new String[n];
+        mPillViews = new TextView[n];
+        for (int i = 0; i < n; i++) {
+            mPillLabels[i] = pillName(i);
+            TextView p = newText("", 14, 560, 0xFFF2F4F7);
+            p.setBackground(pillBg(i, false));
+            p.setPadding(dp(15), dp(12), dp(15), dp(12));
+            p.setGravity(Gravity.CENTER);
+            p.setSingleLine(true);
+            final int idx = i;
+            p.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) { mOnSchedule = false; mTopIdx = idx; activatePill(idx); }
+            });
+            mPillViews[i] = p;
+            p.setCompoundDrawablesWithIntrinsicBounds(pillIcon(i, 0xFFF2F4F7), null, null, null);
+        }
+        List<Integer> order = pillOrder();
+        for (int k = 0; k < order.size(); k++) {
+            mPills.addView(mPillViews[order.get(k)], lpW(WC, WC, 0, k == 0 ? 0 : dp(10), 0, 0, 0));
+        }
+        mPillSig = Integer.MIN_VALUE;
+        if (mTopIdx >= n) mTopIdx = PILL_CUSTOM;
+    }
+
+    private void rebuildPills() {
+        buildPills();
+        applyPillVisibility();
+        for (int i = 0; i < mPillViews.length; i++) stylePill(i, false);
+        applyFocus(false);
+    }
+
+    private void launchTopCustom(int idx) {
+        List<String[]> c = topCustoms();
+        int k = idx - BUILTIN_PILLS;
+        if (k < 0 || k >= c.size()) return;
+        String[] t = c.get(k);
+        if (!t[2].isEmpty()) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(t[2]));
+            i.setPackage(t[1]);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            recordRecent(t[1]);
+            startExternal(i);
+        } else launchByPackage(t[1]);
+    }
+
     private Drawable pillIcon(int idx, int color) {
+        if (idx >= BUILTIN_PILLS) {
+            try {
+                Drawable d = iconPlated(mPM.getApplicationIcon(topCustoms().get(idx - BUILTIN_PILLS)[1]), dp(26), 7);
+                d.setBounds(0, 0, dp(26), dp(26));
+                return d;
+            } catch (Throwable t) { return geminiGlyph(dp(20)); }
+        }
         if (idx == PILL_GEMINI) return geminiGlyph(dp(20));
         if (idx == PILL_PROFILE) return avatar(dp(26), activeProfile());
         int[] res = { R.drawable.ic_apps, 0, R.drawable.ic_home, R.drawable.ic_wifi,
@@ -382,10 +500,13 @@ public class MainActivity extends Activity {
         TextView pv = mPillViews[idx];
         boolean showLabel = focused || (idx == PILL_APPS && mAppsOpen);
         String label = (idx == PILL_APPS && mAppsOpen) ? "Hide apps" : mPillLabels[idx];
+        if (idx >= BUILTIN_PILLS) label = pillName(idx);
         if (idx == PILL_PROFILE) label = profileName();
         int fg = pillFg(idx, focused);
         pv.setText(showLabel ? label : "");
-        pv.setCompoundDrawablesWithIntrinsicBounds(pillIcon(idx, fg), null, null, null);
+        Drawable pic = pillIcon(idx, fg);
+        if (idx >= BUILTIN_PILLS) pv.setCompoundDrawables(pic, null, null, null);
+        else pv.setCompoundDrawablesWithIntrinsicBounds(pic, null, null, null);
         pv.setCompoundDrawablePadding(showLabel ? dp(8) : 0);
         mPillViews[idx].setBackground(pillBg(idx, focused));
         mPillViews[idx].setTextColor(fg);
@@ -516,25 +637,7 @@ public class MainActivity extends Activity {
         mPills = new LinearLayout(this);
         mPills.setOrientation(LinearLayout.HORIZONTAL);
         mPills.setClipChildren(false);
-        String[] labels = { "All apps", "Gemini", "Home", "Wi-Fi", "Customize", "Settings", profileName() };
-        mPillLabels = labels;
-        mPillViews = new TextView[labels.length];
-        for (int i = 0; i < labels.length; i++) {
-            TextView p = newText("", 14, 560, 0xFFF2F4F7);
-            p.setBackground(pillBg(i, false));
-            p.setPadding(dp(15), dp(12), dp(15), dp(12));
-            p.setGravity(Gravity.CENTER);
-            p.setSingleLine(true);
-            final int idx = i;
-            p.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    mOnSchedule = false; mTopIdx = idx; activatePill(idx);
-                }
-            });
-            mPillViews[i] = p;
-            p.setCompoundDrawablesWithIntrinsicBounds(pillIcon(i, 0xFFF2F4F7), null, null, null);
-            mPills.addView(p, lpW(WC, WC, 0, i == 0 ? 0 : dp(10), 0, 0, 0));
-        }
+        buildPills();
         mTopRow.addView(mPills, lpW(WC, WC, 0, 0, 0, 0, 0));
         mRoot.addView(mTopRow, lpF(MP, WC, Gravity.TOP, 0, 0, 0, 0));
         applyPillVisibility();
@@ -886,6 +989,14 @@ public class MainActivity extends Activity {
             };
             mAllInputs.add(h);
         }
+        final List<String> ord = new ArrayList<>();
+        for (String t : mPrefs.getString("input_order", "").split("\n")) if (!t.isEmpty()) ord.add(t);
+        Collections.sort(mAllInputs, new java.util.Comparator<HdmiItem>() {
+            @Override public int compare(HdmiItem a, HdmiItem b) {
+                int ia = ord.indexOf(a.label), ib = ord.indexOf(b.label);
+                return Integer.compare(ia < 0 ? 999 : ia, ib < 0 ? 999 : ib);
+            }
+        });
         java.util.Set<String> hidden = hiddenInputs();
         mHdmiItems.clear();
         for (HdmiItem it : mAllInputs) if (!hidden.contains(it.label)) mHdmiItems.add(it);
@@ -2179,20 +2290,25 @@ public class MainActivity extends Activity {
     /** Customize stays visible so the menu can always be reached. */
     private boolean pillShown(int i) {
         if (i == PILL_CUSTOM) return true;
+        if (hiddenPills().contains(i)) return false;
         if (i == PILL_PROFILE) return showProfilePill();
+        if (i >= BUILTIN_PILLS) return true;
         return showTopIcons();
     }
 
     private void applyPillVisibility() {
         if (mPillViews == null) return;
         for (int i = 0; i < mPillViews.length; i++) mPillViews[i].setVisibility(pillShown(i) ? View.VISIBLE : View.GONE);
-        if (!pillShown(mTopIdx)) mTopIdx = PILL_CUSTOM;
+        if (mTopIdx >= mPillViews.length || !pillShown(mTopIdx)) mTopIdx = PILL_CUSTOM;
     }
 
+    /** Next visible pill in on-screen order; from = -1 gives the first one. */
     private int stepPill(int from, int dx) {
-        int i = from + dx;
-        while (i >= 0 && i < mPillViews.length && !pillShown(i)) i += dx;
-        return (i < 0 || i >= mPillViews.length) ? from : i;
+        List<Integer> o = pillOrder();
+        int pos = from < 0 ? (dx > 0 ? -1 : o.size()) : o.indexOf(from);
+        int i = pos + dx;
+        while (i >= 0 && i < o.size() && !pillShown(o.get(i))) i += dx;
+        return (i < 0 || i >= o.size()) ? from : o.get(i);
     }
 
     private boolean clock12() { return mPrefs.getBoolean("clock_12h", true); }
@@ -2646,8 +2762,8 @@ public class MainActivity extends Activity {
         }
         if (handleRemoteShortcut(event.getKeyCode())) { saveFocus(); return true; }
         switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_DPAD_LEFT:  if (panelOpen) return true; moveH(-1); saveFocus(); return true;
-            case KeyEvent.KEYCODE_DPAD_RIGHT: if (panelOpen) return true; moveH(1); saveFocus(); return true;
+            case KeyEvent.KEYCODE_DPAD_LEFT:  if (panelOpen) { panelMove(-1); return true; } moveH(-1); saveFocus(); return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT: if (panelOpen) { panelMove(1); return true; } moveH(1); saveFocus(); return true;
             case KeyEvent.KEYCODE_DPAD_UP:    moveV(-1); saveFocus(); return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:  moveV(1); saveFocus(); return true;
             case KeyEvent.KEYCODE_DPAD_CENTER:
@@ -2872,6 +2988,10 @@ public class MainActivity extends Activity {
             togglePanel(3);
         } else if (idx == PILL_PROFILE) {
             togglePanel(5);
+        } else if (idx >= BUILTIN_PILLS) {
+            hidePanel();
+            launchTopCustom(idx);
+            return;
         } else {
             hidePanel();
             openSettings();
@@ -3185,20 +3305,9 @@ public class MainActivity extends Activity {
                 });
             }
         } else if (kind == 4) {                            // ---- Show on home
-            mPanel.addView(sectionLabel("Inputs on home"));
-            for (final HdmiItem h : mAllInputs) {
-                final String lab0 = h.label;
-                boolean shown = !hiddenInputs().contains(lab0);
-                addPanelRow(lab0 + ": " + (shown ? "shown" : "hidden"), new Runnable() {
-                    @Override public void run() {
-                        java.util.Set<String> hs = new java.util.HashSet<>(hiddenInputs());
-                        if (!hs.remove(lab0)) hs.add(lab0);
-                        mPrefs.edit().putStringSet("inputs_hidden", hs).apply();
-                        reloadInputs();
-                        reshowPanel(4);
-                    }
-                });
-            }
+            addPanelRow("Inputs \u2026", new Runnable() {
+                @Override public void run() { showPanel(15); }
+            });
             mPanel.addView(sectionLabel("Shortcuts"));
             for (final String[] cu : customs()) {
                 final String ckey = "custom:" + cu[0];
@@ -3280,6 +3389,9 @@ public class MainActivity extends Activity {
                     reshowPanel(3);
                 }
             });
+            addPanelRow("Top bar \u2026", new Runnable() {
+                @Override public void run() { showPanel(14); }
+            });
             addPanelRow("Top icons: " + (showTopIcons() ? "shown" : "hidden"), new Runnable() {
                 @Override public void run() {
                     mPrefs.edit().putBoolean("top_icons", !showTopIcons()).apply();
@@ -3306,6 +3418,53 @@ public class MainActivity extends Activity {
             addPanelRow("Clock & weather \u2026", new Runnable() {
                 @Override public void run() { showPanel(12); }
             });
+        } else if (kind == 14) {                           // ---- Top bar
+            mPanel.addView(sectionLabel("Top bar"));
+            for (final int pid : pillOrder()) {
+                boolean shown = pid == PILL_CUSTOM || !hiddenPills().contains(pid);
+                addPanelRow(pillName(pid) + ": " + (shown ? "shown" : "hidden"), new Runnable() {
+                    @Override public void run() {
+                        if (pid == PILL_CUSTOM) {
+                            android.widget.Toast.makeText(MainActivity.this, "Customize always stays", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        java.util.Set<Integer> h = hiddenPills();
+                        if (!h.remove(pid)) h.add(pid);
+                        saveHiddenPills(h);
+                        applyPillVisibility();
+                        reshowPanel(14);
+                    }
+                });
+            }
+            for (int ci = 0; ci < topCustoms().size(); ci++) {
+                final int cidx = ci;
+                addPanelRow("Remove  " + topCustoms().get(ci)[0], new Runnable() {
+                    @Override public void run() { removeTopCustom(cidx); reshowPanel(14); }
+                });
+            }
+            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down.\nLong-press an app > Add to top bar.", 11.5f, 350, 0xFF9AA0A6);
+            th.setPadding(dp(18), dp(6), dp(18), dp(8));
+            mPanelInfo.add(th);
+            mPanel.addView(th, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
+        } else if (kind == 15) {                           // ---- Inputs
+            mPanel.addView(sectionLabel("Inputs"));
+            for (final HdmiItem h : mAllInputs) {
+                final String lab0 = h.label;
+                boolean shown = !hiddenInputs().contains(lab0);
+                addPanelRow(lab0 + ": " + (shown ? "shown" : "hidden"), new Runnable() {
+                    @Override public void run() {
+                        java.util.Set<String> hs = new java.util.HashSet<>(hiddenInputs());
+                        if (!hs.remove(lab0)) hs.add(lab0);
+                        mPrefs.edit().putStringSet("inputs_hidden", hs).apply();
+                        reloadInputs();
+                        reshowPanel(15);
+                    }
+                });
+            }
+            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down", 11.5f, 350, 0xFF9AA0A6);
+            th.setPadding(dp(18), dp(6), dp(18), dp(8));
+            mPanelInfo.add(th);
+            mPanel.addView(th, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
         } else if (kind == 13) {                           // ---- App menu
             mPanel.addView(sectionLabel(mMenuTitle));
             final boolean pinned = pinKeys().contains(mMenuKey);
@@ -3340,6 +3499,24 @@ public class MainActivity extends Activity {
                     android.widget.Toast.makeText(MainActivity.this, pinned ? "Removed from home" : "Pinned to home", android.widget.Toast.LENGTH_SHORT).show();
                 }
             });
+            if (!mMenuPkg.isEmpty()) {
+                addPanelRow("Add to top bar", new Runnable() {
+                    @Override public void run() {
+                        hidePanel();
+                        List<String[]> c = topCustoms();
+                        if (c.size() >= MAX_TOP_CUSTOM) {
+                            android.widget.Toast.makeText(MainActivity.this, "Top bar is full", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String url = "";
+                        if (mMenuFromDock && mMenuDockIdx < mDockItems.size()) url = mDockItems.get(mMenuDockIdx).url;
+                        c.add(new String[] { mMenuTitle, mMenuPkg, url == null ? "" : url });
+                        saveTopCustoms(c);
+                        rebuildPills();
+                        android.widget.Toast.makeText(MainActivity.this, "Added to top bar", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             if (!mMenuPkg.isEmpty() && !(custom && mMenuPkg.isEmpty())) {
                 addPanelRow("App info", new Runnable() {
                     @Override public void run() { hidePanel(); openAppInfo(mMenuPkg); }
@@ -3438,6 +3615,47 @@ public class MainActivity extends Activity {
             sb.append(c[0].replace('\t', ' ').replace('\n', ' ')).append('\t').append(c[1].replace('\t', ' ').replace('\n', ' '));
         }
         mPrefs.edit().putString("home_cmds", sb.toString()).apply();
+    }
+
+    /** In the Top bar and Inputs panels the left/right keys move the highlighted row up or down. */
+    private void panelMove(int dir) {
+        if (mPanelKind != 14 && mPanelKind != 15) return;
+        int row = mPanelIdx;
+        if (mPanelKind == 14) {
+            List<Integer> o = pillOrder();
+            int to = row + dir;
+            if (row < 0 || row >= o.size() || to < 0 || to >= o.size()) return;
+            int v = o.remove(row); o.add(to, v);
+            savePillOrder(o);
+            rebuildPills();
+            mPanelIdx = to;
+            reshowPanel(14);
+            mPanelIdx = to; applyFocus(false);
+        } else {
+            List<String> names = inputOrderNames();
+            int to = row + dir;
+            if (row < 0 || row >= names.size() || to < 0 || to >= names.size()) return;
+            String v = names.remove(row); names.add(to, v);
+            mPrefs.edit().putString("input_order", TextUtils.join("\n", names)).apply();
+            reloadInputs();
+            reshowPanel(15);
+            mPanelIdx = to; applyFocus(false);
+        }
+    }
+
+    private List<String> inputOrderNames() {
+        List<String> out = new ArrayList<>();
+        for (HdmiItem h : mAllInputs) out.add(h.label);
+        return out;
+    }
+
+    private void removeTopCustom(int idx) {
+        List<String[]> c = topCustoms();
+        if (idx < 0 || idx >= c.size()) return;
+        c.remove(idx);
+        saveTopCustoms(c);
+        mPrefs.edit().remove("pill_order").remove("pill_hidden").apply();   // indices shifted; reset layout
+        rebuildPills();
     }
 
     private void reshowPanel(int kind) {
@@ -3714,7 +3932,7 @@ public class MainActivity extends Activity {
             mPanel.setLayoutParams(ap);
             return;
         }
-        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
+        int anchor = (mPanelKind == 1 || mPanelKind == 10) ? PILL_HOME : mPanelKind == 2 ? PILL_WIFI : (mPanelKind == 3 || mPanelKind == 4 || mPanelKind == 6 || mPanelKind == 7 || mPanelKind == 8 || mPanelKind == 9 || mPanelKind == 11 || mPanelKind == 12 || mPanelKind == 14 || mPanelKind == 15) ? PILL_CUSTOM : mPanelKind == 5 ? PILL_PROFILE : PILL_APPS;
         int[] loc = new int[2];
         mPillViews[anchor].getLocationOnScreen(loc);
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mPanel.getLayoutParams();

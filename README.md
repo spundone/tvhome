@@ -357,3 +357,10 @@ Without a calendar linked, the old `schedule.txt` file is used.
 Hold OK on any app card (home or All apps) for a menu: Open, Move (home only, picks the card
 up so the arrows reorder it), Pin to home / Unpin from home, App info (system app page, where
 you can uninstall or clear data), and Delete shortcut for your own shortcuts.
+
+### Top bar and inputs
+
+Customize > Top bar lists every top icon: OK shows or hides it, left/right moves it up or down
+the order (Customize itself always stays). Long-press any app and choose Add to top bar to put it
+there as an icon (up to 4; remove it from the same list). Customize > Show on home > Inputs does
+the same for HDMI 1, HDMI 2, AirPlay and friends: show/hide with OK, reorder with left/right.
