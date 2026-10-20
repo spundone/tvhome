@@ -2769,7 +2769,7 @@ public class MainActivity extends Activity {
             addPanelRow("+  Add command\u2026", new Runnable() {
                 @Override public void run() {
                     hidePanel();
-                    askFields("Add Google Home command", new String[] { "Button name", "What to say (e.g. turn on the fan)" }, null,
+                    askFields("Add Google Home command", new String[] { "Button name", "What to say (chain steps with ;)" }, null,
                             new FieldsCb() { @Override public void done(String[] v) {
                                 if (v[0].isEmpty() || v[1].isEmpty()) return;
                                 List<String[]> l = homeCmds();
@@ -3190,7 +3190,20 @@ public class MainActivity extends Activity {
         return t;
     }
 
+    /** "a ; b ; c" runs the phrases one after another, giving the assistant time to finish each. */
     private void runAssistant(String query) {
+        final String[] steps = query.split("\\s*;\\s*");
+        runAssistantOne(steps[0]);
+        for (int i = 1; i < steps.length; i++) {
+            final String q = steps[i];
+            if (q.isEmpty()) continue;
+            mRoot.postDelayed(new Runnable() {
+                @Override public void run() { runAssistantOne(q); }
+            }, 7000L * i);
+        }
+    }
+
+    private void runAssistantOne(String query) {
         hidePanel();
         // On this TCL build the Google TV search UI lives in katniss; the tvsearch package does not
         // exist. GLOBAL_SEARCH resolves to katniss' SearchActivityTrampoline.

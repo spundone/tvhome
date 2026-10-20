@@ -51,7 +51,7 @@
     </string-array>
     <string-array name="home_cmd_query">
         <item>movie mode</item>
-        <item>set the master bedroom lights to cool white at 100 percent brightness</item>
+        <item>set master bedroom to cool white ; set master bedroom brightness to 100 percent</item>
         <item>turn off the master bedroom lights</item>
         <item>turn on the master bedroom lights</item>
         <item>dim the master bedroom lights to 30 percent</item>

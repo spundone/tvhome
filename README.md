@@ -327,3 +327,17 @@ Pills are icon-only; the focused pill expands to show its name.
 
 Cards: apps that ship a TV banner show it full-bleed; others get a card tinted from
 their icon colour. Names appear inside the card on focus (home and All apps).
+
+### Google Home commands
+
+The Home pill runs spoken-style phrases through the TV assistant. Add your own under
+Home > Add command. The assistant handles one request per phrase and answers "Sorry, I
+didn't understand" to combined ones such as colour plus brightness, so chain steps with
+`;` and tvHome sends them one after another, 7 seconds apart:
+
+```
+set master bedroom to cool white ; set master bedroom brightness to 100 percent
+```
+
+Use the device name exactly as Google Home shows it (here the bulb is called "Master").
+If a phrase falls through to a web search, the assistant did not match a device or action.
