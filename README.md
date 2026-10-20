@@ -1,4 +1,4 @@
-# tvHome — a cleaner Android TV launcher + debloat kit
+# tvHome: an Android TV launcher and debloat kit
 
 A single-activity Android TV launcher (`com.spandan.tvhome`) with wide Apple-TV-style cards,
 frosted "liquid glass" chrome, profiles, a generated Material-You-Expressive wallpaper, an
@@ -39,7 +39,7 @@ Wi-Fi/hotspot strings) lives in the git-ignored `tools/local.env`.
 # TCL TV Debloat + tvHome Launcher
 
 Setup for the TCL "Smart TV Pro" (G08, 55", Android 14) in the living room:
-a screenshot-verified system-app debloat, plus **tvHome** — a custom Apple-TV-style
+a screenshot-verified system-app debloat, plus **tvHome**, a custom Apple-TV-style
 launcher (`com.spandan.tvhome`) that replaces the ad-supported stock Google TV launcher.
 
 > Golden rule: **never uninstall** a system package. Everything is
@@ -57,7 +57,7 @@ wireless debugging (paired once; the pairing persists).
   "Wireless debugging" toggle being cycled). Older was `<old-port>`. If `adb connect`
   is refused:
   - Toggle *Settings → Device Preferences → Developer options → Wireless debugging*
-    off then on, then check `adb devices` — recent adb auto-discovers the TV
+    off then on, then check `adb devices`; recent adb auto-discovers the TV
     over `mDNS` and it will show up as
     `adb-<device-id>-….…._adb-tls-connect._tcp` (that serial also works
     directly with `adb -s`).
@@ -76,7 +76,7 @@ All scripts below accept the serial as an argument and default to
 - Kept (disabled at some point but re-enabled): `com.tcl.gamebar` (PC on HDMI,
   VRR toggles), casting, OTA, TCL account/USB media, MagicConnect, voice
   (Gemini/katniss + TCL eva).
-- `com.tvos` is NOT an app — it is the tvos framework resource overlay; excluded.
+- `com.tvos` is NOT an app: it is the tvos framework resource overlay; excluded.
 - Reverse it: `tools/restore.sh [serial]` (re-enables everything in the list and
   prints how to switch the default home back to the stock launcher).
 
@@ -85,11 +85,11 @@ All scripts below accept the serial as an argument and default to
 Single-file app: `launcher/app/src/main/java/com/spandan/tvhome/MainActivity.java`.
 Two modes:
 
-- **Home (default)** — a clean "ambient" screen: greeting, clock, date and the
+- **Home (default)**: a clean "ambient" screen: greeting, clock, date and the
   "up next" reminder held in the free space above the shelf, the pill bar in the
   top-right corner, and the dock at the bottom. No app grid; home focus starts on
   the dock so DOWN/OK is an app launch.
-- **All apps** — the pill with the 2×2 glyph (`All apps` / `Hide apps`) slides the
+- **All apps**: the pill with the 2×2 glyph (`All apps` / `Hide apps`) slides the
   alphabetical grid over the hero and moves focus into it. BACK closes the drawer
   and returns focus to the dock, and leaving the launcher (launching an app, the
   assistant, another input) always collapses back to the clean home.
@@ -110,9 +110,9 @@ The Inputs pill lists Live TV plus every TV input (HDMI 1–4, AirPlay, TV…) a
 tunes to it in-place with a `TvView`; BACK returns to the launcher. A card in the
 bottom-left names the input, then:
 
-- `BACK to return` — the input has a picture (HDMI content is a protected layer,
-  so `screencap` returns a 0-byte PNG while it is on screen — that is normal);
-- `No signal · check the source · BACK to return` — the port is live but nothing
+- `BACK to return`: the input has a picture (HDMI content is a protected layer,
+  so `screencap` returns a 0-byte PNG while it is on screen, which is normal);
+- `No signal · check the source · BACK to return`: the port is live but nothing
   is plugged in / the source is asleep. Empty HDMI ports look like a plain black
   screen otherwise, which is why the card exists.
 
@@ -123,7 +123,7 @@ tools/build-install.sh [serial]
 ```
 (aapt2 → javac → d8 → zipalign → apksigner → `adb install -r`. After every
 reinstall it also re-grants BLUETOOTH_CONNECT/SCAN and re-asserts the
-default-home preference — reinstall clears runtime grants.)
+default-home preference: reinstall clears runtime grants.)
 
 ### Default home
 
@@ -162,7 +162,7 @@ Re-enable it inside Projectivy only if you actually want that launcher to win.
 All in `launcher/app/src/main/res/values/config.xml`, then re-run
 `tools/build-install.sh`:
 
-- **Dock order / entries** — `dock_pkg` / `dock_label` / `dock_data` /
+- **Dock order / entries**: `dock_pkg` / `dock_label` / `dock_data` /
   `dock_icon` (all index-aligned). Plain item = launch the app;
   `package|https://…` = deep link inside that package (used for the SmartTube
   channel shortcuts ABP Ananda / Aaj Tak). Labels can be empty = use the app's
@@ -179,9 +179,9 @@ All in `launcher/app/src/main/res/values/config.xml`, then re-run
   Current dock: SmartTube · BitChord TV · Browser · ABP Ananda · Aaj Tak ·
   Crunchyroll · Stremio · CloudStream · MiXplorer (MiXplorer slot auto-skips
   while the app is not installed; sideload it to activate).
-- **Grid exclusions** — `grid_exclude` (also covers leftover TCL stubs).
-- **Greeting name / Wi-Fi SSID label** — `greeting_name`, `wifi_name`.
-- **Google Home light shortcuts** — `home_cmd_label` / `home_cmd_query` pairs,
+- **Grid exclusions**: `grid_exclude` (also covers leftover TCL stubs).
+- **Greeting name / Wi-Fi SSID label**: `greeting_name`, `wifi_name`.
+- **Google Home light shortcuts**: `home_cmd_label` / `home_cmd_query` pairs,
   surfacing in the *Home* pill's dropdown (Wi-Fi panel). Currently: movie mode,
   master-bedroom on/off/dim/amber, all lights off. Edit both arrays in the same
   order.
@@ -193,7 +193,7 @@ Plain text file, no calendar provider needed:
 adb push my-schedule.txt /sdcard/Android/data/com.spandan.tvhome/files/schedule.txt
 ```
 (safer alternative: send it with LocalSend to the TV and move it there with
-MiXplorer once sideloaded). Format — one entry per line, `#` comments:
+MiXplorer once sideloaded). Format: one entry per line, `#` comments:
 
 ```
 2026-11-02 19:30 IPL watch party
@@ -218,7 +218,7 @@ The Settings-Wi-Fi pill also shows the SSID/pass as a reminder.
 ### Permissions
 
 `BLUETOOTH_CONNECT` / `BLUETOOTH_SCAN` (for the "connected Bluetooth devices"
-list on the Wi-Fi panel) are runtime-granted with `pm grant` — build-install.sh
+list on the Wi-Fi panel) are runtime-granted with `pm grant`: build-install.sh
 re-applies them after every reinstall:
 ```
 adb -s <serial> shell pm grant com.spandan.tvhome android.permission.BLUETOOTH_CONNECT
@@ -278,7 +278,7 @@ Optional: the author uses AdGuard (`dns.adguard-dns.com`) as Private DNS.
 
 Caveats, on record:
 - It blocks the vast majority of tracking/ads across apps and the web view, but
-  **not** YouTube in-app ads — YouTube uses the app's own server-side mechanism.
+  **not** YouTube in-app ads: YouTube uses the app's own server-side mechanism.
 - To undo:
 ```
 adb -s <serial> shell settings put global private_dns_mode opportunistic
@@ -287,9 +287,9 @@ adb -s <serial> shell settings put global private_dns_mode opportunistic
 
 ## Other scripts
 
-- `tools/actions.py <pkg>…` — dumpsys resolver-table parser, handy to find which
+- `tools/actions.py <pkg>…`: dumpsys resolver-table parser, handy to find which
   activities handle an intent when wiring new deep links.
-- `backup/` — full `dumpsys package` etc. taken before any change.
+- `backup/`: full `dumpsys package` etc. taken before any change.
 
 ## When you're done tinkering
 
@@ -312,10 +312,10 @@ drawer), shot146 (pill focus), shot136 (app drawer with scroll fade), shot147
 Everything below lives behind the **Customize** pill (sliders icon) in the top row.
 Pills are icon-only; the focused pill expands to show its name.
 
-- **Edit home apps** — opens All apps with a ✓ / + badge on every card. OK pins or
+- **Edit home apps**: opens All apps with a ✓ / + badge on every card. OK pins or
   unpins, BACK saves. Up to 18 pins; the shelf grows to fit. Stored in prefs (`pins`),
   defaults come from `pin_default` in `config.xml`.
-- **Show on home …** — choose which inputs appear in the strip (default: HDMI 1,
+- **Show on home …**: choose which inputs appear in the strip (default: HDMI 1,
   HDMI 2, AirPlay; Live TV is hidden because the TCL tuner app already switches to
   HDMI 1) and toggle the ABP Ananda / Aaj Tak shortcuts.
 - **Clock** 12-hour with AM/PM (default) or 24-hour; **Weather** on/off; **°C/°F**.

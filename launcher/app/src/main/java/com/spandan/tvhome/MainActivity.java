@@ -1852,7 +1852,7 @@ public class MainActivity extends Activity {
         if (isFinishing()) return;
         if (!mGlobal.getBoolean("onboarded", false)) {
             mGlobal.edit().putBoolean("onboarded", true).apply();
-            askName("Welcome to tvHome \u2014 what should we call you?", profileName(), new NameCb() {
+            askName("Welcome to tvHome. What should we call you?", profileName(), new NameCb() {
                 @Override public void done(String n) { renameProfile(mProfileId, n); }
             });
             return;
