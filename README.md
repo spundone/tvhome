@@ -23,7 +23,8 @@ launcher works on any Android TV / Google TV that allows sideloading.
 
 ## Just sideload it
 
-A ready-built APK is in [`release/tvhome.apk`](release/tvhome.apk) (Android 14+ TV). It has no
+Download the APK from the [latest release](https://github.com/spundone/tvhome/releases/latest),
+or use [`release/tvhome.apk`](release/tvhome.apk) in this repo (Android 14+ TV). It has no
 personal settings baked in; it asks your name on first run.
 
 ```
