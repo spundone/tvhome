@@ -21,6 +21,18 @@ launcher works on any Android TV / Google TV that allows sideloading.
 - First run asks your name; with 2+ profiles a "Who's watching?" screen appears on startup (toggle in the profile menu)
 - No root, no Play Store: debloat is `pm disable-user` only and `tools/restore.sh` reverses it
 
+## Just sideload it
+
+A ready-built APK is in [`release/tvhome.apk`](release/tvhome.apk) (Android 14+ TV). It has no
+personal settings baked in; it asks your name on first run.
+
+```
+adb connect <tv-ip>:<port>
+adb install -r release/tvhome.apk
+adb shell cmd package set-home-activity com.spandan.tvhome/.MainActivity
+```
+Rebuild it with `tools/build-install.sh --release` (uses generic strings, never `tools/local.env`).
+
 ## Quick start
 
 ```

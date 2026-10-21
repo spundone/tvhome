@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded Wi-Fi arcs with a dot, matching the other top bar glyphs. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="22dp" android:height="22dp" android:viewportWidth="24" android:viewportHeight="24">
-    <path android:fillColor="#FFFFFFFF" android:pathData="M1,9l2,2c4.97,-4.97 13.03,-4.97 18,0l2,-2C16.93,2.93 7.08,2.93 1,9zM9,17l3,3 3,-3c-1.65,-1.66 -4.34,-1.66 -6,0zM5,13l2,2c2.76,-2.76 7.24,-2.76 10,0l2,-2C15.14,9.14 8.87,9.14 5,13z" />
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2.3" android:strokeLineCap="round" android:pathData="M8.66,15.72A4.9,4.9 0,0 1,15.34,15.72" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2.3" android:strokeLineCap="round" android:pathData="M5.66,12.5A9.3,9.3 0,0 1,18.34,12.5" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2.3" android:strokeLineCap="round" android:pathData="M2.66,9.28A13.7,13.7 0,0 1,21.34,9.28" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M10.2,19.3a1.8,1.8 0,1 0,3.6,0a1.8,1.8 0,1 0,-3.6,0z" />
 </vector>

@@ -9,5 +9,6 @@ shots/
 tools/jdk17/
 launcher/app/build/
 *.apk
+!release/tvhome.apk
 *.keystore
 .DS_Store

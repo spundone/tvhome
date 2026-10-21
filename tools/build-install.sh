@@ -2,8 +2,17 @@
 . "$(cd "$(dirname "$0")" && pwd)/env.sh"
 # Build tvHome.apk and install onto the TV over ADB.
 # Usage: ./build-install.sh [adb-serial]
+#        ./build-install.sh --release   # shareable build in release/tvhome.apk, no install
 set -e
-SER=${1:-${TV_SERIAL:?set TV_SERIAL in tools/local.env or pass the serial}}
+RELEASE=0
+if [ "$1" = "--release" ]; then
+  RELEASE=1; shift
+  # Never bake this checkout's private strings into the shared APK.
+  TVHOME_GREETING_NAME=Guest; TVHOME_WIFI_NAME=; TVHOME_HOTSPOT_SSID=; TVHOME_HOTSPOT_PASS=
+  TVHOME_WEATHER_LAT=; TVHOME_WEATHER_LON=; TVHOME_WEATHER_CITY=
+else
+  SER=${1:-${TV_SERIAL:?set TV_SERIAL in tools/local.env or pass the serial}}
+fi
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK="$HOME/Library/Android/sdk"
 JDK17="$HOME/Projects/tcl-debloat/tools/jdk17"
@@ -73,6 +82,13 @@ DATA=`"$BT/zipalign" -c 4 "$OUT/tvhome-unsigned.apk"` && echo "aligned: $DATA"
 "$BT/apksigner" sign --ks "$KS" --ks-pass pass:tvhome --key-pass pass:tvhome \
   --min-sdk-version 34 --out "$OUT/tvhome.apk" "$OUT/tvhome-unsigned.apk"
 echo "== built: $OUT/tvhome.apk"
+
+if [ "$RELEASE" = 1 ]; then
+  mkdir -p "$ROOT/release"
+  cp "$OUT/tvhome.apk" "$ROOT/release/tvhome.apk"
+  echo "== release: $ROOT/release/tvhome.apk"
+  exit 0
+fi
 
 echo "== installing on $SER"
 adb -s "$SER" install -r "$OUT/tvhome.apk" || {

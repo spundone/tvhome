@@ -115,6 +115,8 @@ public class MainActivity extends Activity {
 
     static class HdmiItem {
         Drawable appIcon;   // non-null => a recent-app capsule
+        ResolveInfo info;   // recent app's launcher entry, for its mini card
+        Bitmap card;        // cached mini card
         String label;
         String inputId;   // null => Live TV app launch
         Runnable run;
@@ -343,6 +345,14 @@ public class MainActivity extends Activity {
         return GlassHelper.roundGrad(this, topColor, bottomColor, strokeColor, radiusDp);
     }
 
+    // Type scale: one family (Outfit), a few sizes and weights, used everywhere.
+    private static final float T_DISPLAY_S_SP = 38, T_HEADLINE_SP = 28, T_TITLE_SP = 20, T_BODY_SP = 16,
+            T_LABEL_SP = 14, T_SMALL_SP = 14, T_CHIP_SP = 13, T_CAPTION_SP = 12, T_CAPTION_STRONG_SP = 12,
+            T_OVERLINE_SP = 11;
+    private static final int T_DISPLAY_S_W = 480, T_HEADLINE_W = 600, T_TITLE_W = 520, T_BODY_W = 480,
+            T_LABEL_W = 580, T_SMALL_W = 460, T_CHIP_W = 580, T_CAPTION_W = 460, T_CAPTION_STRONG_W = 600,
+            T_OVERLINE_W = 650;
+
     private TextView newText(String s, float sizeSp, int weight, int color) {
         TextView tv = new TextView(this);
         tv.setText(s);
@@ -456,7 +466,7 @@ public class MainActivity extends Activity {
         mPillViews = new TextView[n];
         for (int i = 0; i < n; i++) {
             mPillLabels[i] = pillName(i);
-            TextView p = newText("", 14, 560, 0xFFF2F4F7);
+            TextView p = newText("", T_LABEL_SP, T_LABEL_W, 0xFFF2F4F7);
             p.setBackground(pillBg(i, false));
             p.setPadding(dp(15), dp(12), dp(15), dp(12));
             p.setGravity(Gravity.CENTER);
@@ -532,19 +542,22 @@ public class MainActivity extends Activity {
         lift(mPillViews[idx], focused, 1.08f);
     }
 
-    /** Four-point sparkle in the Gemini blue-to-violet gradient. */
+    /** Four-point sparkle with full, curved arms in a blue-violet-rose gradient (Gemini-like). */
     private BitmapDrawable geminiGlyph(int sizePx) {
-        Bitmap b = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
+        int s = Math.round(sizePx * 1.1f);
+        Bitmap b = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setShader(new LinearGradient(0, sizePx, sizePx, 0, 0xFF4F8CFF, 0xFFC07BFF, Shader.TileMode.CLAMP));
-        float m = sizePx / 2f, k = sizePx * 0.5f;
+        p.setShader(new LinearGradient(0, s, s, 0,
+                new int[] { 0xFF4C8DF6, 0xFF8E7CF0, 0xFFD7839B }, new float[] { 0f, 0.55f, 1f },
+                Shader.TileMode.CLAMP));
+        float m = s / 2f, e = s * 0.04f, k = s * 0.1f;   // e: tip inset, k: how full the arms are
         Path path = new Path();
-        path.moveTo(m, 0);
-        path.quadTo(m, m, sizePx, m);
-        path.quadTo(m, m, m, sizePx);
-        path.quadTo(m, m, 0, m);
-        path.quadTo(m, m, m, 0);
+        path.moveTo(m, e);
+        path.cubicTo(m + k * 0.35f, m - k * 1.6f, m + k * 1.6f, m - k * 0.35f, s - e, m);
+        path.cubicTo(m + k * 1.6f, m + k * 0.35f, m + k * 0.35f, m + k * 1.6f, m, s - e);
+        path.cubicTo(m - k * 0.35f, m + k * 1.6f, m - k * 1.6f, m + k * 0.35f, e, m);
+        path.cubicTo(m - k * 1.6f, m - k * 0.35f, m - k * 0.35f, m - k * 1.6f, m, e);
         path.close();
         c.drawPath(path, p);
         return new BitmapDrawable(getResources(), b);
@@ -584,7 +597,7 @@ public class MainActivity extends Activity {
         left.setOrientation(LinearLayout.VERTICAL);
         left.setOrientation(LinearLayout.VERTICAL);
         left.setClipChildren(false);
-        mGreeting = newText(greeting(), 16, 520, 0xFFE8ECF2);
+        mGreeting = newText(greeting(), T_BODY_SP, T_BODY_W, 0xFFE8ECF2);
         mClock = new TextClock(this);
         mClock.setFormat12Hour("h:mm");
         mClock.setFormat24Hour("HH:mm");
@@ -621,15 +634,15 @@ public class MainActivity extends Activity {
         LinearLayout dateRow = new LinearLayout(this);
         dateRow.setOrientation(LinearLayout.HORIZONTAL);
         dateRow.setGravity(Gravity.CENTER_VERTICAL);
-        mDate = newText("", 15, 480, 0xFFE3E8EF);
+        mDate = newText("", T_BODY_SP, T_BODY_W, 0xFFE3E8EF);
         dateRow.addView(mDate, lpW(WC, WC, 0, 0, 0, 0, 0));
-        mWeather = newText("", 15, 480, 0xFFE3E8EF);
+        mWeather = newText("", T_BODY_SP, T_BODY_W, 0xFFE3E8EF);
         mWeather.setVisibility(View.GONE);
         dateRow.addView(mWeather, lpW(WC, WC, 0, dp(10), 0, 0, 0));
         mHeroDateRow = dateRow;
 
         mSchedulePill = new FrameLayout(this);
-        mScheduleLine = newText("", 14, 550, 0xFFF0F4FF);
+        mScheduleLine = newText("", T_LABEL_SP, T_LABEL_W, 0xFFF0F4FF);
         mScheduleLine.setSingleLine(true);
         mScheduleLine.setMaxWidth(dp(340));
         mScheduleLine.setEllipsize(TextUtils.TruncateAt.END);
@@ -648,8 +661,8 @@ public class MainActivity extends Activity {
         // edit-mode banner shares the hero slot (hero fades out while the drawer is open)
         mEditBanner = new LinearLayout(this);
         mEditBanner.setOrientation(LinearLayout.VERTICAL);
-        mEditBanner.addView(newText("Edit home apps", 26, 560, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
-        mEditBanner.addView(newText("OK pins or unpins an app  \u00B7  BACK when you're done", 14, 420, 0xFFB9C2CE),
+        mEditBanner.addView(newText("Edit home apps", T_HEADLINE_SP, T_HEADLINE_W, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
+        mEditBanner.addView(newText("OK pins or unpins an app  \u00B7  BACK when you're done", T_SMALL_SP, T_SMALL_W, 0xFFB9C2CE),
                 lpW(WC, WC, 0, 0, dp(4), 0, 0));
         mEditBanner.setVisibility(View.GONE);
 
@@ -858,7 +871,7 @@ public class MainActivity extends Activity {
         int cardH = Math.round(cardW * 9f / 16f);
         String label = sanitize(String.valueOf(info.loadLabel(mPM)));
         FrameLayout card = buildCard(info, 0, label, cardW, cardH, true);
-        TextView badge = newText("", 14, 700, 0xFF0C0D10);
+        TextView badge = newText("", T_LABEL_SP, T_LABEL_W, 0xFF0C0D10);
         badge.setTag("badge");
         badge.setGravity(Gravity.CENTER);
         badge.setIncludeFontPadding(false);
@@ -1023,12 +1036,16 @@ public class MainActivity extends Activity {
         if (recentOn()) {
             for (final String pkg : recents()) {
                 try {
-                    Intent li = mPM.getLaunchIntentForPackage(pkg);
-                    if (li == null) { Intent lean = new Intent(Intent.ACTION_MAIN)
+                    Intent lean = new Intent(Intent.ACTION_MAIN)
                             .addCategory("android.intent.category.LEANBACK_LAUNCHER").setPackage(pkg);
-                        List<ResolveInfo> rl = mPM.queryIntentActivities(lean, 0);
-                        if (rl.isEmpty()) continue; }
+                    List<ResolveInfo> rl = mPM.queryIntentActivities(lean, 0);
+                    if (rl.isEmpty()) {
+                        rl = mPM.queryIntentActivities(new Intent(Intent.ACTION_MAIN)
+                                .addCategory(Intent.CATEGORY_LAUNCHER).setPackage(pkg), 0);
+                    }
+                    if (rl.isEmpty() && mPM.getLaunchIntentForPackage(pkg) == null) continue;
                     HdmiItem h = new HdmiItem();
+                    h.info = rl.isEmpty() ? null : rl.get(0);
                     h.label = String.valueOf(mPM.getApplicationLabel(mPM.getApplicationInfo(pkg, 0)));
                     h.appIcon = mPM.getApplicationIcon(pkg);
                     h.run = new Runnable() { @Override public void run() { launchByPackage(pkg); } };
@@ -1108,7 +1125,7 @@ public class MainActivity extends Activity {
                 sep.setBackgroundColor(0x33FFFFFF);
                 mHdmiStrip.addView(sep, lpW(Math.max(1, dp(1)), dp(28), 0, dp(14), 0, dp(4), 0));
             }
-            TextView cap = newText(shortLabel, 15, 600, 0xFFF2F4F7);
+            TextView cap = newText(shortLabel, T_LABEL_SP, T_LABEL_W, 0xFFF2F4F7);
             cap.setBackground(GlassHelper.hdmiCap(this, false));
             cap.setPadding(dp(16), 0, dp(shortLabel.isEmpty() ? 16 : 18), 0);
             cap.setMinWidth(dp(56));
@@ -1123,7 +1140,8 @@ public class MainActivity extends Activity {
             });
             mHdmiCaps[i] = cap;
             // One height for inputs and recents so the strip reads as a single row.
-            mHdmiStrip.addView(cap, lpW(WC, dp(40), 0, i == 0 ? 0 : dp(10), 0, 0, 0));
+            boolean mini = mHdmiItems.get(i).appIcon != null;
+            mHdmiStrip.addView(cap, lpW(mini ? dp(MINI_W_DP) : WC, dp(40), 0, i == 0 ? 0 : dp(10), 0, 0, 0));
         }
         styleHdmiCaps(-1);
         mHdmiStrip.setVisibility(mHdmiItems.isEmpty() ? View.GONE : View.VISIBLE);
@@ -1653,7 +1671,7 @@ public class MainActivity extends Activity {
 
     private View mAmbient;
     private LinearLayout mShelfTitle;
-    private TextView mShelfKicker, mShelfName;
+    private TextView mShelfName;
     private int mAmbientColor = 0;
     private float mAmbientX = 0.3f;
     private ValueAnimator mAmbientAnim;
@@ -1664,16 +1682,12 @@ public class MainActivity extends Activity {
         mShelfTitle = new LinearLayout(this);
         mShelfTitle.setOrientation(LinearLayout.VERTICAL);
         mShelfTitle.setAlpha(0f);
-        mShelfKicker = newText("", 12.5f, 650, 0xB3FFFFFF);
-        mShelfKicker.setLetterSpacing(0.14f);
-        mShelfKicker.setAllCaps(true);
-        mShelfName = newText("", 32, 600, 0xFFFFFFFF);
+        mShelfName = newText("", T_HEADLINE_SP, T_HEADLINE_W, 0xFFFFFFFF);
         mShelfName.setSingleLine(true);
         mShelfName.setEllipsize(TextUtils.TruncateAt.END);
         mShelfName.setLetterSpacing(-0.01f);
         mShelfName.setShadowLayer(dp(12), 0, dp(2), 0x80000000);
-        mShelfTitle.addView(mShelfKicker, lpW(WC, WC, 0, 0, 0, 0, 0));
-        mShelfTitle.addView(mShelfName, lpW(WC, WC, 0, 0, dp(2), 0, 0));
+        mShelfTitle.addView(mShelfName, lpW(WC, WC, 0, 0, 0, 0, 0));
         mRoot.addView(mShelfTitle, lpF(dp(720), WC, Gravity.BOTTOM | Gravity.START, dp(48), 0, 0, 0));
         placeShelfTitle();
     }
@@ -1688,38 +1702,34 @@ public class MainActivity extends Activity {
 
     private void updateShelf(View target, boolean animate) {
         if (mShelfTitle == null) return;
-        String kicker = null, name = null;
+        String name = null;
         int accent = 0;
         String key = null;
         if (!mAppsOpen && mZone == ZONE_DOCK && mDockIdx >= 0 && mDockIdx < mDockItems.size()) {
             DockItem d = mDockItems.get(mDockIdx);
-            kicker = d.custom ? "Shortcut" : "Pinned";
-            name = d.label;
+            // pinned cards already carry their name; only the glow follows them
             key = "d:" + (d.pkg != null ? d.pkg : d.label);
             if (d.info != null) accent = accentFor(key, d.info);
         } else if (!mAppsOpen && mZone == ZONE_HDMI && mHdmiIdx >= 0 && mHdmiIdx < mHdmiItems.size()) {
             HdmiItem it = mHdmiItems.get(mHdmiIdx);
-            kicker = it.appIcon != null ? "Recent" : "Input";
             name = it.label;
             accent = it.appIcon != null ? accentFor("r:" + it.label, it.appIcon) : 0xFF5C7CFF;
         }
+        boolean glow = (name != null || key != null) && !mEditing();
         boolean show = name != null && !mEditing();
-        if (show) {
-            mShelfKicker.setText(kicker);
-            mShelfName.setText(name);
-        }
+        if (show) mShelfName.setText(name);
         mShelfTitle.animate().cancel();
         mShelfTitle.animate().alpha(show ? 1f : 0f).translationY(show ? 0f : dp(6))
                 .setDuration(animate ? 200 : 0).start();
 
         float fx = mAmbientX;
-        if (target != null && show) {
+        if (target != null && glow) {
             int[] loc = new int[2];
             target.getLocationOnScreen(loc);
             int sw = getResources().getDisplayMetrics().widthPixels;
             if (sw > 0 && target.getWidth() > 0) fx = (loc[0] + target.getWidth() / 2f) / sw;
         }
-        setAmbient(show ? (accent != 0 ? accent : 0xFF5C6BFF) : mAmbientColor, fx, show, animate);
+        setAmbient(glow ? (accent != 0 ? accent : 0xFF5C6BFF) : mAmbientColor, fx, glow, animate);
     }
 
     private boolean mEditing() { return mEditBanner != null && mEditBanner.getVisibility() == View.VISIBLE; }
@@ -1805,14 +1815,10 @@ public class MainActivity extends Activity {
             int col = on ? 0xFF0C0D10 : 0xFFE8ECF2;
             mHdmiCaps[i].setTextColor(col);
             if (mHdmiItems.get(i).appIcon != null) {
-                Drawable ic = mHdmiItems.get(i).appIcon.getConstantState() != null
-                        ? mHdmiItems.get(i).appIcon.getConstantState().newDrawable().mutate()
-                        : mHdmiItems.get(i).appIcon;
-                ic.setBounds(0, 0, dp(28), dp(28));
-                mHdmiCaps[i].setCompoundDrawables(ic, null, null, null);
-                mHdmiCaps[i].setCompoundDrawablePadding(0);
+                mHdmiCaps[i].setBackground(miniCard(mHdmiItems.get(i), on));
+                mHdmiCaps[i].setCompoundDrawables(null, null, null, null);
                 mHdmiCaps[i].setMinWidth(0);
-                mHdmiCaps[i].setPadding(dp(10), 0, dp(10), 0);
+                mHdmiCaps[i].setPadding(0, 0, 0, 0);
                 continue;
             }
             Drawable d = getDrawable(mHdmiIcons[i]).mutate();
@@ -1820,6 +1826,26 @@ public class MainActivity extends Activity {
             mHdmiCaps[i].setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             mHdmiCaps[i].setCompoundDrawablePadding(mHdmiCaps[i].getText().length() == 0 ? 0 : dp(6));
         }
+    }
+
+    private static final float MINI_W_DP = 71f;   // 16:9 at the strip's 40dp height
+
+    /** Recent app as a small version of its home card (banner, or icon on a tinted plate). */
+    private Drawable miniCard(HdmiItem it, boolean on) {
+        int w = dp(MINI_W_DP), h = dp(40);
+        if (it.card == null) {
+            try {
+                it.card = it.info != null ? cardBitmap(it.info, 0, w, h, dp(12)) : null;
+            } catch (Throwable ignored) { }
+        }
+        if (it.card == null) return GlassHelper.hdmiCap(this, on);
+        BitmapDrawable bd = new BitmapDrawable(getResources(), it.card);
+        bd.setFilterBitmap(true);
+        if (!on) return bd;
+        GradientDrawable ring = new GradientDrawable();
+        ring.setCornerRadius(dp(12));
+        ring.setStroke(Math.max(2, dp(2f)), 0xF2FFFFFF);
+        return new LayerDrawable(new Drawable[] { bd, ring });
     }
 
     private void resetPills() {
@@ -2190,9 +2216,9 @@ public class MainActivity extends Activity {
 
     private void setReorderBanner() {
         mEditBanner.removeAllViews();
-        mEditBanner.addView(newText("Rearrange home", 26, 560, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
+        mEditBanner.addView(newText("Rearrange home", T_HEADLINE_SP, T_HEADLINE_W, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
         mEditBanner.addView(newText(mGrabbed ? "Move with the arrows  \u00B7  OK to drop"
-                : "OK picks up an app  \u00B7  BACK when you're done", 14, 420, 0xFFB9C2CE), lpW(WC, WC, 0, 0, dp(4), 0, 0));
+                : "OK picks up an app  \u00B7  BACK when you're done", T_SMALL_SP, T_SMALL_W, 0xFFB9C2CE), lpW(WC, WC, 0, 0, dp(4), 0, 0));
     }
 
     private void enterReorder() {
@@ -2217,8 +2243,8 @@ public class MainActivity extends Activity {
         mHero.animate().cancel();
         mHero.animate().alpha(1f).setDuration(200).start();
         mEditBanner.removeAllViews();
-        mEditBanner.addView(newText("Edit home apps", 26, 560, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
-        mEditBanner.addView(newText("OK pins or unpins an app  \u00B7  BACK when you're done", 14, 420, 0xFFB9C2CE),
+        mEditBanner.addView(newText("Edit home apps", T_HEADLINE_SP, T_HEADLINE_W, 0xFFFFFFFF), lpW(WC, WC, 0, 0, 0, 0, 0));
+        mEditBanner.addView(newText("OK pins or unpins an app  \u00B7  BACK when you're done", T_SMALL_SP, T_SMALL_W, 0xFFB9C2CE),
                 lpW(WC, WC, 0, 0, dp(4), 0, 0));
         applyFocus(true);
     }
@@ -2284,7 +2310,7 @@ public class MainActivity extends Activity {
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER_HORIZONTAL);
         col.setClipChildren(false);
-        TextView title = newText("Who\u2019s watching?", 38, 480, 0xFFFFFFFF);
+        TextView title = newText("Who\u2019s watching?", T_DISPLAY_S_SP, T_DISPLAY_S_W, 0xFFFFFFFF);
         title.setGravity(Gravity.CENTER);
         col.addView(title, lpW(WC, WC, 0, 0, 0, 0, dp(44)));
         LinearLayout row = new LinearLayout(this);
@@ -2310,7 +2336,7 @@ public class MainActivity extends Activity {
         }
         col.addView(row, lpW(WC, WC, 0, 0, 0, 0, 0));
         mWho.addView(col, lpF(WC, WC, Gravity.CENTER, 0, 0, 0, 0));
-        TextView hint = newText("OK to choose  \u00B7  BACK to stay as " + profileName(), 14, 420, 0xFF9AA3B0);
+        TextView hint = newText("OK to choose  \u00B7  BACK to stay as " + profileName(), T_SMALL_SP, T_SMALL_W, 0xFF9AA3B0);
         mWho.addView(hint, lpF(WC, WC, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0, 0, dp(48)));
         mRoot.addView(mWho, lpF(MP, MP, Gravity.CENTER, 0, 0, 0, 0));
         mWho.setAlpha(0f);
@@ -2342,7 +2368,7 @@ public class MainActivity extends Activity {
         iv.setImageDrawable(avatar);
         iv.setTag("av");
         it.addView(iv, lpW(dp(124), dp(124), 0, 0, 0, 0, 0));
-        TextView t = newText(name, 20, 480, 0xFFB4BBC6);
+        TextView t = newText(name, T_TITLE_SP, T_TITLE_W, 0xFFB4BBC6);
         t.setTag("nm");
         t.setSingleLine(true);
         t.setGravity(Gravity.CENTER);
@@ -2405,7 +2431,8 @@ public class MainActivity extends Activity {
             et.setHint(hints[i]);
             et.setText(initial != null && i < initial.length ? initial[i] : "");
             et.setSingleLine(true);
-            et.setTextSize(20);
+            et.setTextSize(T_TITLE_SP);
+            if (mFont != null) et.setTypeface(Typeface.create(mFont, T_BODY_W, false));
             et.setImeOptions(i == hints.length - 1 ? android.view.inputmethod.EditorInfo.IME_ACTION_DONE
                     : android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
             ets[i] = et;
@@ -2437,7 +2464,8 @@ public class MainActivity extends Activity {
         et.setText(initial);
         et.setSelectAllOnFocus(true);
         et.setSingleLine(true);
-        et.setTextSize(22);
+        et.setTextSize(T_TITLE_SP);
+        if (mFont != null) et.setTypeface(Typeface.create(mFont, T_BODY_W, false));
         et.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
         et.setFilters(new android.text.InputFilter[] { new android.text.InputFilter.LengthFilter(18) });
         et.setPadding(dp(24), dp(16), dp(24), dp(16));
@@ -2617,9 +2645,12 @@ public class MainActivity extends Activity {
     }
 
     private Bitmap cardBitmap(ResolveInfo info, int iconRes, int w, int h) {
+        return cardBitmap(info, iconRes, w, h, dp(CARD_R_DP));
+    }
+
+    private Bitmap cardBitmap(ResolveInfo info, int iconRes, int w, int h, float r) {
         Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
-        float r = dp(CARD_R_DP);
         RectF full = new RectF(0, 0, w, h);
         Path clip = new Path();
         clip.addRoundRect(full, r, r, Path.Direction.CW);
@@ -2646,12 +2677,13 @@ public class MainActivity extends Activity {
             p.setShader(null);
             int isz = Math.round(h * 0.60f);
             int il = (w - isz) / 2, it = (h - isz) / 2;
-            float ir = dp(12);
+            int prad = isz >= dp(48) ? 12 : 6;   // mini cards get a proportionally smaller plate
+            float ir = dp(prad);
             Paint sh = new Paint(Paint.ANTI_ALIAS_FLAG);
             sh.setColor(0xFF000000);
             sh.setShadowLayer(dp(9), 0, dp(3), 0x88000000);
             c.drawRoundRect(new RectF(il, it, il + isz, it + isz), ir, ir, sh);
-            BitmapDrawable ic = iconRes != 0 ? plateArt(art, isz, 12) : iconPlated(art, isz, 12);
+            BitmapDrawable ic = iconRes != 0 ? plateArt(art, isz, prad) : iconPlated(art, isz, prad);
             ic.setBounds(il, it, il + isz, it + isz);
             ic.draw(c);
         }
@@ -2775,7 +2807,7 @@ public class MainActivity extends Activity {
         card.addView(gloss, lpF(MP, MP, Gravity.CENTER, 0, 0, 0, 0));
 
         if (overlayLabel) {
-            TextView t = newText(labelText, 12, 600, 0xFFFFFFFF);
+            TextView t = newText(labelText, T_CAPTION_STRONG_SP, T_CAPTION_STRONG_W, 0xFFFFFFFF);
             t.setTag("ovl");
             t.setGravity(Gravity.CENTER);
             t.setSingleLine(true);
@@ -3318,7 +3350,7 @@ public class MainActivity extends Activity {
                     @Override public void run() { showPanel(10); }
                 });
             }
-            TextView hint = newText("Opens the voice assistant \u00B7 OK to run", 11.5f, 350, 0xFF9AA0A6);
+            TextView hint = newText("Opens the voice assistant \u00B7 OK to run", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             hint.setPadding(dp(18), dp(2), dp(18), dp(8));
             mPanelInfo.add(hint);
             mPanel.addView(hint, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
@@ -3356,7 +3388,7 @@ public class MainActivity extends Activity {
                     }
                 });
             }
-            TextView ct = newText("Google Calendar on the web > Settings > your calendar > Integrate calendar > Secret address in iCal format. Keep it private.", 11.5f, 350, 0xFF9AA0A6);
+            TextView ct = newText("Google Calendar on the web > Settings > your calendar > Integrate calendar > Secret address in iCal format. Keep it private.", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             ct.setPadding(dp(18), dp(6), dp(18), dp(8));
             ct.setMaxWidth(dp(330));
             mPanelInfo.add(ct);
@@ -3464,7 +3496,7 @@ public class MainActivity extends Activity {
                     reshowPanel(7);
                 }
             });
-            TextView tip = newText("Or copy photos into Android/data/com.spandan.tvhome/files/wallpapers", 11.5f, 350, 0xFF9AA0A6);
+            TextView tip = newText("Or copy photos into Android/data/com.spandan.tvhome/files/wallpapers", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             tip.setPadding(dp(18), dp(4), dp(18), dp(8));
             mPanelInfo.add(tip);
             mPanel.addView(tip, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
@@ -3662,7 +3694,7 @@ public class MainActivity extends Activity {
                     reshowPanel(16);
                 }
             });
-            TextView rh = newText("OK on a row, then press that button on the remote. It will open the app from anywhere.", 11.5f, 350, 0xFF9AA0A6);
+            TextView rh = newText("OK on a row, then press that button on the remote. It will open the app from anywhere.", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             rh.setPadding(dp(18), dp(6), dp(18), dp(8));
             mPanelInfo.add(rh);
             mPanel.addView(rh, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
@@ -3690,7 +3722,7 @@ public class MainActivity extends Activity {
                     @Override public void run() { removeTopCustom(cidx); reshowPanel(14); }
                 });
             }
-            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down.\nLong-press an app > Add to top bar.", 11.5f, 350, 0xFF9AA0A6);
+            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down.\nLong-press an app > Add to top bar.", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             th.setPadding(dp(18), dp(6), dp(18), dp(8));
             mPanelInfo.add(th);
             mPanel.addView(th, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
@@ -3709,7 +3741,7 @@ public class MainActivity extends Activity {
                     }
                 });
             }
-            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down", 11.5f, 350, 0xFF9AA0A6);
+            TextView th = newText("OK show or hide  \u00B7  \u25C0 \u25B6 move up or down", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
             th.setPadding(dp(18), dp(6), dp(18), dp(8));
             mPanelInfo.add(th);
             mPanel.addView(th, lpF(MP, WC, Gravity.CENTER, 0, 0, 0, 0));
@@ -3970,7 +4002,7 @@ public class MainActivity extends Activity {
         String name = label, val = null;
         int ci = label.indexOf(": ");
         if (ci > 0 && mPanelKind != 1) { name = label.substring(0, ci); val = label.substring(ci + 2); }
-        TextView row = newText(name, compactPanel() ? 15.5f : 16.5f, 420, 0xFFE8EAED);
+        TextView row = newText(name, compactPanel() ? T_BODY_SP - 1 : T_BODY_SP, T_BODY_W, 0xFFE8EAED);
         row.setSingleLine(true);
         int vp = mPanelMat ? 8 : (compactPanel() ? 4 : 11);
         row.setPadding(dp(16), dp(vp), dp(16), dp(vp));
@@ -3986,7 +4018,7 @@ public class MainActivity extends Activity {
         wrap.addView(row, new FrameLayout.LayoutParams(MP, WC));
         TextView chip = null;
         if (val != null) {
-            chip = newText(val, 13, 520, 0xFFE3E7EE);
+            chip = newText(val, T_CHIP_SP, T_CHIP_W, 0xFFE3E7EE);
             chip.setSingleLine(true);
             chip.setPadding(dp(12), dp(3), dp(12), dp(3));
             styleChip(chip, false);
@@ -4017,7 +4049,8 @@ public class MainActivity extends Activity {
     }
 
     private TextView sectionLabel(String s) {
-        TextView t = newText(s.toUpperCase(), 10.5f, 560, 0xFF7D8794);
+        TextView t = newText(s.toUpperCase(), T_OVERLINE_SP, T_OVERLINE_W, 0xFF7D8794);
+        t.setLetterSpacing(0.12f);
         t.setPadding(dp(18), dp(compactPanel() ? 7 : 8), dp(18), dp(3));
         t.setLetterSpacing(0.14f);
         return t;
@@ -4085,10 +4118,10 @@ public class MainActivity extends Activity {
     private TextView addInfoRow(String label, String value, boolean live) {
         FrameLayout wrap = new FrameLayout(this);
         wrap.setPadding(dp(8), dp(1), dp(8), dp(1));
-        TextView l = newText(label, 14, 400, 0xFF9AA3B0);
+        TextView l = newText(label, T_SMALL_SP, T_SMALL_W, 0xFF9AA3B0);
         l.setPadding(dp(16), dp(5), dp(16), dp(5));
         wrap.addView(l, new FrameLayout.LayoutParams(WC, WC, Gravity.START | Gravity.CENTER_VERTICAL));
-        TextView v = newText(value, 14, 520, 0xFFE8EAED);
+        TextView v = newText(value, T_LABEL_SP, T_LABEL_W, 0xFFE8EAED);
         v.setSingleLine(true);
         v.setEllipsize(TextUtils.TruncateAt.END);
         v.setMaxWidth(dp(210));
@@ -4315,8 +4348,8 @@ public class MainActivity extends Activity {
         mLiveHud.setClickable(false);
         mLiveHud.setPadding(dp(22), dp(14), dp(22), dp(16));
         mLiveHud.setBackground(roundGrad(0xE614161B, 0xE60B0D11, 0x24FFFFFF, 20));
-        mLiveHudName = newText("", 19, 520, 0xFFF4F6F8);
-        mLiveHudStatus = newText("", 12.5f, 360, 0xFF9AA0A6);
+        mLiveHudName = newText("", T_TITLE_SP, T_TITLE_W, 0xFFF4F6F8);
+        mLiveHudStatus = newText("", T_CAPTION_SP, T_CAPTION_W, 0xFF9AA0A6);
         mLiveHudStatus.setPadding(0, dp(3), 0, 0);
         mLiveHud.addView(mLiveHudName);
         mLiveHud.addView(mLiveHudStatus);

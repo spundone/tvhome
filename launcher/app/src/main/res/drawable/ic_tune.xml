@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Slider tracks with knobs. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="22dp" android:height="22dp" android:viewportWidth="24" android:viewportHeight="24">
-    <path android:fillColor="#FFFFFFFF" android:pathData="M3,17v2h6v-2L3,17zM3,5v2h10L13,5L3,5zM13,21v-2h8v-2h-8v-2h-2v6h2zM7,9v2L3,11v2h4v2h2L9,9L7,9zM21,13v-2L11,11v2h10zM15,9h2L17,7h4L21,5h-4L17,3h-2v6z" />
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineCap="round" android:strokeAlpha="0.55" android:pathData="M4,6.5H20" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M12.8,6.5a2.7,2.7 0,1 0,5.4,0a2.7,2.7 0,1 0,-5.4,0z" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineCap="round" android:strokeAlpha="0.55" android:pathData="M4,12H20" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M5.3,12a2.7,2.7 0,1 0,5.4,0a2.7,2.7 0,1 0,-5.4,0z" />
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="2" android:strokeLineCap="round" android:strokeAlpha="0.55" android:pathData="M4,17.5H20" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M10.8,17.5a2.7,2.7 0,1 0,5.4,0a2.7,2.7 0,1 0,-5.4,0z" />
 </vector>
