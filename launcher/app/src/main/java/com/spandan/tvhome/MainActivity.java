@@ -172,6 +172,7 @@ public class MainActivity extends Activity {
         buildHdmiStrip();
         buildGrid();
         buildDock();
+        buildShelfTitle();
         noClip(mRoot);
 
         mGlass = new View(this);
@@ -195,6 +196,10 @@ public class MainActivity extends Activity {
         mVignette = new View(this);
         mVignette.setBackground(GlassHelper.vignette(this));
         mRoot.addView(mVignette, lpF(MP, MP, Gravity.CENTER, 0, 0, 0, 0));
+        // Material You wash in the focused app's colour, under the shelf
+        mAmbient = new View(this);
+        mAmbient.setAlpha(0f);
+        mRoot.addView(mAmbient, lpF(MP, MP, Gravity.CENTER, 0, 0, 0, 0));
         // darkens the wallpaper behind the All apps drawer
         mScrim = new View(this);
         mScrim.setBackgroundColor(0xB8000000);
@@ -268,11 +273,25 @@ public class MainActivity extends Activity {
         if (!"plain".equals(mode)) {
             try {
                 android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+                mWallStyle = wallStyleFor(mode);
                 return new BitmapDrawable(getResources(),
-                        WallpaperArt.render(dm.widthPixels, dm.heightPixels, true));
+                        WallpaperArt.render(dm.widthPixels, dm.heightPixels, true, mWallStyle));
             } catch (Throwable ignored) { }
         }
         return getDrawable(R.drawable.wallpaper_default);
+    }
+
+    /** Style currently on screen, so "Rotate daily" can tell when the day has moved on. */
+    private String mWallStyle;
+
+    /** "gen:<style>" picks one generated scene, "daily" walks through them by day of year. */
+    private String wallStyleFor(String mode) {
+        if (mode.startsWith("gen:")) return mode.substring(4);
+        if ("daily".equals(mode)) {
+            int day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR);
+            return WallpaperArt.STYLES[day % WallpaperArt.STYLES.length];
+        }
+        return "art";
     }
 
     private void applyWallpaper() {
@@ -1351,6 +1370,7 @@ public class MainActivity extends Activity {
         FrameLayout.LayoutParams bp = (FrameLayout.LayoutParams) mDockBand.getLayoutParams();
         bp.height = dp(16 + 6) + (mHdmiItems.isEmpty() ? 0 : dp(56)) + rows * cellH + Math.max(0, rows - 1) * gap;
         mDockBand.setLayoutParams(bp);
+        placeShelfTitle();
         noClip(mDockCol);
     }
 
@@ -1626,6 +1646,146 @@ public class MainActivity extends Activity {
                 return;
         }
         mGlass.setVisibility(View.GONE);   // focus is shown by lift + gloss on the item itself
+        updateShelf(target, animate);
+    }
+
+    // ------------------------------------------------------- top shelf title
+
+    private View mAmbient;
+    private LinearLayout mShelfTitle;
+    private TextView mShelfKicker, mShelfName;
+    private int mAmbientColor = 0;
+    private float mAmbientX = 0.3f;
+    private ValueAnimator mAmbientAnim;
+    private final java.util.Map<String, Integer> mAccentCache = new java.util.HashMap<>();
+
+    /** tvOS top-shelf style title for whatever is focused, in the free band above the inputs. */
+    private void buildShelfTitle() {
+        mShelfTitle = new LinearLayout(this);
+        mShelfTitle.setOrientation(LinearLayout.VERTICAL);
+        mShelfTitle.setAlpha(0f);
+        mShelfKicker = newText("", 12.5f, 650, 0xB3FFFFFF);
+        mShelfKicker.setLetterSpacing(0.14f);
+        mShelfKicker.setAllCaps(true);
+        mShelfName = newText("", 32, 600, 0xFFFFFFFF);
+        mShelfName.setSingleLine(true);
+        mShelfName.setEllipsize(TextUtils.TruncateAt.END);
+        mShelfName.setLetterSpacing(-0.01f);
+        mShelfName.setShadowLayer(dp(12), 0, dp(2), 0x80000000);
+        mShelfTitle.addView(mShelfKicker, lpW(WC, WC, 0, 0, 0, 0, 0));
+        mShelfTitle.addView(mShelfName, lpW(WC, WC, 0, 0, dp(2), 0, 0));
+        mRoot.addView(mShelfTitle, lpF(dp(720), WC, Gravity.BOTTOM | Gravity.START, dp(48), 0, 0, 0));
+        placeShelfTitle();
+    }
+
+    private void placeShelfTitle() {
+        if (mShelfTitle == null || mDockBand == null) return;
+        FrameLayout.LayoutParams bp = (FrameLayout.LayoutParams) mDockBand.getLayoutParams();
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mShelfTitle.getLayoutParams();
+        lp.bottomMargin = bp.height + bp.bottomMargin + dp(6);
+        mShelfTitle.setLayoutParams(lp);
+    }
+
+    private void updateShelf(View target, boolean animate) {
+        if (mShelfTitle == null) return;
+        String kicker = null, name = null;
+        int accent = 0;
+        String key = null;
+        if (!mAppsOpen && mZone == ZONE_DOCK && mDockIdx >= 0 && mDockIdx < mDockItems.size()) {
+            DockItem d = mDockItems.get(mDockIdx);
+            kicker = d.custom ? "Shortcut" : "Pinned";
+            name = d.label;
+            key = "d:" + (d.pkg != null ? d.pkg : d.label);
+            if (d.info != null) accent = accentFor(key, d.info);
+        } else if (!mAppsOpen && mZone == ZONE_HDMI && mHdmiIdx >= 0 && mHdmiIdx < mHdmiItems.size()) {
+            HdmiItem it = mHdmiItems.get(mHdmiIdx);
+            kicker = it.appIcon != null ? "Recent" : "Input";
+            name = it.label;
+            accent = it.appIcon != null ? accentFor("r:" + it.label, it.appIcon) : 0xFF5C7CFF;
+        }
+        boolean show = name != null && !mEditing();
+        if (show) {
+            mShelfKicker.setText(kicker);
+            mShelfName.setText(name);
+        }
+        mShelfTitle.animate().cancel();
+        mShelfTitle.animate().alpha(show ? 1f : 0f).translationY(show ? 0f : dp(6))
+                .setDuration(animate ? 200 : 0).start();
+
+        float fx = mAmbientX;
+        if (target != null && show) {
+            int[] loc = new int[2];
+            target.getLocationOnScreen(loc);
+            int sw = getResources().getDisplayMetrics().widthPixels;
+            if (sw > 0 && target.getWidth() > 0) fx = (loc[0] + target.getWidth() / 2f) / sw;
+        }
+        setAmbient(show ? (accent != 0 ? accent : 0xFF5C6BFF) : mAmbientColor, fx, show, animate);
+    }
+
+    private boolean mEditing() { return mEditBanner != null && mEditBanner.getVisibility() == View.VISIBLE; }
+
+    private int accentFor(String key, ResolveInfo info) {
+        Integer c = mAccentCache.get(key);
+        if (c == null) { c = avgIconColor(info); mAccentCache.put(key, c); }
+        return c;
+    }
+
+    private int accentFor(String key, Drawable icon) {
+        Integer c = mAccentCache.get(key);
+        if (c != null) return c;
+        int out = 0xFF5C6BFF;
+        try {
+            Bitmap bmp = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888);
+            Drawable d = icon.getConstantState() != null ? icon.getConstantState().newDrawable() : icon;
+            d.setBounds(0, 0, 32, 32);
+            d.draw(new Canvas(bmp));
+            long rs = 0, gs = 0, bs = 0, n = 0;
+            float[] hsv = new float[3];
+            for (int y = 4; y < 28; y += 2) for (int x = 4; x < 28; x += 2) {
+                int px = bmp.getPixel(x, y);
+                if (Color.alpha(px) < 40) continue;
+                Color.colorToHSV(px, hsv);
+                if (hsv[1] < 0.25f) continue;
+                rs += Color.red(px); gs += Color.green(px); bs += Color.blue(px); n++;
+            }
+            if (n > 0) out = Color.argb(255, (int) (rs / n), (int) (gs / n), (int) (bs / n));
+        } catch (Throwable ignored) { }
+        mAccentCache.put(key, out);
+        return out;
+    }
+
+    /** Radial wash from the bottom edge, centred under the focused item; colour and centre glide. */
+    private void setAmbient(final int color, final float fx, boolean show, boolean animate) {
+        if (mAmbient == null) return;
+        final int fromC = mAmbientColor == 0 ? color : mAmbientColor;
+        final float fromX = mAmbientX;
+        if (mAmbientAnim != null) mAmbientAnim.cancel();
+        mAmbientAnim = ValueAnimator.ofFloat(0f, 1f);
+        mAmbientAnim.setDuration(animate ? 360 : 0);
+        mAmbientAnim.setInterpolator(new DecelerateInterpolator(1.4f));
+        final android.animation.ArgbEvaluator ev = new android.animation.ArgbEvaluator();
+        mAmbientAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator a) {
+                float f = (Float) a.getAnimatedValue();
+                mAmbientColor = (Integer) ev.evaluate(f, fromC, color);
+                mAmbientX = fromX + (fx - fromX) * f;
+                paintAmbient();
+            }
+        });
+        mAmbientAnim.start();
+        mAmbient.animate().cancel();
+        mAmbient.animate().alpha(show ? 1f : 0f).setDuration(animate ? 300 : 0).start();
+    }
+
+    private void paintAmbient() {
+        int sw = getResources().getDisplayMetrics().widthPixels;
+        int rgb = mAmbientColor & 0x00FFFFFF;
+        GradientDrawable g = new GradientDrawable();
+        g.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        g.setColors(new int[] { 0x66000000 | rgb, 0x22000000 | rgb, 0x00000000 | rgb });
+        g.setGradientCenter(mAmbientX, 1.0f);
+        g.setGradientRadius(sw * 0.55f);
+        mAmbient.setBackground(g);
     }
 
     private void styleSchedule(boolean focused) {
@@ -1641,7 +1801,7 @@ public class MainActivity extends Activity {
             if (mHdmiCaps[i] == null) continue;
             boolean on = i == focusedIdx;
             lift(mHdmiCaps[i], on, 1.08f);
-            mHdmiCaps[i].setBackground(capBackground(mHdmiItems.get(i), on));
+            mHdmiCaps[i].setBackground(GlassHelper.hdmiCap(this, on));
             int col = on ? 0xFF0C0D10 : 0xFFE8ECF2;
             mHdmiCaps[i].setTextColor(col);
             if (mHdmiItems.get(i).appIcon != null) {
@@ -1661,32 +1821,6 @@ public class MainActivity extends Activity {
             mHdmiCaps[i].setCompoundDrawablePadding(mHdmiCaps[i].getText().length() == 0 ? 0 : dp(6));
         }
     }
-
-    /** Capsule fill, plus a small green dot on HDMI ports that report a device plugged in. */
-    private Drawable capBackground(HdmiItem it, boolean on) {
-        Drawable bg = GlassHelper.hdmiCap(this, on);
-        if (it.appIcon != null || it.inputId == null
-                || !it.label.toLowerCase(Locale.US).startsWith("hdmi")) return bg;
-        int state;
-        try { state = tim().getInputState(it.inputId); } catch (Throwable t) { return bg; }
-        if (state != TvInputManager.INPUT_STATE_CONNECTED) return bg;
-        android.graphics.drawable.GradientDrawable dot = new android.graphics.drawable.GradientDrawable();
-        dot.setShape(android.graphics.drawable.GradientDrawable.OVAL);
-        dot.setColor(0xFF34C759);
-        dot.setStroke(Math.max(1, dp(1.5f)), on ? 0xFFFFFFFF : 0x661E2436);
-        android.graphics.drawable.LayerDrawable ld =
-                new android.graphics.drawable.LayerDrawable(new Drawable[] { bg, dot });
-        ld.setLayerSize(1, dp(8), dp(8));
-        ld.setLayerGravity(1, Gravity.TOP | Gravity.END);
-        ld.setLayerInset(1, 0, dp(6), dp(6), 0);
-        return ld;
-    }
-
-    private final TvInputManager.TvInputCallback mInputStateCb = new TvInputManager.TvInputCallback() {
-        @Override public void onInputStateChanged(String inputId, int state) {
-            styleHdmiCaps(mZone == ZONE_HDMI ? mHdmiIdx : -1);
-        }
-    };
 
     private void resetPills() {
         for (int i = 0; i < mPillViews.length; i++) stylePill(i, false);
@@ -3292,9 +3426,15 @@ public class MainActivity extends Activity {
         } else if (kind == 7) {                            // ---- Wallpaper
             mPanel.addView(sectionLabel("Wallpaper"));
             final String cur = wallMode();
-            addPanelRow(("art".equals(cur) ? "\u2713  " : "     ") + "Expressive (generated)", new Runnable() {
-                @Override public void run() { mPrefs.edit().putString("wallpaper", "art").apply(); applyWallpaper(); reshowPanel(7); }
+            addPanelRow(("daily".equals(cur) ? "\u2713  " : "     ") + "Rotate daily", new Runnable() {
+                @Override public void run() { mPrefs.edit().putString("wallpaper", "daily").apply(); applyWallpaper(); reshowPanel(7); }
             });
+            for (int si = 0; si < WallpaperArt.STYLES.length; si++) {
+                final String key = si == 0 ? "art" : "gen:" + WallpaperArt.STYLES[si];
+                addPanelRow((key.equals(cur) ? "\u2713  " : "     ") + WallpaperArt.NAMES[si], new Runnable() {
+                    @Override public void run() { mPrefs.edit().putString("wallpaper", key).apply(); applyWallpaper(); reshowPanel(7); }
+                });
+            }
             addPanelRow(("plain".equals(cur) ? "\u2713  " : "     ") + "Plain dark", new Runnable() {
                 @Override public void run() { mPrefs.edit().putString("wallpaper", "plain").apply(); applyWallpaper(); reshowPanel(7); }
             });
@@ -4239,6 +4379,7 @@ public class MainActivity extends Activity {
         refreshCalendar(false);
         updateScheduleLine();
         if (mRecentsDirty) { mRecentsDirty = false; loadHdmiItems(); renderHdmiStrip(); clampAll(); }
+        if ("daily".equals(wallMode()) && !wallStyleFor("daily").equals(mWallStyle)) applyWallpaper();
         updateWeatherText();
         refreshWeather(false);
         clampAll();
@@ -4246,14 +4387,11 @@ public class MainActivity extends Activity {
         saveFocus();
         mRoot.removeCallbacks(mMinuteTick);
         mRoot.postDelayed(mMinuteTick, 60000L);
-        try { tim().registerCallback(mInputStateCb, new android.os.Handler(android.os.Looper.getMainLooper())); } catch (Throwable ignored) { }
-        styleHdmiCaps(mZone == ZONE_HDMI ? mHdmiIdx : -1);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        try { tim().unregisterCallback(mInputStateCb); } catch (Throwable ignored) { }
         mRoot.removeCallbacks(mMinuteTick);
         mRoot.removeCallbacks(mWifiTick);
         closeLive();
