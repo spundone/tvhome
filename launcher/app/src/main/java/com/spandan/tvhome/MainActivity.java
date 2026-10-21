@@ -1089,9 +1089,11 @@ public class MainActivity extends Activity {
                 sep.setBackgroundColor(0x33FFFFFF);
                 mHdmiStrip.addView(sep, lpW(Math.max(1, dp(1)), dp(28), 0, dp(14), 0, dp(4), 0));
             }
-            TextView cap = newText(shortLabel, 14, 600, 0xFFF2F4F7);
+            TextView cap = newText(shortLabel, 15, 600, 0xFFF2F4F7);
             cap.setBackground(GlassHelper.hdmiCap(this, false));
-            cap.setPadding(dp(15), dp(9), dp(15), dp(9));
+            cap.setPadding(dp(16), 0, dp(shortLabel.isEmpty() ? 16 : 18), 0);
+            cap.setMinWidth(dp(56));
+            cap.setIncludeFontPadding(false);
             cap.setGravity(Gravity.CENTER);
             cap.setSingleLine(true);
             cap.setContentDescription(lab);
@@ -1101,7 +1103,8 @@ public class MainActivity extends Activity {
                 }
             });
             mHdmiCaps[i] = cap;
-            mHdmiStrip.addView(cap, lpW(WC, WC, 0, i == 0 ? 0 : dp(10), 0, 0, 0));
+            // One height for inputs and recents so the strip reads as a single row.
+            mHdmiStrip.addView(cap, lpW(WC, dp(40), 0, i == 0 ? 0 : dp(10), 0, 0, 0));
         }
         styleHdmiCaps(-1);
         mHdmiStrip.setVisibility(mHdmiItems.isEmpty() ? View.GONE : View.VISIBLE);
@@ -1638,17 +1641,18 @@ public class MainActivity extends Activity {
             if (mHdmiCaps[i] == null) continue;
             boolean on = i == focusedIdx;
             lift(mHdmiCaps[i], on, 1.08f);
-            mHdmiCaps[i].setBackground(GlassHelper.hdmiCap(this, on));
+            mHdmiCaps[i].setBackground(capBackground(mHdmiItems.get(i), on));
             int col = on ? 0xFF0C0D10 : 0xFFE8ECF2;
             mHdmiCaps[i].setTextColor(col);
             if (mHdmiItems.get(i).appIcon != null) {
                 Drawable ic = mHdmiItems.get(i).appIcon.getConstantState() != null
                         ? mHdmiItems.get(i).appIcon.getConstantState().newDrawable().mutate()
                         : mHdmiItems.get(i).appIcon;
-                ic.setBounds(0, 0, dp(30), dp(30));
+                ic.setBounds(0, 0, dp(28), dp(28));
                 mHdmiCaps[i].setCompoundDrawables(ic, null, null, null);
                 mHdmiCaps[i].setCompoundDrawablePadding(0);
-                mHdmiCaps[i].setPadding(dp(11), dp(9), dp(11), dp(9));
+                mHdmiCaps[i].setMinWidth(0);
+                mHdmiCaps[i].setPadding(dp(10), 0, dp(10), 0);
                 continue;
             }
             Drawable d = getDrawable(mHdmiIcons[i]).mutate();
@@ -1657,6 +1661,32 @@ public class MainActivity extends Activity {
             mHdmiCaps[i].setCompoundDrawablePadding(mHdmiCaps[i].getText().length() == 0 ? 0 : dp(6));
         }
     }
+
+    /** Capsule fill, plus a small green dot on HDMI ports that report a device plugged in. */
+    private Drawable capBackground(HdmiItem it, boolean on) {
+        Drawable bg = GlassHelper.hdmiCap(this, on);
+        if (it.appIcon != null || it.inputId == null
+                || !it.label.toLowerCase(Locale.US).startsWith("hdmi")) return bg;
+        int state;
+        try { state = tim().getInputState(it.inputId); } catch (Throwable t) { return bg; }
+        if (state != TvInputManager.INPUT_STATE_CONNECTED) return bg;
+        android.graphics.drawable.GradientDrawable dot = new android.graphics.drawable.GradientDrawable();
+        dot.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+        dot.setColor(0xFF34C759);
+        dot.setStroke(Math.max(1, dp(1.5f)), on ? 0xFFFFFFFF : 0x661E2436);
+        android.graphics.drawable.LayerDrawable ld =
+                new android.graphics.drawable.LayerDrawable(new Drawable[] { bg, dot });
+        ld.setLayerSize(1, dp(8), dp(8));
+        ld.setLayerGravity(1, Gravity.TOP | Gravity.END);
+        ld.setLayerInset(1, 0, dp(6), dp(6), 0);
+        return ld;
+    }
+
+    private final TvInputManager.TvInputCallback mInputStateCb = new TvInputManager.TvInputCallback() {
+        @Override public void onInputStateChanged(String inputId, int state) {
+            styleHdmiCaps(mZone == ZONE_HDMI ? mHdmiIdx : -1);
+        }
+    };
 
     private void resetPills() {
         for (int i = 0; i < mPillViews.length; i++) stylePill(i, false);
@@ -4216,11 +4246,14 @@ public class MainActivity extends Activity {
         saveFocus();
         mRoot.removeCallbacks(mMinuteTick);
         mRoot.postDelayed(mMinuteTick, 60000L);
+        try { tim().registerCallback(mInputStateCb, new android.os.Handler(android.os.Looper.getMainLooper())); } catch (Throwable ignored) { }
+        styleHdmiCaps(mZone == ZONE_HDMI ? mHdmiIdx : -1);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        try { tim().unregisterCallback(mInputStateCb); } catch (Throwable ignored) { }
         mRoot.removeCallbacks(mMinuteTick);
         mRoot.removeCallbacks(mWifiTick);
         closeLive();
